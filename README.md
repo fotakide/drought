@@ -13,6 +13,5 @@ For the EODC the following have been done:
 6. Checked how to save/retrieve new datasets from NAS using eo3 datasets and EODC
 
 ## Composite generation
-
 Retrieve imagery from Microsoft Planetary Computer and utilize STAC to get the values:
 1. Based on EMSN217 for composite generation
