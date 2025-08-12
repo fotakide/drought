@@ -14,5 +14,5 @@ For the EODC the following have been done:
 
 ## Composite generation
 
-Retrieve imagery from Microsoft Planetary Computer and utilize STAC to get the values
-1. 
+Retrieve imagery from Microsoft Planetary Computer and utilize STAC to get the values:
+1. Based on EMSN217 for composite generation
