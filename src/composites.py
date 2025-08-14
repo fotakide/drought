@@ -185,46 +185,6 @@ def check_gri_refinement(items: List[pystac.Item]) -> Tuple[List[pystac.Item], p
     return refined_items, df_refinement_status
 
 
-def s2_downsample_10m_to_20m(da: xr.DataArray, y="y", x="x") -> xr.DataArray:
-    # Expect uint16 DNs; zeros are valid samples (no special NoData treatment).
-    if da.sizes[y] < 2 or da.sizes[x] < 2:
-        raise ValueError("Array must be at least 2x2 in the spatial dims.")
-
-    # Trim to an even size so 2x2 blocks line up exactly
-    H2 = da.sizes[y] // 2
-    W2 = da.sizes[x] // 2
-    da = da.isel({y: slice(0, H2 * 2), x: slice(0, W2 * 2)})
-
-    # Mean over 2x2 windows, then round-half-up and cast to uint16
-    out = da.coarsen({y: 2, x: 2}, boundary="trim").mean()      # float
-    out = (out + 0.5).astype(uint16)                          # round-half-up
-
-    return out
-
-
-def s2_downsample_10m_to_20m_with_block_reduce(da: xr.DataArray, y="y", x="x") -> xr.DataArray:
-    """Just for copy reasons, I exaplain the login in this issue
-        https://github.com/fotakide/drought/issues/22
-
-        Coasen method is prefered and is exactly the same to reduce_blocks.
-    """
-    H2 = da.sizes[y] // 2
-    W2 = da.sizes[x] // 2
-    da = da.isel({y: slice(0, H2 * 2), x: slice(0, W2 * 2)})
-
-    def f(a):
-        return np.uint16(block_reduce(a, block_size=(2, 2), func=np.mean) + 0.5)
-
-    out = xr.apply_ufunc(
-        f, da,
-        input_core_dims=[[y, x]],
-        output_core_dims=[[y, x]],
-        output_sizes={y: H2, x: W2},
-        dask="parallelized",
-        output_dtypes=[np.uint16],
-        vectorize=False,
-    )
-    return out
 
 
 def generate_composite(year_month: str, tile: pd.Series):
@@ -352,7 +312,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         n_workers=16, 
         threads_per_worker=1, 
         processes=False,
-        # memory_limit='4GB',
+        # memory_limit='4GB', 
         # local_directory="/tmp/dask-worker-space",
         )
     client = Client(cluster)
@@ -396,7 +356,7 @@ def generate_composite(year_month: str, tile: pd.Series):
             )
             
             if RESOLUTION==10:
-
+                
 
             
 
