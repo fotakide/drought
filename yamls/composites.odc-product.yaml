@@ -1,0 +1,94 @@
+---
+name: composites
+license: CC-BY-4.0
+metadata_type: eo3
+description: Monthly median S2L2A composites from Microsoft Planetary Computer STAC Catalog
+
+# For all ‘nbar_’ bands, Surface Reflectance is scaled between 0 and 10,000.
+# Must be added in datacube
+
+metadata:
+  product:
+    name: composites
+  properties:
+    odc:file_format: GeoTIFF
+    odc:product_family: ard
+    dea:product_maturity: stable
+
+storage:
+  crs: EPSG:3035
+  resolution:
+    x: 20
+    y: -20
+  tile_size:
+    x: 48000.0
+    y: 48000.0
+
+load:
+  crs: EPSG:3035
+  resolution:
+    x: 20
+    y: -20
+  align:
+    x: 0
+    y: 0
+
+measurements:
+  # Bands (6)
+  - name: "B02"
+    aliases: [blue]
+    units: "1"
+    dtype: uint16
+    nodata: 0
+
+  - name: "B03"
+    aliases: [green]
+    units: "1"
+    dtype: uint16
+    nodata: 0
+
+  - name: "B04"
+    aliases: [red]
+    units: "1"
+    dtype: uint16
+    nodata: 0
+
+  - name: "B05"
+    aliases: [rededge1]
+    units: "1"
+    dtype: uint16
+    nodata: 0
+
+  - name: "B07"
+    aliases: [rededge3]
+    units: "1"
+    dtype: uint16
+    nodata: 0
+
+  - name: "B8A"
+    aliases: [nir8A]
+    units: "1"
+    dtype: uint16
+    nodata: 0
+
+  # spectral indices (3)
+      # Normalized Difference Vegetation Index
+  - name: "ndvi"
+    aliases: [NDVI]
+    units: "1"
+    dtype: int16
+    nodata: -32768
+
+      # Enhanced Vegetation Index
+  - name: "evi"
+    aliases: [EVI]
+    units: "1"
+    dtype: int16
+    nodata: -32768
+
+      # Plant Senescence Reflectance Index 2
+  - name: "psri2"
+    aliases: [PSRI2]
+    units: "1"
+    dtype: int16
+    nodata: -32768

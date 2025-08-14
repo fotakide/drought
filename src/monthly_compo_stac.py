@@ -272,9 +272,9 @@ def generate_composite(year_month: str, AOI_path: str):
     ds_cube = odc.stac.stac_load(
         filtered_items,
         bbox=aoi_bbox,
-        bands=['B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'SCL'],
+        bands=['B02', 'B03', 'B04', 'B05', 'B07', 'B08', 'B8A', 'SCL'],
         chunks=dict(y=2048, x=2048),
-        crs=f'epsg:{epsgs[0]}', 
+        crs=f'epsg:3035',  # {epsgs[0]}
         resolution=20,
         groupby='time', # if 'time' loads all items, retaining duplicates
         fail_on_error=True,

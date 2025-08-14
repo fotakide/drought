@@ -15,7 +15,7 @@ def prepare_eo3_metadata_NAS(
     nas_root,
     folder,
     dataset,
-     
+    dc,
     xr_cube, collection_path, dataset_name, product_name, product_family, bands, 
                                name_measurements, datetime_list, set_range=False, lineage_path=None, version=1,
                                ) -> tuple[DatasetDoc, dict]:
@@ -28,7 +28,7 @@ def prepare_eo3_metadata_NAS(
     with DatasetPrepare(
         dataset_location=Path(collection_path),                 #  A string location is expected to be a URL or VSI path.
         metadata_path=Path(f'{collection_path}/{dataset_name}.odc-metadata.yaml'), #  A string location is expected to be a URL or VSI path.
-        allow_absolute_paths=True,
+        allow_absolute_paths=False,
         naming_conventions="default"
     ) as preparer:
 
@@ -41,8 +41,15 @@ def prepare_eo3_metadata_NAS(
 
         preparer.datetime = datetime.datetime(y,m,d)
         if set_range:
-            preparer.datetime_range = [datetime.datetime(int(xr_cube.attrs['dtr:start_datetime'][0:4]),1,1,0,0,0),
-                                    datetime.datetime(int(xr_cube.attrs['dtr:end_datetime'][0:4]),12,31,23,59,59)]
+            preparer.datetime_range = [
+                datetime.datetime(int(xr_cube.attrs['dtr:start_datetime'][0:4]),
+                                int(xr_cube.attrs['dtr:start_datetime'][5:7]),
+                                int(xr_cube.attrs['dtr:start_datetime'][8:10]),
+                                0,0,0),
+                datetime.datetime(int(xr_cube.attrs['dtr:end_datetime'][0:4]),
+                                int(xr_cube.attrs['dtr:end_datetime'][5:7]),
+                                int(xr_cube.attrs['dtr:end_datetime'][8:10]),
+                                23,59,59)]
         preparer.processed_now()
 
         preparer.properties["odc:region_code"] = xr_cube.attrs['odc:region_code']
@@ -65,6 +72,7 @@ def prepare_eo3_metadata_NAS(
         polygon_geometry = Polygon(xr_cube.odc.geobox.boundingbox.polygon.boundary.coords)
         preparer.geometry = polygon_geometry
 
+        bands = list(dc.list_measurements().loc[product_name].name.values)
         for name, path in zip(bands, name_measurements):
             preparer.note_measurement(name, str(Path(path).resolve()), relative_to_dataset_location=False) # else: (name, f'{granule_dir}/{path}', relative_to_dataset_location=False)
 
@@ -96,5 +104,4 @@ def prepare_eo3_metadata_NAS(
 
     stac_path = f'{collection_path}/{dataset_name}.stac-metadata.json'
     stac_doc = to_stac_item(dataset=eo3, stac_item_destination_url=stac_path, collection_url=f'file://{collection_path}')
-
     return eo3_doc, stac_doc
