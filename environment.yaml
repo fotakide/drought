@@ -152,6 +152,7 @@ dependencies:
   - libgcc=14.2.0=h1383e82_1
   - libgd=2.3.3=h085315d_10
   - libgdal-core=3.10.0=h436688f_12
+  - libgdal-jp2openjpeg=3.10.0=h768cd86_12
   - libglib=2.82.2=h7025463_0
   - libgomp=14.2.0=h1383e82_1
   - libheif=1.18.2=gpl_hc631cee_100

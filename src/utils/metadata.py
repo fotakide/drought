@@ -12,13 +12,19 @@ from pathlib import Path
 
 
 def prepare_eo3_metadata_NAS(
-    nas_root,
-    folder,
-    dataset,
     dc,
-    xr_cube, collection_path, dataset_name, product_name, product_family, bands, 
-                               name_measurements, datetime_list, set_range=False, lineage_path=None, version=1,
-                               ) -> tuple[DatasetDoc, dict]:
+    xr_cube, 
+    collection_path,
+    dataset_name,
+    product_name,
+    product_family,
+    bands,
+    name_measurements,
+    datetime_list,
+    set_range=False,
+    lineage_path=None,
+    version=1,
+    ) -> tuple[DatasetDoc, dict]:
     """
     Prepare eo3 metadata with NAS paths
     """

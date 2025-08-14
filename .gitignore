@@ -1,3 +1,9 @@
 *.docx
 
 /wiki_img
+
+/notebooks/S2B*
+
+*.tif
+
+*.bkp
