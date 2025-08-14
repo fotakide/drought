@@ -15,15 +15,6 @@ metadata:
     odc:product_family: ard
     dea:product_maturity: stable
 
-storage:
-  crs: EPSG:3035
-  resolution:
-    x: 20
-    y: -20
-  tile_size:
-    x: 48000.0
-    y: 48000.0
-
 load:
   crs: EPSG:3035
   resolution:
