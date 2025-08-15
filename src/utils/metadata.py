@@ -61,7 +61,8 @@ def prepare_eo3_metadata_NAS(
         preparer.properties["odc:region_code"] = xr_cube.attrs['odc:region_code']
         preparer.properties["odc:file_format"] = "GeoTIFF"
         preparer.properties["odc:processing_datetime"] = datetime.datetime.now().isoformat()
-
+        preparer.properties["gri:refinement"] = xr_cube.attrs["gri:refinement"]
+        
         if hasattr(xr_cube, 'eo:instrument"'):
             preparer.properties["eo:instrument"] = xr_cube.attrs['eo:instrument']
         if hasattr(xr_cube, 'eo:platform"'):
