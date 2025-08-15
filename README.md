@@ -12,6 +12,13 @@ For the EODC the following have been done:
 5. Product definitions
 6. Checked how to save/retrieve new datasets from NAS using eo3 datasets and EODC
 
+### Tiling schema
+The study area is dividing by tiling schema in 20 tiles of size 48x48km. The naming follows `x00_y00` format without nagative indexes.
+
+![alt text](wiki_img/Grid.jpg)
+
 ## Composite generation
 Retrieve imagery from Microsoft Planetary Computer and utilize STAC to get the values:
 1. Based on EMSN217 for composite generation
+
+From [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a)

@@ -18,6 +18,7 @@ from odc.geo.geom import BoundingBox
 
 import pystac_client
 import odc.stac
+import pystac
 from odc.stac import configure_rio
 from datacube.utils.aws import configure_s3_access
 import planetary_computer
@@ -27,6 +28,7 @@ from urllib3 import Retry
 from distributed import LocalCluster, Client
 
 import os
+import gc
 import json
 import datetime
 import pytz
@@ -34,7 +36,8 @@ from pathlib import Path
 
 from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.metadata import prepare_eo3_metadata_NAS
-from utils.sentinel2 import check_gri_refinement, mask_with_scl
+from utils.sentinel2 import check_gri_refinement, mask_with_scl, plot_mgrs_tiles_with_aoi
+from utils.timeseries_processing import process_epsg, merge_nodata0, save_dataset_preview
 from utils.utils import mkdir, get_sys_argv, setup_logger
 
 import warnings
@@ -76,15 +79,43 @@ def generate_composite(year_month: str, tile: pd.Series):
         return
     else:
         log.info("The composite requested will be computed")
+        
+    log.info('Create directories and naming conversions')   
+    yyyy = year_month[0:4]
+    mm1 = year_month[5:8]     
+    NASROOT='//nas-rs.topo.auth.gr/Latomeia/DROUGHT'
+    FOLDER=f'COMPOS/{yyyy}/{mm1}/{tile_id}'
+    DATASET= f'S2L2A_medcomp_{tile_id}_{yyyy}{mm1}'
+    PRODUCT_NAME = 'composites'
+    collection_path = f"{NASROOT}/{FOLDER}"
+    mkdir(collection_path)
+    eo3_path = f'{collection_path}/{DATASET}.odc-metadata.yaml'
+    stac_path = f'{collection_path}/{DATASET}.stac-metadata.json'
+    log.info(f'Dataset location: {collection_path}')
     
     
     log.info('                          ')
     log.info('Retrieve tile geometry')
-    minx, miny, maxx, maxy = tile.geometry.bounds
-    log.info('Create the Bounding Box')
+    geom = gpd.GeoSeries([tile.geometry], crs='EPSG:4326').to_crs(epsg=3035)
+    minl, minf, maxl, maxf = tile.geometry.bounds
+    minx, miny, maxx, maxy = geom.total_bounds
+
+    log.info('Create the Bounding Box (φ,λ)')
     aoi_bbox = BoundingBox.from_xy(
+        (minl, maxl),
+        (minf, maxf)
+    ).buffered(xbuff=0.025, ybuff=0.025)
+
+    log.info('Create the Bounding Box (y,x)')
+    tile_bbox = BoundingBox.from_xy(
         (minx, maxx),
-        (miny, maxy)
+        (miny, maxy),
+        crs='EPSG:3035'
+    )
+    
+    tile_geobox = odc.geo.geobox.GeoBox.from_bbox(
+        tile_bbox, 
+        resolution=odc.geo.Resolution(x=20,y=-20)
     )
 
     
@@ -161,12 +192,16 @@ def generate_composite(year_month: str, tile: pd.Series):
     log.info('Selected scenes:')
     for stacitem in filtered_items:
         log.info(f'        {stacitem.id}')
-    
+
+    plot_mgrs_tiles_with_aoi(filtered_items, 
+                             aoi_bbox, 
+                             save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg')
+        
     
     log.info('                                 ')
     log.info('Initializing Dask cluster for parallelization')
     cluster = LocalCluster(
-        n_workers=16, 
+        n_workers=8, 
         threads_per_worker=1, 
         processes=False,
         # memory_limit='4GB', 
@@ -180,106 +215,38 @@ def generate_composite(year_month: str, tile: pd.Series):
 
     log.info(f'                                 ')
     log.info(f'Downstream STAC items from Planetary Computer')
-    BANDS_R10m = ['B02', 'B03', 'B04']
-    BANDS_R20m = ['B05', 'B07', 'B8A', 'SCL']
-
 
     # Loading for each EPSG and Native RESOLUTION separatelly, then merging into a single xr.Dataset
     # to to a correct downsampling
     try:
         processed_epsgs = []
         for EPSG in epsgs:
-            processed_bands = []
-            geobox = None
-            log.info(f'                                 ')
-            log.info(f'Loading bands of diferent resolutions in EPSG:{EPSG}')
-            for RESOLUTION in [20, 10]:
-                if RESOLUTION==10:
-                    BANDS=BANDS_R10m
-                else:
-                    BANDS=BANDS_R20m
-                
-                log.info('                       ')
-                log.info('    Loading parameters:')
-                log.info(f'        Bands: {BANDS}')
-                log.info(f'        Spatial resolution: {RESOLUTION}')
-
-                
-                ds_cube = odc.stac.stac_load(
-                    filtered_items,
-                    bbox=aoi_bbox,
-                    bands=BANDS,
-                    chunks=dict(y=2048, x=2048),
-                    crs=f'EPSG:{EPSG}',  # {epsgs[0]}
-                    resolution=RESOLUTION,
-                    groupby='time', # if 'time' loads all items, retaining duplicates
-                    fail_on_error=True,
-                    # resampling={
-                    #     "*": RESAMPLING_ALGO,
-                    # },
-                ).compute()
-                
-                if RESOLUTION==10:
-                    log.info('        Downsample 10m bands to 20m by average 2x2 binning')
-                    ds_cube = s2_downsample_dataset_10m_to_20m(ds_cube)
-                    log.info(f'        Warp (reproject) 2x2 binned bands like native 20m bands: method={RESAMPLING_ALGO}')
-                    ds_bands = ds_cube.odc.reproject(how=geobox, resampling=RESAMPLING_ALGO)
-                elif RESOLUTION==20:
-                    log.info('        Fix order of dimensions')
-                    ds_bands = ds_cube[['time','y','x']+list(ds_bands.data_vars)]
-                    geobox = ds_cube.odc.geobox
-                
-                log.info(f'        Append bands to the band-list of EPSG:{EPSG}')
-                processed_bands.append(ds_bands)
-            
-            log.info('    Merging bands in a single dataset')
-            log.info('    Ensure all partial datasets are at (x=20, y=-20) resolution')
-            for dataset in processed_bands:
-                dataset.odc.geobox.resolution == odc.geo.Resolution(x=20, y=-20)
-            
-            log.info('    Clip to the intersection of indexes')
-            xmin = xmax = ymin = ymax = None
-            for da in processed_bands:
-                xmin = da.x.min().item() if xmin is None or da.x.min() > xmin else xmin
-                xmax = da.x.max().item() if xmax is None or da.x.max() < xmax else xmax
-                ymin = da.y.min().item() if ymin is None or da.y.min() > ymin else ymin
-                ymax = da.y.max().item() if ymax is None or da.y.max() < ymax else ymax
-
-            merge_bands = []
-            log.info('    Make a list of bands to merge')
-            for da in processed_bands:
-                merge_bands.append(da.sel(x=slice(xmin, xmax), y=slice(ymax,ymin)))
-            
-            log.info('    Merge on intersection')
-            ds_epsg = xr.merge(
-                merge_bands,
-                compat="no_conflicts",
-                combine_attrs="drop_conflicts",
-                join="inner"
-            )
-            
-            log.info(f'    Apply masks on clouds, shadows, thin cirrus, and snow/ice')
-            BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A', 'SCL']
-            ds_epsg_masked = mask_with_scl(ds_epsg, BANDS)
-            
-            RESAMPLING_ALGO = "bilinear"
-            EPSG = '3035'
-            log.info(f'    Reproject to Tiling Schema projection EPSG:{EPSG}')
-            ds_epsg_masked = ds_epsg_masked.odc.reproject(how=f'EPSG:{EPSG}', resampling=RESAMPLING_ALGO)
-            
-            processed_epsgs.append(ds_epsg_masked)
+            processed_epsgs.append(process_epsg(filtered_items, aoi_bbox, EPSG))
                
+        
+        log.info('Clip and align to tile geometry')
+        processed_epsgs_to_tile = [ds.odc.reproject(how=tile_geobox) for ds in processed_epsgs]
+        
         
         if len(processed_epsgs)>1:
             log.info(f'                          ')
             log.info(f'Mosaic datasets of different native UTM zones to a single dataset')
-            ds_timeseries = merge_datasets(processed_epsgs)
+            ds_timeseries = merge_nodata0(processed_epsgs_to_tile, vars_mode="intersection", method="mean", chunks=None)
         else:
             ds_timeseries = processed_epsgs[0]
+        
+        log.info('////Clearing up space////')
+        del processed_epsgs_to_tile
+        gc.collect()
+        
+        log.info('Creating preview plot of input scenes')
+        save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_indata_preview.jpeg', dpi=300)
+
         # reset bands list
         BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']
+        ds_timeseries = ds_timeseries[['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']]
         
-        print('Clip value range')
+        log.info('Clip value range')
         chunks = {"time": 1, "y": 1024, "x": 1024}
         ds_timeseries = ds_timeseries.chunk(chunks)
         ds_timeseries = ds_timeseries.where(ds_timeseries > 0, np.nan)
@@ -341,15 +308,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         composite.attrs['odc:region_code']=tile
         
 
-        log.info('Create directories and naming conversions')        
-        NASROOT='//nas-rs.topo.auth.gr/Latomeia/DROUGHT'
-        FOLDER=f'COMPOS/{yyyy}/{mm1}/{tile}'
-        DATASET= f'S2L2A_medcomp_{tile}_{yyyy}{mm1:02d}'
-        PRODUCT_NAME = 'composites'
-        collection_path = f"{NASROOT}/{FOLDER}"
-        mkdir(collection_path)
-        eo3_path = f'{collection_path}/{DATASET}.odc-metadata.yaml'
-        stac_path = f'{collection_path}/{DATASET}.stac-metadata.json'
+
         datetime_list = [
             ds_timeseries.isel(time=0).time.dt.year.item(),
             ds_timeseries.isel(time=0).time.dt.month.item(),
@@ -372,6 +331,7 @@ def generate_composite(year_month: str, tile: pd.Series):
                 )
             name_measurements.append(file_path)
             
+
         log.info('Prepare metadata YAML document')
         eo3_doc, stac_doc = prepare_eo3_metadata_NAS(
             
