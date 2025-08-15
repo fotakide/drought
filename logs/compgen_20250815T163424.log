@@ -190,3 +190,4 @@
 2025-08-15 17:00:03,488 - INFO - _datasets.py:191 - Indexing 1ce28150-59bf-4eba-a574-f1093989fe84
 2025-08-15 17:08:15,824 - INFO - 1713647352.py:1 - Creating preview plot of input scenes
 2025-08-15 17:08:40,499 - INFO - timeseries_processing.py:245 - Saved preview for 'B04' to //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2024/07/x11_y12/S2L2A_medcomp_x11_y12_202407_indata_preview.jpeg
+2025-08-15 17:40:36,500 - INFO - 3292397889.py:4 - Scale SR to Sen2Cor Baseline 4.00 - Subtract 1000 in dates post 2022-01-25

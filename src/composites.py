@@ -235,6 +235,21 @@ def generate_composite(year_month: str, tile: pd.Series):
         else:
             ds_timeseries = processed_epsgs[0]
         
+        
+        # https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a#Baseline-Change
+        baseline400_mask = ds_timeseries.time > pd.Timestamp('2022-01-25')
+        if baseline400_mask.any():
+            log.info('Scale SR to Sen2Cor Baseline 4.00 - Subtract 1000 in dates post 2022-01-25')
+            ds_timeseries = ds_timeseries.where(~baseline400_mask, ds_timeseries - 1000)
+        else:
+            del baseline400_mask
+        
+        
+        log.info('////Clearing up space////')
+        mask = ds_cube_cf.time > pd.Timestamp('2022-01-25')
+        ds_cube_cf = ds_cube_cf.where(~mask, ds_cube_cf - 1000)
+        
+        
         log.info('////Clearing up space////')
         del processed_epsgs_to_tile
         gc.collect()
