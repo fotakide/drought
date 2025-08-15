@@ -1,4 +1,4 @@
 {
     "year_month": "2023-12",
-    "AOI_path": "../anciliary/grid_v2.geojson"
+    "tilegrid_path": "../anciliary/grid_v2.geojson"
 }

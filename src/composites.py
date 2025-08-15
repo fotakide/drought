@@ -51,7 +51,7 @@ def generate_composite(year_month: str, tile: pd.Series):
                                 logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
                                 )
     
-    tile_id = tile.tiles_ids
+    tile_id = tile.tile_ids
     log.info('#######################################################################')
     log.info('Processing started')
     log.info(f'        Tile: {tile_id}')
@@ -100,7 +100,7 @@ def generate_composite(year_month: str, tile: pd.Series):
     minl, minf, maxl, maxf = tile.geometry.bounds
     minx, miny, maxx, maxy = geom.total_bounds
 
-    log.info('Create the Bounding Box (φ,λ)')
+    log.info('Create the Bounding Box (lat,lon)')
     aoi_bbox = BoundingBox.from_xy(
         (minl, maxl),
         (minf, maxf)
@@ -380,6 +380,10 @@ def generate_composite(year_month: str, tile: pd.Series):
         log.info('Index to datacube')
         dc.index.datasets.add(dataset=dataset_tobe_indexed, with_lineage=False)
         
+        log.info('Closing Dask')
+        client.close()
+        cluster.close()
+        
         log.info(f'✓ COMPLETED: Tile {tile_id} | Time: {year_month} ✓')
     except Exception as exc:
         msg=f'✗ Failed loading for : Tile {tile_id} | Time: {year_month}\nwith Exception: {exc}'
@@ -392,10 +396,10 @@ def generate_composite(year_month: str, tile: pd.Series):
 
 if __name__ == "__main__":
     # Run the function to create json files
-    json_path = '../jsons'
+    json_path = '../jsons/compgen'
     
     generate_json_files_for_composites(
-        output_dir="../jsons/compgen",
+        output_dir=json_path,
         tile_geojson_filepath='../anciliary/grid_v2.geojson',
         start_date=datetime.datetime(2020, 1, 1),
         end_date=datetime.datetime(2025, 9, 1)
