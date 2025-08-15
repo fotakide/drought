@@ -40,7 +40,7 @@ def setup_logger(logger_name, logger_path, logger_format):
     return logger
 
 
-def generate_json_files(output_dir="../jsons"):
+def generate_json_files_for_composites(output_dir="../jsons"):
     os.makedirs(output_dir, exist_ok=True)
     
     # Set start and end

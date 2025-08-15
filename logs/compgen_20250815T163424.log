@@ -184,3 +184,9 @@
 2025-08-15 16:43:04,005 - INFO - 3418195581.py:1 - Define data types and nodata per band
 2025-08-15 16:43:59,680 - INFO - 4047502789.py:1 - Assign time range and tile ID in metadata
 2025-08-15 16:44:59,217 - INFO - 1476915477.py:1 - Write bands to raster COG files
+2025-08-15 16:59:02,766 - INFO - 4157263784.py:1 - Write metadata YAML document to disk
+2025-08-15 16:59:38,923 - INFO - 3394248263.py:1 - Create datacube.model.Dataset from eo3 metadata
+2025-08-15 17:00:03,487 - INFO - 2204964410.py:1 - Index to datacube
+2025-08-15 17:00:03,488 - INFO - _datasets.py:191 - Indexing 1ce28150-59bf-4eba-a574-f1093989fe84
+2025-08-15 17:08:15,824 - INFO - 1713647352.py:1 - Creating preview plot of input scenes
+2025-08-15 17:08:40,499 - INFO - timeseries_processing.py:245 - Saved preview for 'B04' to //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2024/07/x11_y12/S2L2A_medcomp_x11_y12_202407_indata_preview.jpeg

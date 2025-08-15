@@ -38,7 +38,7 @@ from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.metadata import prepare_eo3_metadata_NAS
 from utils.sentinel2 import check_gri_refinement, mask_with_scl, plot_mgrs_tiles_with_aoi
 from utils.timeseries_processing import process_epsg, merge_nodata0, save_dataset_preview
-from utils.utils import mkdir, get_sys_argv, setup_logger
+from utils.utils import mkdir, get_sys_argv, setup_logger, generate_json_files_for_composites
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -240,7 +240,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         gc.collect()
         
         log.info('Creating preview plot of input scenes')
-        save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_indata_preview.jpeg', dpi=300)
+        save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_InDataPreview.jpeg', dpi=300)
 
         # reset bands list
         BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']
@@ -360,70 +360,31 @@ def generate_composite(year_month: str, tile: pd.Series):
         dataset_tobe_indexed, err  = resolver(doc_in=serialise.to_doc(eo3_doc), uri=uri)
         
         if err:
-            log.error(err)
+            log.error(f'✗ {err}')
             
         log.info('Index to datacube')
         dc.index.datasets.add(dataset=dataset_tobe_indexed, with_lineage=False)
         
+        log.info(f'✓ COMPLETED: Tile {tile_id} | Time: {year_month} ✓')
     except Exception as exc:
-        msg=f'Failed loading for : Tile {tile_id} | Time: {year_month}\nwith Exception: {exc}'
+        msg=f'✗ Failed loading for : Tile {tile_id} | Time: {year_month}\nwith Exception: {exc}'
         log.error(msg)
         client.close()
         cluster.close()
         return
-    
-    
-    
-    
-    
 
-    
-    try:
-        log.info(f'Downloading bands and computing median composites: Tile {tile_id} | Time: {year_month}')
-        composite = ds_cube_cf[BANDS].median(dim='time').astype('float32')
-        composite = composite.compute()
-        
-        log.info('Convert to unsigned integer 16-bits')
-        composite = composite.where(~composite.isnull(), 0).astype('uint16')
-
-        for var in list(composite.data_vars):
-            composite[var].attrs['nodata'] = 0
-
-        # Convert to a multi-band DataArray
-        da = xr.concat([composite[var] for var in composite.data_vars], dim="band")
-        da = da.assign_coords(band=("band", list(range(1, len(composite.data_vars) + 1))))
-        da.name = ''
-        
-        FOLDER_NAME = f"../composites/AOI{AOI_number}"
-        if REFINEMENT_FLAG:
-            DATASET_NAME = f"AOI{AOI_number}_1m_med_compo_{year_month.split('-')[0]}{year_month.split('-')[1]}_{refineflag}"
-        else:
-            DATASET_NAME = f"AOI{AOI_number}_1m_med_compo_{year_month.split('-')[0]}{year_month.split('-')[1]}"
-        mkdir(FOLDER_NAME)
-        
-        log.info(f'Write composite to GeoTIFF -> {FOLDER_NAME}/{DATASET_NAME}.tif')
-        da.rio.to_raster(f"{FOLDER_NAME}/{DATASET_NAME}.tif", 
-                        driver="GTiff", 
-                        compress="lzw",
-                        nodata=0,
-                        )
-        
-        log.info('Closing Dask client.')
-        client.close()
-        cluster.close()
-    except Exception as exc:
-        msg=f'Failed loading for : Tile {tile_id} | Time: {year_month}'
-        log.error(msg)
-        client.close()
-        cluster.close()
-        return
 
 
 if __name__ == "__main__":
     # Run the function to create json files
     json_path = '../jsons'
     
-    generate_json_files(output_dir=json_path)      
+    generate_json_files_for_composites(
+        output_dir="../jsons/compgen",
+        tile_geojson_filepath='../anciliary/grid_v2.geojson',
+        start_date=datetime.datetime(2020, 1, 1),
+        end_date=datetime.datetime(2025, 9, 1)
+    )
     
     # Check if the path is a folder or a file
     if os.path.isdir(json_path):
