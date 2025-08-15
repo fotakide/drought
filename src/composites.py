@@ -58,6 +58,20 @@ def generate_composite(year_month: str, tile: pd.Series):
     log.info(f'        Time: {year_month}')
     
     
+    log.info('                                 ')
+    log.info('Initializing Dask cluster for parallelization')
+    cluster = LocalCluster(
+        n_workers=8, 
+        threads_per_worker=1, 
+        processes=False,
+        # memory_limit='4GB', 
+        # local_directory="/tmp/dask-worker-space",
+        )
+    client = Client(cluster)
+    configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
+    log.info(f'The Dask client listens to {client.dashboard_link}')
+    
+    
     log.info('                          ')
     log.info('Establishing connection to datacube')
     dc = datacube.Datacube(app='Composite generation', env='drought')
@@ -106,7 +120,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         (minf, maxf)
     ).buffered(xbuff=0.025, ybuff=0.025)
 
-    log.info('Create the Bounding Box (y,x)')
+    log.info('Create the Bounding Box (x,y)')
     tile_bbox = BoundingBox.from_xy(
         (minx, maxx),
         (miny, maxy),
@@ -196,21 +210,6 @@ def generate_composite(year_month: str, tile: pd.Series):
     plot_mgrs_tiles_with_aoi(filtered_items, 
                              aoi_bbox, 
                              save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg')
-        
-    
-    log.info('                                 ')
-    log.info('Initializing Dask cluster for parallelization')
-    cluster = LocalCluster(
-        n_workers=8, 
-        threads_per_worker=1, 
-        processes=False,
-        # memory_limit='4GB', 
-        # local_directory="/tmp/dask-worker-space",
-        )
-    client = Client(cluster)
-    configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
-    log.info(f'The Dask client listens to {client.dashboard_link}')
-    
 
 
     log.info(f'                                 ')
@@ -243,11 +242,6 @@ def generate_composite(year_month: str, tile: pd.Series):
             ds_timeseries = ds_timeseries.where(~baseline400_mask, ds_timeseries - 1000)
         else:
             del baseline400_mask
-        
-        
-        log.info('////Clearing up space////')
-        mask = ds_cube_cf.time > pd.Timestamp('2022-01-25')
-        ds_cube_cf = ds_cube_cf.where(~mask, ds_cube_cf - 1000)
         
         
         log.info('////Clearing up space////')
