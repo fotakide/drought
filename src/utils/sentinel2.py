@@ -54,7 +54,7 @@ def check_gri_refinement(items: List[pystac.Item]) -> Tuple[List[pystac.Item], p
                 refining_element = root.find(".//Geometric_Info/Image_Refining")
                 refining_flag = refining_element.get("flag") if refining_element is not None else "Not Found"
 
-                logging.info(f"{i}/{len(items)} - {item.id} -> {refining_flag}")
+                logging.info(f"{i+1}/{len(items)} - {item.id} -> {refining_flag}")
 
                 # Store item and status in dataframe
                 refinement_data.append({
@@ -98,7 +98,7 @@ def mask_with_scl(ds, bands):
     # - 10: thin cirrus
     # - 11: snow or ice
     invalid_scl_values = [3, 7, 8, 9, 10, 11]
-    logging.info(f'Masking bits: {invalid_scl_values}')
+    logging.info(f'    Masking bits: {invalid_scl_values}')
     cloud_binary_mask = ds.SCL.isin(invalid_scl_values)
 
     bands.remove('SCL')    

@@ -48,7 +48,7 @@ def generate_composite(year_month: str, tile: pd.Series):
                                 logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
                                 )
     
-    tile_id = tile.tiles_id
+    tile_id = tile.tiles_ids
     log.info('#######################################################################')
     log.info('Processing started')
     log.info(f'        Tile: {tile_id}')
@@ -57,7 +57,7 @@ def generate_composite(year_month: str, tile: pd.Series):
     
     log.info('                          ')
     log.info('Establishing connection to datacube')
-    dc = datacube.Datatcube(app='Composite generation', env='drought')
+    dc = datacube.Datacube(app='Composite generation', env='drought')
     
     log.info('                          ')
     log.info('Check if dataset already exists in the datacube')
@@ -112,14 +112,14 @@ def generate_composite(year_month: str, tile: pd.Series):
     log.info('        Query parameters:')
     log.info(f'            url:          {search.url}')
     log.info(f'            client:       {search.client.id}')
-    log.info(f'            collection:   {search._parameters['collections']}')
+    log.info(f'            collection:   {search._parameters['collections'][0]}')
     log.info(f'            bbox:         {search._parameters['bbox']}')
     log.info(f'            time range:   {search._parameters['datetime']}')
     log.info(f'            cloud cover:  0% - {search._parameters['query']['eo:cloud_cover']['lt']}%')
     log.info(f'            nodata cover: 0% - {search._parameters['query']['s2:nodata_pixel_percentage']['lt']}%')
     
     log.info('                          ')
-    log.info('Searching.................')
+    log.info('Searching...')
     items = search.item_collection()
     
     log.info(f'Query found {len(items)} items')
@@ -130,15 +130,17 @@ def generate_composite(year_month: str, tile: pd.Series):
     log.info('                                 ')
     log.info(f'{len(refined_items)}/{len(df_refinement_status)} were refined by GRI.')
     
-    refineflag = None
     if len(refined_items) == 0:
         msg = f"Tile {tile_id} | Time: {year_month}: All scenes are flagged NOT REFINED."
         log.warning(msg)
         log.warning(f"Tile {tile_id} | Time: {year_month}: The composite will be flagged with _NOREFINED.")
-        refineflag = 'NOTREFINED'
+        REFINEMENT_FLAG = 'NOTREFINED'
         refined_items = items
+    else:
+        REFINEMENT_FLAG = 'REFINED'
 
-    log.info('Looking for up to 18 cleanest images within time range')
+    N = 10
+    log.info(f'Looking for up to {N} cleanest images within spatiotemporal range')
     filtered_items = []
     mgrs_tiles = np.unique([i.properties['s2:mgrs_tile'] for i in refined_items])
     epsgs = np.unique([i.properties['proj:epsg'] for i in refined_items])
@@ -148,8 +150,8 @@ def generate_composite(year_month: str, tile: pd.Series):
             i for i in refined_items if i.properties['s2:mgrs_tile'] == str(mgrstile)
             ], key=lambda item: item.properties['eo:cloud_cover'])
         
-        if len(item_mgrs_sorted) > 18:
-            filtered_items.extend(item_mgrs_sorted[:18])
+        if len(item_mgrs_sorted) > N:
+            filtered_items.extend(item_mgrs_sorted[:N])
         else:
             filtered_items.extend(item_mgrs_sorted)
     log.info(f"Filtered cleanest scenes: Kept {len(filtered_items)} out of {len(refined_items)} items. ")
@@ -160,8 +162,9 @@ def generate_composite(year_month: str, tile: pd.Series):
     for stacitem in filtered_items:
         log.info(f'        {stacitem.id}')
     
+    
     log.info('                                 ')
-    log.info('Initialize Dask cluster for parallelization')
+    log.info('Initializing Dask cluster for parallelization')
     cluster = LocalCluster(
         n_workers=16, 
         threads_per_worker=1, 
@@ -188,7 +191,8 @@ def generate_composite(year_month: str, tile: pd.Series):
         for EPSG in epsgs:
             processed_bands = []
             geobox = None
-            log.info('Loading bands of diferent resolutions')
+            log.info(f'                                 ')
+            log.info(f'Loading bands of diferent resolutions in EPSG:{EPSG}')
             for RESOLUTION in [20, 10]:
                 if RESOLUTION==10:
                     BANDS=BANDS_R10m
@@ -219,19 +223,19 @@ def generate_composite(year_month: str, tile: pd.Series):
                     log.info('        Downsample 10m bands to 20m by average 2x2 binning')
                     ds_cube = s2_downsample_dataset_10m_to_20m(ds_cube)
                     log.info(f'        Warp (reproject) 2x2 binned bands like native 20m bands: method={RESAMPLING_ALGO}')
-                    ds_bands = ds_bands.odc.reproject(how=geobox, resampling=RESAMPLING_ALGO)
+                    ds_bands = ds_cube.odc.reproject(how=geobox, resampling=RESAMPLING_ALGO)
                 elif RESOLUTION==20:
                     log.info('        Fix order of dimensions')
-                    ds_bands = ds_bands[['time','y','x']+list(ds_bands.data_vars)]
-                    geobox = ds_bands.odc.geobox
+                    ds_bands = ds_cube[['time','y','x']+list(ds_bands.data_vars)]
+                    geobox = ds_cube.odc.geobox
                 
                 log.info(f'        Append bands to the band-list of EPSG:{EPSG}')
                 processed_bands.append(ds_bands)
             
-            log.info('Merging bands in a single dataset')
-            log.info('    Ensure all partial datasets are at 20m resolution')
+            log.info('    Merging bands in a single dataset')
+            log.info('    Ensure all partial datasets are at (x=20, y=-20) resolution')
             for dataset in processed_bands:
-                dataset.odc.resolution == 20
+                dataset.odc.geobox.resolution == odc.geo.Resolution(x=20, y=-20)
             
             log.info('    Clip to the intersection of indexes')
             xmin = xmax = ymin = ymax = None
@@ -255,7 +259,7 @@ def generate_composite(year_month: str, tile: pd.Series):
             )
             
             log.info(f'    Apply masks on clouds, shadows, thin cirrus, and snow/ice')
-            BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B08', 'B8A', 'SCL']
+            BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A', 'SCL']
             ds_epsg_masked = mask_with_scl(ds_epsg, BANDS)
             
             RESAMPLING_ALGO = "bilinear"
@@ -273,7 +277,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         else:
             ds_timeseries = processed_epsgs[0]
         # reset bands list
-        BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B08', 'B8A']
+        BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']
         
         print('Clip value range')
         chunks = {"time": 1, "y": 1024, "x": 1024}
@@ -421,7 +425,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         da.name = ''
         
         FOLDER_NAME = f"../composites/AOI{AOI_number}"
-        if refineflag:
+        if REFINEMENT_FLAG:
             DATASET_NAME = f"AOI{AOI_number}_1m_med_compo_{year_month.split('-')[0]}{year_month.split('-')[1]}_{refineflag}"
         else:
             DATASET_NAME = f"AOI{AOI_number}_1m_med_compo_{year_month.split('-')[0]}{year_month.split('-')[1]}"
