@@ -303,24 +303,20 @@ def generate_composite(year_month: str, tile: pd.Series):
         mm2 = ds_timeseries.isel(time=-1).time.dt.month.item()
         dd1 = ds_timeseries.isel(time=0).time.dt.day.item()
         dd2 = ds_timeseries.isel(time=-1).time.dt.day.item()
-        composite.attrs['dtr:start_datetime']=f'{yyyy}-{mm1:02d}-{dd1:02d}'
-        composite.attrs['dtr:end_datetime']=f'{yyyy}-{mm2:02d}-{dd2:02d}'
-        composite.attrs['odc:region_code']=tile
-        
-
-
         datetime_list = [
             ds_timeseries.isel(time=0).time.dt.year.item(),
             ds_timeseries.isel(time=0).time.dt.month.item(),
             1
         ]
-        
+        composite.attrs['dtr:start_datetime']=f'{yyyy}-{mm1:02d}-{dd1:02d}'
+        composite.attrs['dtr:end_datetime']=f'{yyyy}-{mm2:02d}-{dd2:02d}'
+        composite.attrs['odc:region_code']=tile_id
+        composite.attrs['gri:refinement']=REFINEMENT_FLAG
+        del ds_timeseries
         
         log.info('Write bands to raster COG files')
         name_measurements = []
         for var in list(composite.data_vars):
-            print(var)
-                
             file_path = f'{collection_path}/{DATASET}_{var}.tif'
             
             composite[var].rio.to_raster(
@@ -331,11 +327,25 @@ def generate_composite(year_month: str, tile: pd.Series):
                 )
             name_measurements.append(file_path)
             
-
-        log.info('Prepare metadata YAML document')
-        eo3_doc, stac_doc = prepare_eo3_metadata_NAS(
+            log.info(f'Write {var.upper()} -> {file_path}')
             
-        )
+
+
+        log.info('Prepare metadata YAML document')        
+        eo3_doc, stac_doc = prepare_eo3_metadata_NAS(
+            dc=dc,
+            xr_cube=composite, 
+            collection_path=collection_path,
+            dataset_name=DATASET,
+            product_name=PRODUCT_NAME,
+            product_family='ard',
+            bands=VARS,
+            name_measurements=name_measurements,
+            datetime_list=datetime_list,
+            set_range=False,
+            lineage_path=None,
+            version=1,
+            )
         
         log.info('Write metadata YAML document to disk')
         serialise.to_path(Path(eo3_path), eo3_doc)
