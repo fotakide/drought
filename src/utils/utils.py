@@ -40,31 +40,32 @@ def setup_logger(logger_name, logger_path, logger_format):
     return logger
 
 
-def generate_json_files_for_composites(output_dir="../jsons"):
-    os.makedirs(output_dir, exist_ok=True)
+def generate_json_files_for_composites(
+    output_dir="../jsons/compgen",
+    tile_geojson_filepath='../anciliary/grid_v2.geojson',
+    start_date: datetime.datetime=datetime.datetime(2020, 1, 1),
+    end_date: datetime.datetime=datetime.datetime(2025, 9, 1),
+    ):
     
-    # Set start and end
-    start_date = datetime.datetime(2020, 7, 1)
-    end_date = datetime.datetime(2023, 6, 1)
+    os.makedirs(output_dir, exist_ok=True)
     
     current_date = start_date
     while current_date <= end_date:
         year_month = current_date.strftime("%Y-%m")
         file_prefix = current_date.strftime("%Y%m")
         
-        for i in range(1, 6):  # AoI1 to AoI5
-            data = {
-                "year_month": year_month,
-                "AOI_path": f"../studyarea/AoI{i}.kml"
-            }
+        data = {
+            "year_month": year_month,
+            "tilegrid_path": tile_geojson_filepath
+        }
             
-            file_name = f"{file_prefix}_AoI{i}.json"
-            file_path = os.path.join(output_dir, file_name)
-            
-            with open(file_path, "w") as f:
-                json.dump(data, f, indent=4)
-            
-            print(f"Saved: {file_path}")
+        file_name = f"compgen_{file_prefix}.json"
+        file_path = os.path.join(output_dir, file_name)
+        
+        with open(file_path, "w") as f:
+            json.dump(data, f, indent=4)
+        
+        print(f"Saved: {file_path}")
         
         # Move to the next month
         current_date += datetime.timedelta(days=32)

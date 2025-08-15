@@ -416,9 +416,9 @@ if __name__ == "__main__":
                 parameters_dict = json.load(f)
 
                 year_month = parameters_dict['year_month']
-                AOI_path = parameters_dict['AOI_path'] #'../anciliary/grid_v2.geojson'
+                tilegrid_path = parameters_dict['tilegrid_path'] #'../anciliary/grid_v2.geojson'
                 
-                aoi = gpd.read_file(AOI_path).to_crs('EPSG:4326')
+                aoi = gpd.read_file(tilegrid_path).to_crs('EPSG:4326')
 
                 for i, tile in aoi.iterrows():
                     generate_composite(year_month=year_month, tile=tile)
