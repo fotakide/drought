@@ -9,7 +9,6 @@ import argparse
 def mkdir(path: str):
     Path(path).mkdir(parents=True, exist_ok=True)
     
-    
 
 def get_sys_argv():
     parser = argparse.ArgumentParser(description="Parse required arguments for the analysis",
