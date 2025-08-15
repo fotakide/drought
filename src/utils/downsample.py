@@ -1,8 +1,7 @@
 import xarray as xr
 import numpy as np
-from skimage.measure import block_reduce
-
 from numpy import uint16, mean
+from skimage.measure import block_reduce
 
 def s2_downsample_dataset_10m_to_20m(ds: xr.Dataset, y="y", x="x") -> xr.Dataset:
     """

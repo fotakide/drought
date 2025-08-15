@@ -2,217 +2,43 @@ import datacube
 from datacube.index.hl import Doc2Dataset
 from eodatasets3 import serialise
 
+import pandas as pd
+import numpy as np
+
+import xarray as xr
+import rioxarray as rxr
+from rioxarray.merge import merge_datasets
+import odc.geo.xr
+
+from odc.algo import mask_cleanup
+from dea_tools.spatial import xr_rasterize
+
+import geopandas as gpd
+from odc.geo.geom import BoundingBox
+
 import pystac_client
-import pystac
+import odc.stac
+from odc.stac import configure_rio
+from datacube.utils.aws import configure_s3_access
 import planetary_computer
 from pystac_client.stac_api_io import StacApiIO
 from urllib3 import Retry
 
-import geopandas as gpd
-from odc.geo.geom import BoundingBox
-import odc.geo.xr
-
-import pandas as pd
-import numpy as np
-import rioxarray as rxr
-from rioxarray.merge import merge_datasets
-import xarray as xr
-from odc.algo import mask_cleanup
-from dea_tools.spatial import xr_rasterize
-
-from skimage.measure import block_reduce
-from numpy import mean, uint16
-import xarray as xr
-
-
-import requests
-import xml.etree.ElementTree as ET
-from collections import defaultdict
-
-import odc.stac
-from odc.stac import configure_rio
-from datacube.utils.aws import configure_s3_access
 from distributed import LocalCluster, Client
 
-import logging
+import os
+import json
 import datetime
 import pytz
 from pathlib import Path
-import argparse
-import os
-import json
-from typing import List, Tuple
-
-import warnings
-warnings.filterwarnings("ignore")
 
 from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.metadata import prepare_eo3_metadata_NAS
+from utils.sentinel2 import check_gri_refinement, mask_with_scl
+from utils.utils import mkdir, get_sys_argv, setup_logger
 
-
-def mkdir(path: str):
-    Path(path).mkdir(parents=True, exist_ok=True)
-
-
-def get_sys_argv():
-    parser = argparse.ArgumentParser(description="Parse required arguments for the analysis",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("-j", "--json-file", help="Point to json file that contains required parameters", required=True)
-
-    args = parser.parse_args()
-    config = vars(args)
-    return config
-
-
-def setup_logger(logger_name, logger_path, logger_format):
-    logger = logging.getLogger(logger_name)
-
-    if not logger.handlers:  # Check if the logger has no handlers yet
-        # Configure the root logger
-        logging.basicConfig(filename=logger_path, level=logging.INFO, format=logger_format)
-
-        # Create a file handler
-        handler = logging.FileHandler(logger_path)
-        handler.setFormatter(logging.Formatter(logger_format))
-
-        # Add the file handler to the logger
-        logger.addHandler(handler)
-
-        # Set propagate to False in order to avoid double entries
-        logger.propagate = False
-
-    return logger
-
-
-def generate_json_files(output_dir="../jsons"):
-    os.makedirs(output_dir, exist_ok=True)
-    
-    # Set start and end
-    start_date = datetime.datetime(2020, 7, 1)
-    end_date = datetime.datetime(2023, 6, 1)
-    
-    current_date = start_date
-    while current_date <= end_date:
-        year_month = current_date.strftime("%Y-%m")
-        file_prefix = current_date.strftime("%Y%m")
-        
-        for i in range(1, 6):  # AoI1 to AoI5
-            data = {
-                "year_month": year_month,
-                "AOI_path": f"../studyarea/AoI{i}.kml"
-            }
-            
-            file_name = f"{file_prefix}_AoI{i}.json"
-            file_path = os.path.join(output_dir, file_name)
-            
-            with open(file_path, "w") as f:
-                json.dump(data, f, indent=4)
-            
-            print(f"Saved: {file_path}")
-        
-        # Move to the next month
-        current_date += datetime.timedelta(days=32)
-        current_date = current_date.replace(day=1)  # Ensure we are at the first of the month
-
-
-def check_gri_refinement(items: List[pystac.Item]) -> Tuple[List[pystac.Item], pd.DataFrame]:
-    """ Function to search whether the provided scene is refined via GRI or not.
-    Regarding mis-registration (as observed in 2023 vs 2024):
-    See: https://forum.step.esa.int/t/geometric-gri-refinement-in-sentinel-2-level-1c-early-images-below-pb-3-0/44024/2
-    Finally, the activation of the geometric refining does not mean that the products will be always refined. 
-    There are some cases (e.g. too many clouds) where the refining cannot be applied as it would not improve 
-    and could degrade the geolocation of the products. This can be checked thanks to the metadata 
-    Image_Data_Info/Geometric_Info/Image_Refining in the datastrip matadata file (DATASTRIP/*/MTD_DS.xml). In STAC: datastrip_metadata
-    This parameter is equal to REFINED or NOT_REFINED.
-    <Geometric_Info metadataLevel="Standard">
-       <RGM>COMPUTED</RGM>
-       <Image_Refining flag="REFINED">
-
-    Args:
-        items (List[pystac.Item]):List of pystac.item.Item from pystac_client.item_search.ItemSearch
-
-    Returns:
-        Tuple:
-            - List[pystac.Item], List of pystac.Item objects with REFINED status and
-            - pd.DataFrame, DataFrame with refinement status for each item
-    """
-    refined_items = []
-    refinement_data = []
-
-    # Loop through items and extract `Image_Refining` flag
-    
-    for i, item in enumerate(items):
-        datastrip_metadata_url = None
-        for asset_key, asset_data in items[0].assets.items():
-            if "datastrip-metadata" in asset_key.lower(): # and asset_data.href.endswith(".xml"):
-                # datastrip_metadata_url = planetary_computer.sign(asset_data.href)
-                datastrip_metadata_url = asset_data.href
-                break
-
-        if datastrip_metadata_url:
-            # log.info(f"Processing: {datastrip_metadata_url}")
-            # logging.info(f"Processing: {item.id}") #log.info(f"Processing: {datastrip_metadata_url}")
-
-            # Fetch XML content
-            xml_response = requests.get(datastrip_metadata_url)
-            if xml_response.status_code == 200:
-                root = ET.fromstring(xml_response.content)
-
-                # Extract Image_Refining flag
-                refining_element = root.find(".//Geometric_Info/Image_Refining")
-                refining_flag = refining_element.get("flag") if refining_element is not None else "Not Found"
-
-                logging.info(f"{i}/{len(items)} - {item.id} -> {refining_flag}")
-
-                # Store item and status in dataframe
-                refinement_data.append({
-                    "item_id": item.id,
-                    "refinement_status": refining_flag
-                })
-
-                # Append to refined_items if the flag is 'REFINED'
-                if refining_flag == "REFINED":
-                    refined_items.append(item)
-            else:
-                # log.info(f"Failed to fetch XML: {xml_response.status_code}")
-                refinement_data.append({
-                    "item_id": item.id,
-                    "refinement_status": "Fetch Failed"
-                })
-        else:
-            # log.info("datastrip_metadata.xml not found in STAC item")
-            refinement_data.append({
-                "item_id": item.id,
-                "refinement_status": "Metadata Not Found"
-            })
-
-    # Create a DataFrame
-    df_refinement_status = pd.DataFrame(refinement_data)
-
-    return refined_items, df_refinement_status
-
-
-def mask_with_scl(ds, bands):
-    # - 0: no data
-    # - 1: saturated or defective
-    # - 2: dark area pixels
-    # - 3: cloud shadows
-    # - 4: vegetation
-    # - 5: bare soils
-    # - 6: water
-    # - 7: unclassified
-    # - 8: cloud medium probability
-    # - 9: cloud high probability
-    # - 10: thin cirrus
-    # - 11: snow or ice
-    invalid_scl_values = [3, 7, 8, 9, 10, 11]
-    logging.info(f'Masking bits: {invalid_scl_values}')
-    cloud_binary_mask = ds.SCL.isin(invalid_scl_values)
-
-    bands.remove('SCL')    
-    ds = ds[bands].where(~cloud_binary_mask, 0).astype('uint16')
-    
-    return ds
+import warnings
+warnings.filterwarnings("ignore")
 
 
 def generate_composite(year_month: str, tile: pd.Series):
