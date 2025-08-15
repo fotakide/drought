@@ -45,179 +45,179 @@ warnings.filterwarnings("ignore")
 
 
 def generate_composite(year_month: str, tile: pd.Series):
-    # Set up logger.
-    log = setup_logger(logger_name='compgen_',
-                                logger_path=f'../logs/compgen_{datetime.datetime.now(pytz.timezone("Europe/Athens")).strftime("%Y%m%dT%H%M%S")}.log', 
-                                logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
-                                )
-    
-    tile_id = tile.tile_ids
-    log.info('#######################################################################')
-    log.info('Processing started')
-    log.info(f'        Tile: {tile_id}')
-    log.info(f'        Time: {year_month}')
-    
-    
-    log.info('                                 ')
-    log.info('Initializing Dask cluster for parallelization')
-    cluster = LocalCluster(
-        n_workers=8, 
-        threads_per_worker=1, 
-        processes=False,
-        # memory_limit='4GB', 
-        # local_directory="/tmp/dask-worker-space",
-        )
-    client = Client(cluster)
-    configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
-    log.info(f'The Dask client listens to {client.dashboard_link}')
-    
-    
-    log.info('                          ')
-    log.info('Establishing connection to datacube')
-    dc = datacube.Datacube(app='Composite generation', env='drought')
-    
-    log.info('                          ')
-    log.info('Check if dataset already exists in the datacube')
-    find_ds_in_sc = dc.find_datasets(
-        **dict(
-            product='composites',
-            time=year_month,
-            region_code=tile_id
-        ),
-        ensure_location=True
-    )
-        
-    if find_ds_in_sc:
-        msg = f"This composite already exists in {find_ds_in_sc[0].uri} | Continuing."
-        log.warning(msg)
-        return
-    else:
-        log.info("The composite requested will be computed")
-        
-    log.info('Create directories and naming conversions')   
-    yyyy = year_month[0:4]
-    mm1 = year_month[5:8]     
-    NASROOT='//nas-rs.topo.auth.gr/Latomeia/DROUGHT'
-    FOLDER=f'COMPOS/{yyyy}/{mm1}/{tile_id}'
-    DATASET= f'S2L2A_medcomp_{tile_id}_{yyyy}{mm1}'
-    PRODUCT_NAME = 'composites'
-    collection_path = f"{NASROOT}/{FOLDER}"
-    mkdir(collection_path)
-    eo3_path = f'{collection_path}/{DATASET}.odc-metadata.yaml'
-    stac_path = f'{collection_path}/{DATASET}.stac-metadata.json'
-    log.info(f'Dataset location: {collection_path}')
-    
-    
-    log.info('                          ')
-    log.info('Retrieve tile geometry')
-    geom = gpd.GeoSeries([tile.geometry], crs='EPSG:4326').to_crs(epsg=3035)
-    minl, minf, maxl, maxf = tile.geometry.bounds
-    minx, miny, maxx, maxy = geom.total_bounds
-
-    log.info('Create the Bounding Box (lat,lon)')
-    aoi_bbox = BoundingBox.from_xy(
-        (minl, maxl),
-        (minf, maxf)
-    ).buffered(xbuff=0.025, ybuff=0.025)
-
-    log.info('Create the Bounding Box (x,y)')
-    tile_bbox = BoundingBox.from_xy(
-        (minx, maxx),
-        (miny, maxy),
-        crs='EPSG:3035'
-    )
-    
-    tile_geobox = odc.geo.geobox.GeoBox.from_bbox(
-        tile_bbox, 
-        resolution=odc.geo.Resolution(x=20,y=-20)
-    )
-
-    
-    log.info('                          ')
-    log.info('Connect to Planetary Computer STAC Catalog')
-    stac_api_io = StacApiIO(max_retries=Retry(total=5, backoff_factor=5))
-    catalog = pystac_client.Client.open(
-        "https://planetarycomputer.microsoft.com/api/stac/v1",
-        modifier=planetary_computer.sign_inplace,
-        stac_io=stac_api_io
-    )
-    
-    log.info('Search the STAC Catalog')
-    cloud_cover = 70
-    search = catalog.search(
-        collections=["sentinel-2-l2a"], #hls2-s30
-        bbox=aoi_bbox,
-        datetime='2024-07',
-        limit=100,
-        query={
-            "eo:cloud_cover": {"lt":cloud_cover},
-            "s2:nodata_pixel_percentage": {"lt":20},
-        },
-    )
-    log.info('        Query parameters:')
-    log.info(f'            url:          {search.url}')
-    log.info(f'            client:       {search.client.id}')
-    log.info(f'            collection:   {search._parameters['collections'][0]}')
-    log.info(f'            bbox:         {search._parameters['bbox']}')
-    log.info(f'            time range:   {search._parameters['datetime']}')
-    log.info(f'            cloud cover:  0% - {search._parameters['query']['eo:cloud_cover']['lt']}%')
-    log.info(f'            nodata cover: 0% - {search._parameters['query']['s2:nodata_pixel_percentage']['lt']}%')
-    
-    log.info('                          ')
-    log.info('Searching...')
-    items = search.item_collection()
-    
-    log.info(f'Query found {len(items)} items')
-    
-    log.info('Searching for GRI REFINED scenes:')
-    refined_items, df_refinement_status = check_gri_refinement(items)
-    
-    log.info('                                 ')
-    log.info(f'{len(refined_items)}/{len(df_refinement_status)} were refined by GRI.')
-    
-    if len(refined_items) == 0:
-        msg = f"Tile {tile_id} | Time: {year_month}: All scenes are flagged NOT REFINED."
-        log.warning(msg)
-        log.warning(f"Tile {tile_id} | Time: {year_month}: The composite will be flagged with _NOREFINED.")
-        REFINEMENT_FLAG = 'NOTREFINED'
-        refined_items = items
-    else:
-        REFINEMENT_FLAG = 'REFINED'
-
-    N = 10
-    log.info(f'Looking for up to {N} cleanest images within spatiotemporal range')
-    filtered_items = []
-    mgrs_tiles = np.unique([i.properties['s2:mgrs_tile'] for i in refined_items])
-    epsgs = np.unique([i.properties['proj:epsg'] for i in refined_items])
-    
-    for mgrstile in mgrs_tiles:
-        item_mgrs_sorted = sorted([
-            i for i in refined_items if i.properties['s2:mgrs_tile'] == str(mgrstile)
-            ], key=lambda item: item.properties['eo:cloud_cover'])
-        
-        if len(item_mgrs_sorted) > N:
-            filtered_items.extend(item_mgrs_sorted[:N])
-        else:
-            filtered_items.extend(item_mgrs_sorted)
-    log.info(f"Filtered cleanest scenes: Kept {len(filtered_items)} out of {len(refined_items)} items. ")
-    log.info(f"        Included MGRS Tiles: {mgrs_tiles}")
-    log.info(f"        Included EPSG codes: {epsgs}")
-
-    log.info('Selected scenes:')
-    for stacitem in filtered_items:
-        log.info(f'        {stacitem.id}')
-
-    plot_mgrs_tiles_with_aoi(filtered_items, 
-                             aoi_bbox, 
-                             save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg')
-
-
-    log.info(f'                                 ')
-    log.info(f'Downstream STAC items from Planetary Computer')
-
-    # Loading for each EPSG and Native RESOLUTION separatelly, then merging into a single xr.Dataset
-    # to to a correct downsampling
     try:
+        # Set up logger.
+        log = setup_logger(logger_name='compgen_',
+                                    logger_path=f'../logs/compgen_{datetime.datetime.now(pytz.timezone("Europe/Athens")).strftime("%Y%m%dT%H%M%S")}.log', 
+                                    logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
+                                    )
+        
+        tile_id = tile.tile_ids
+        log.info('#######################################################################')
+        log.info('Processing started')
+        log.info(f'        Tile: {tile_id}')
+        log.info(f'        Time: {year_month}')
+        
+        
+        log.info('                                 ')
+        log.info('Initializing Dask cluster for parallelization')
+        cluster = LocalCluster(
+            n_workers=8, 
+            threads_per_worker=1, 
+            processes=False,
+            # memory_limit='4GB', 
+            # local_directory="/tmp/dask-worker-space",
+            )
+        client = Client(cluster)
+        configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
+        log.info(f'The Dask client listens to {client.dashboard_link}')
+        
+        
+        log.info('                          ')
+        log.info('Establishing connection to datacube')
+        dc = datacube.Datacube(app='Composite generation', env='drought')
+        
+        log.info('                          ')
+        log.info('Check if dataset already exists in the datacube')
+        find_ds_in_sc = dc.find_datasets(
+            **dict(
+                product='composites',
+                time=year_month,
+                region_code=tile_id
+            ),
+            ensure_location=True
+        )
+            
+        if find_ds_in_sc:
+            msg = f"This composite already exists in {find_ds_in_sc[0].uri} | Continuing."
+            log.warning(msg)
+            return
+        else:
+            log.info("The composite requested will be computed")
+            
+        log.info('Create directories and naming conversions')   
+        yyyy = year_month[0:4]
+        mm1 = year_month[5:8]     
+        NASROOT='//nas-rs.topo.auth.gr/Latomeia/DROUGHT'
+        FOLDER=f'COMPOS/{yyyy}/{mm1}/{tile_id}'
+        DATASET= f'S2L2A_medcomp_{tile_id}_{yyyy}{mm1}'
+        PRODUCT_NAME = 'composites'
+        collection_path = f"{NASROOT}/{FOLDER}"
+        mkdir(collection_path)
+        eo3_path = f'{collection_path}/{DATASET}.odc-metadata.yaml'
+        stac_path = f'{collection_path}/{DATASET}.stac-metadata.json'
+        log.info(f'Dataset location: {collection_path}')
+        
+        
+        log.info('                          ')
+        log.info('Retrieve tile geometry')
+        geom = gpd.GeoSeries([tile.geometry], crs='EPSG:4326').to_crs(epsg=3035)
+        minl, minf, maxl, maxf = tile.geometry.bounds
+        minx, miny, maxx, maxy = geom.total_bounds
+
+        log.info('Create the Bounding Box (lat,lon)')
+        aoi_bbox = BoundingBox.from_xy(
+            (minl, maxl),
+            (minf, maxf)
+        ).buffered(xbuff=0.025, ybuff=0.025)
+
+        log.info('Create the Bounding Box (x,y)')
+        tile_bbox = BoundingBox.from_xy(
+            (minx, maxx),
+            (miny, maxy),
+            crs='EPSG:3035'
+        )
+        
+        tile_geobox = odc.geo.geobox.GeoBox.from_bbox(
+            tile_bbox, 
+            resolution=odc.geo.Resolution(x=20,y=-20)
+        )
+
+        
+        log.info('                          ')
+        log.info('Connect to Planetary Computer STAC Catalog')
+        stac_api_io = StacApiIO(max_retries=Retry(total=5, backoff_factor=5))
+        catalog = pystac_client.Client.open(
+            "https://planetarycomputer.microsoft.com/api/stac/v1",
+            modifier=planetary_computer.sign_inplace,
+            stac_io=stac_api_io
+        )
+        
+        log.info('Search the STAC Catalog')
+        cloud_cover = 70
+        search = catalog.search(
+            collections=["sentinel-2-l2a"], #hls2-s30
+            bbox=aoi_bbox,
+            datetime='2024-07',
+            limit=100,
+            query={
+                "eo:cloud_cover": {"lt":cloud_cover},
+                "s2:nodata_pixel_percentage": {"lt":20},
+            },
+        )
+        log.info('        Query parameters:')
+        log.info(f'            url:          {search.url}')
+        log.info(f'            client:       {search.client.id}')
+        log.info(f'            collection:   {search._parameters['collections'][0]}')
+        log.info(f'            bbox:         {search._parameters['bbox']}')
+        log.info(f'            time range:   {search._parameters['datetime']}')
+        log.info(f'            cloud cover:  0% - {search._parameters['query']['eo:cloud_cover']['lt']}%')
+        log.info(f'            nodata cover: 0% - {search._parameters['query']['s2:nodata_pixel_percentage']['lt']}%')
+        
+        log.info('                          ')
+        log.info('Searching...')
+        items = search.item_collection()
+        
+        log.info(f'Query found {len(items)} items')
+        
+        log.info('Searching for GRI REFINED scenes:')
+        refined_items, df_refinement_status = check_gri_refinement(items)
+        
+        log.info('                                 ')
+        log.info(f'{len(refined_items)}/{len(df_refinement_status)} were refined by GRI.')
+        
+        if len(refined_items) == 0:
+            msg = f"Tile {tile_id} | Time: {year_month}: All scenes are flagged NOT REFINED."
+            log.warning(msg)
+            log.warning(f"Tile {tile_id} | Time: {year_month}: The composite will be flagged with _NOREFINED.")
+            REFINEMENT_FLAG = 'NOTREFINED'
+            refined_items = items
+        else:
+            REFINEMENT_FLAG = 'REFINED'
+
+        N = 10
+        log.info(f'Looking for up to {N} cleanest images within spatiotemporal range')
+        filtered_items = []
+        mgrs_tiles = np.unique([i.properties['s2:mgrs_tile'] for i in refined_items])
+        epsgs = np.unique([i.properties['proj:epsg'] for i in refined_items])
+        
+        for mgrstile in mgrs_tiles:
+            item_mgrs_sorted = sorted([
+                i for i in refined_items if i.properties['s2:mgrs_tile'] == str(mgrstile)
+                ], key=lambda item: item.properties['eo:cloud_cover'])
+            
+            if len(item_mgrs_sorted) > N:
+                filtered_items.extend(item_mgrs_sorted[:N])
+            else:
+                filtered_items.extend(item_mgrs_sorted)
+        log.info(f"Filtered cleanest scenes: Kept {len(filtered_items)} out of {len(refined_items)} items. ")
+        log.info(f"        Included MGRS Tiles: {mgrs_tiles}")
+        log.info(f"        Included EPSG codes: {epsgs}")
+
+        log.info('Selected scenes:')
+        for stacitem in filtered_items:
+            log.info(f'        {stacitem.id}')
+
+        plot_mgrs_tiles_with_aoi(filtered_items, 
+                                aoi_bbox, 
+                                save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg')
+
+
+        log.info(f'                                 ')
+        log.info(f'Downstream STAC items from Planetary Computer')
+
+        # Loading for each EPSG and Native RESOLUTION separatelly, then merging into a single xr.Dataset
+        # to to a correct downsampling
         processed_epsgs = []
         for EPSG in epsgs:
             processed_epsgs.append(process_epsg(filtered_items, aoi_bbox, EPSG))
@@ -379,6 +379,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         cluster.close()
         
         log.info(f'✓ COMPLETED: Tile {tile_id} | Time: {year_month} ✓')
+        
     except Exception as exc:
         msg=f'✗ Failed loading for : Tile {tile_id} | Time: {year_month}\nwith Exception: {exc}'
         log.error(msg)
