@@ -151,7 +151,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         search = catalog.search(
             collections=["sentinel-2-l2a"], #hls2-s30
             bbox=aoi_bbox,
-            datetime='2024-07',
+            datetime=year_month,
             limit=100,
             query={
                 "eo:cloud_cover": {"lt":cloud_cover},
