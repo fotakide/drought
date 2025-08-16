@@ -242,15 +242,18 @@ def generate_composite(year_month: str, tile: pd.Series):
         
         log.info('Clip and align to tile geometry')
         processed_epsgs_to_tile = [ds.odc.reproject(how=tile_geobox) for ds in processed_epsgs]
+        del processed_epsgs
+        gc.collect()
         
-        
-        if len(processed_epsgs)>1:
+        if len(processed_epsgs_to_tile)>1:
             log.info(f'                          ')
             log.info(f'Mosaic datasets of different native UTM zones to a single dataset')
             ds_timeseries = merge_nodata0(processed_epsgs_to_tile, vars_mode="intersection", method="mean", chunks=None)
         else:
             ds_timeseries = processed_epsgs_to_tile[0]
-        
+            
+        del processed_epsgs_to_tile
+        gc.collect()
         
         # https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a#Baseline-Change
         BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']
@@ -271,10 +274,6 @@ def generate_composite(year_month: str, tile: pd.Series):
         
         log.info('Creating preview plot of input scenes')
         save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_InDataPreview.jpeg', dpi=300)
-
-        log.info('////Clearing up space////')
-        del processed_epsgs_to_tile
-        gc.collect()
         
         # reset bands list
         ds_timeseries = ds_timeseries[['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']]
@@ -306,6 +305,20 @@ def generate_composite(year_month: str, tile: pd.Series):
         ds_timeseries = ds_timeseries.sortby('time')
         composite = ds_timeseries.median(dim='time').astype('float32').compute()
         
+        # keep time metadata
+        yyyy = ds_timeseries.isel(time=0).time.dt.year.item()
+        mm1 = ds_timeseries.isel(time=0).time.dt.month.item()
+        mm2 = ds_timeseries.isel(time=-1).time.dt.month.item()
+        dd1 = ds_timeseries.isel(time=0).time.dt.day.item()
+        dd2 = ds_timeseries.isel(time=-1).time.dt.day.item()
+        datetime_list = [
+            ds_timeseries.isel(time=0).time.dt.year.item(),
+            ds_timeseries.isel(time=0).time.dt.month.item(),
+            1
+        ]
+        del ds_timeseries
+        gc.collect()
+        
         log.info('Define data types and nodata per band')
         VARS = BANDS+SIS
 
@@ -328,21 +341,11 @@ def generate_composite(year_month: str, tile: pd.Series):
 
 
         log.info('Assign time range and tile ID in metadata')
-        yyyy = ds_timeseries.isel(time=0).time.dt.year.item()
-        mm1 = ds_timeseries.isel(time=0).time.dt.month.item()
-        mm2 = ds_timeseries.isel(time=-1).time.dt.month.item()
-        dd1 = ds_timeseries.isel(time=0).time.dt.day.item()
-        dd2 = ds_timeseries.isel(time=-1).time.dt.day.item()
-        datetime_list = [
-            ds_timeseries.isel(time=0).time.dt.year.item(),
-            ds_timeseries.isel(time=0).time.dt.month.item(),
-            1
-        ]
         composite.attrs['dtr:start_datetime']=f'{yyyy}-{mm1:02d}-{dd1:02d}'
         composite.attrs['dtr:end_datetime']=f'{yyyy}-{mm2:02d}-{dd2:02d}'
         composite.attrs['odc:region_code']=tile_id
         composite.attrs['gri:refinement']=REFINEMENT_FLAG
-        del ds_timeseries
+        
         
         log.info('Write bands to raster COG files')
         name_measurements = []
