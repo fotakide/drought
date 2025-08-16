@@ -61,10 +61,10 @@ def generate_composite(year_month: str, tile: pd.Series):
         log.info('                                 ')
         log.info('Initializing Dask cluster for parallelization')
         cluster = LocalCluster(
-            n_workers=5, 
+            n_workers=8, 
             threads_per_worker=1, 
             processes=True,
-            memory_limit='2.0GiB', 
+            memory_limit='3.5GiB', 
             # local_directory="/tmp/dask-worker-space",
             )
         client = Client(cluster)
