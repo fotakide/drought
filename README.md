@@ -20,7 +20,7 @@ The study area is dividing by tiling schema in 20 tiles of size 48x48km. The nam
 ## Composite generation
 The composite pipeline automates the creation of monthly median mosaics of Sentinel-2 L2A data using [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a) via the [STAC catalog](https://planetarycomputer.microsoft.com/api/stac/v1).
 
-Key points
+### Key points
 - Input: JSON configuration files define the year–month and tile code to process.
 - Data access: Images are retrieved from the STAC catalog, filtered by cloud cover and data quality.
 - Native resolutions: Sentinel-2 provides different bands at 10 m and 20 m resolutions.

@@ -1295,3 +1295,38 @@
 2025-08-16 19:29:49,861 - INFO - timeseries_processing.py:118 -         Get Assets from STAC Items
 2025-08-16 19:29:49,861 - INFO - timeseries_processing.py:31 -         Initialize the STAC client
 2025-08-16 19:29:50,343 - INFO - timeseries_processing.py:121 -         Loading 10 STAC Items....
+2025-08-16 19:30:08,336 - INFO - timeseries_processing.py:143 -         Cube has been downloaded
+2025-08-16 19:30:08,336 - INFO - timeseries_processing.py:152 -         Fix order of dimensions
+2025-08-16 19:30:08,337 - INFO - timeseries_processing.py:157 -         Append bands to the band-list of EPSG:32634
+2025-08-16 19:30:08,337 - INFO - timeseries_processing.py:113 -                        
+2025-08-16 19:30:08,337 - INFO - timeseries_processing.py:114 -     Loading parameters:
+2025-08-16 19:30:08,338 - INFO - timeseries_processing.py:115 -         Bands: ['B02', 'B03', 'B04']
+2025-08-16 19:30:08,338 - INFO - timeseries_processing.py:116 -         Spatial resolution: 10
+2025-08-16 19:30:08,338 - INFO - timeseries_processing.py:118 -         Get Assets from STAC Items
+2025-08-16 19:30:08,338 - INFO - timeseries_processing.py:31 -         Initialize the STAC client
+2025-08-16 19:30:08,869 - INFO - timeseries_processing.py:121 -         Loading 10 STAC Items....
+2025-08-16 19:31:01,695 - INFO - timeseries_processing.py:143 -         Cube has been downloaded
+2025-08-16 19:31:01,695 - INFO - timeseries_processing.py:146 -         Downsample 10m bands to 20m by average 2x2 binning
+2025-08-16 19:31:08,634 - INFO - timeseries_processing.py:149 -         Warp (reproject) 2x2 binned bands like native 20m bands: method=bilinear
+2025-08-16 19:31:13,546 - INFO - timeseries_processing.py:157 -         Append bands to the band-list of EPSG:32634
+2025-08-16 19:31:13,546 - INFO - timeseries_processing.py:161 -                        
+2025-08-16 19:31:13,546 - INFO - timeseries_processing.py:162 -     Merging bands in a single dataset
+2025-08-16 19:31:13,546 - INFO - timeseries_processing.py:163 -     Ensure all partial datasets are at (x=20, y=-20) resolution
+2025-08-16 19:31:13,547 - INFO - timeseries_processing.py:167 -     Clip to the intersection of indexes
+2025-08-16 19:31:13,548 - INFO - timeseries_processing.py:176 -     Make a list of bands to merge
+2025-08-16 19:31:13,549 - INFO - timeseries_processing.py:180 -     Merge on intersection
+2025-08-16 19:31:13,549 - INFO - timeseries_processing.py:188 -     Apply masks on clouds, shadows, thin cirrus, and snow/ice
+2025-08-16 19:31:13,549 - INFO - sentinel2.py:107 -                Masking bits: [3, 7, 8, 9, 10, 11]
+2025-08-16 19:31:14,259 - INFO - timeseries_processing.py:194 -     Reproject to Tiling Schema projection EPSG:3035
+2025-08-16 19:31:21,473 - INFO - composites.py:243 - Clip and align to tile geometry
+2025-08-16 19:31:23,351 - INFO - composites.py:272 - Creating preview plot of input scenes
+2025-08-16 19:31:36,559 - INFO - timeseries_processing.py:352 - Saved preview for 'B04' to //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x08_y10/S2L2A_medcomp_x08_y10_202001_InDataPreview.jpeg
+2025-08-16 19:31:36,578 - INFO - composites.py:275 - ////Clearing up space////
+2025-08-16 19:31:36,851 - INFO - composites.py:282 - Clip value range
+2025-08-16 19:31:38,093 - INFO - composites.py:287 -                           
+2025-08-16 19:31:38,093 - INFO - composites.py:288 - Computing spectral indices:
+2025-08-16 19:31:38,093 - INFO - composites.py:291 -     EVI...
+2025-08-16 19:31:38,871 - INFO - composites.py:293 -     NDVI...
+2025-08-16 19:31:39,038 - INFO - composites.py:295 -     PSRI2...
+2025-08-16 19:31:39,278 - INFO - composites.py:298 - Clip to typical value range
+2025-08-16 19:31:39,533 - INFO - composites.py:305 - Reducing to median value temporal composite
