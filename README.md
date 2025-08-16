@@ -21,4 +21,4 @@ The study area is dividing by tiling schema in 20 tiles of size 48x48km. The nam
 Retrieve imagery from Microsoft Planetary Computer and utilize STAC to get the values:
 1. Based on EMSN217 for composite generation
 
-From [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a)
+Data from From [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a)

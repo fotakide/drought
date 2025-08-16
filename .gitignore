@@ -1,6 +1,7 @@
 *.docx
 
 /wiki_img
+!/wiki_img/Grid.png
 
 /notebooks/S2B*
 
