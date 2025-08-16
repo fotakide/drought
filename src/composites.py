@@ -386,7 +386,9 @@ def generate_composite(year_month: str, tile: pd.Series):
         client.close()
         cluster.close()
         
-        log.info(f'✓ COMPLETED: Tile {tile_id} | Time: {year_month} ✓')
+        log.info(f'')
+        log.info(f'             ✓✓✓ COMPLETED: Tile {tile_id} | Time: {year_month}')
+        log.info(f'')
     except Exception as exc:
         msg=f'✗ Failed loading for : Tile {tile_id} | Time: {year_month}\nwith Exception: {exc}'
         log.error(msg)

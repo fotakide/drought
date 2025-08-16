@@ -25,10 +25,15 @@ def setup_logger(logger_name, logger_path, logger_format):
 
     if not logger.handlers:  # Check if the logger has no handlers yet
         # Configure the root logger
-        logging.basicConfig(filename=logger_path, level=logging.INFO, format=logger_format)
+        logging.basicConfig(
+            filename=logger_path, 
+            level=logging.INFO, 
+            format=logger_format,
+            encoding="utf-8"
+            )
 
         # Create a file handler
-        handler = logging.FileHandler(logger_path)
+        handler = logging.FileHandler(logger_path, encoding="utf-8", errors="strict")
         handler.setFormatter(logging.Formatter(logger_format))
 
         # Add the file handler to the logger

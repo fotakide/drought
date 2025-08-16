@@ -9,3 +9,7 @@
 *.bkp
 
 *.xml
+
+/src/debugloggerencoding.py
+
+/logs/debug*
