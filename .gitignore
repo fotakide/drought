@@ -1,7 +1,10 @@
 *.docx
 
-/wiki_img
-!/wiki_img/Grid.png
+/wiki_img/*.png
+/wiki_img/*.jpg
+/wiki_img/*.pdf
+/wiki_img/*.svg
+!/wiki_img/Grid.jpg
 
 /notebooks/S2B*
 
