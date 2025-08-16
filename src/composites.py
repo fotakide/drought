@@ -240,30 +240,33 @@ def generate_composite(year_month: str, tile: pd.Series):
         
         
         # https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a#Baseline-Change
+        BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']
         baseline400_mask = ds_timeseries.time > pd.Timestamp('2022-01-25')
         if baseline400_mask.any():
             log.info('Scale SR to Sen2Cor Baseline 4.00 - Subtract 1000 in dates post 2022-01-25')
-            ds_timeseries = ds_timeseries.where(~baseline400_mask, ds_timeseries - 1000).astype(np.uint16)
-            for band in list(ds_timeseries.data_vars):
-                ds_timeseries[band].attrs['nodata']=np.iinfo(np.uint16).min
+            boa = ds_timeseries[BANDS].astype('i4')                       # avoid uint16 underflow
+            adj = xr.where(baseline400_mask, boa - 1000, boa)                    # subtract only post-cutover
+            adj = adj.clip(min=0).astype('u2') 
+            
+            ds_timeseries = ds_timeseries.assign({b: adj[b] for b in BANDS})
+            
+            for b in BANDS:
+                ds_timeseries[b].attrs['nodata'] = np.iinfo(np.uint16).min #0
         else:
             del baseline400_mask
         
         
+        log.info('Creating preview plot of input scenes')
+        save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_InDataPreview.jpeg', dpi=300)
+
         log.info('////Clearing up space////')
         del processed_epsgs_to_tile
         gc.collect()
         
-        log.info('Creating preview plot of input scenes')
-        save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_InDataPreview.jpeg', dpi=300)
-
         # reset bands list
-        BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']
         ds_timeseries = ds_timeseries[['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']]
         
         log.info('Clip value range')
-        chunks = {"time": 1, "y": 1024, "x": 1024}
-        ds_timeseries = ds_timeseries.chunk(chunks)
         ds_timeseries = ds_timeseries.where(ds_timeseries > 0, np.nan)
         ds_timeseries = ds_timeseries.where(ds_timeseries<=10000)
         
@@ -287,7 +290,6 @@ def generate_composite(year_month: str, tile: pd.Series):
                 ds_timeseries[si] = ds_timeseries[si].where((ds_timeseries[si]>=-1)&(ds_timeseries[si]<=4))
         
         log.info('Reducing to median value temporal composite')
-        # ds_timeseries = ds_timeseries.chunk(chunks)
         ds_timeseries = ds_timeseries.sortby('time')
         composite = ds_timeseries.median(dim='time').astype('float32').compute()
         

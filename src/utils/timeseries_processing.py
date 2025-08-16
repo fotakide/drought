@@ -235,13 +235,25 @@ def save_dataset_preview(ds, var_name, save_path, dpi=300, col_wrap=4, **plot_kw
     **plot_kwargs :
         Additional keyword arguments passed to xarray.DataArray.plot.
     """
+    
+    q=(0.02, 0.98)
+    
     if var_name not in ds.data_vars:
         raise ValueError(f"Variable '{var_name}' not found in dataset.")
 
-    fg = ds[var_name].plot(col='time', col_wrap=col_wrap, **plot_kwargs)
+    # fg = ds[var_name].plot(col='time', col_wrap=col_wrap, **plot_kwargs)
+    da = ds[var_name]
+    da_valid = da.where(da != 0)                     # mask nodata=0 so it doesn’t skew scaling
 
+    # pick sensible bounds from quantiles across all times (lazy-safe with dask)
+    vmin = float(da_valid.quantile(q[0]))
+    vmax = float(da_valid.quantile(q[1]))
+
+    fg = da_valid.plot(col='time', col_wrap=col_wrap, vmin=vmin, vmax=vmax)
+    
     # Add a single title for the whole figure
     fg.fig.suptitle(f"Preview – {var_name}", fontsize=16, fontweight="bold", y=1.02)
 
     fg.fig.savefig(save_path, format="jpeg", dpi=dpi, bbox_inches="tight")
+    gc.collect()
     logging.info(f"Saved preview for '{var_name}' to {save_path}")

@@ -192,8 +192,11 @@ def plot_mgrs_tiles_with_aoi(filtered_items, aoi_bbox, save_path=None):
     )
 
     # Title & axes styling
-    componame = save_path.split('/')[-1].split('_InDataFootprint.jpeg')[0]
-    ax.set_title(f"Tiles Included in the composite {componame} (WGS84)", fontsize=14, fontweight="bold")
+    if save_path:
+        componame = f"composite {save_path.split('/')[-1].split('_InDataFootprint.jpeg')[0]}"
+    else:
+        componame = 'composite'
+    ax.set_title(f"Tiles Included in the {componame} (WGS84)", fontsize=14, fontweight="bold")
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
     ax.set_aspect('equal')
