@@ -202,7 +202,7 @@ def generate_composite(year_month: str, tile: pd.Series):
             REFINEMENT_FLAG = 'REFINED'
 
         N = 10
-        log.info(f'Looking for up to {N} cleanest images within spatiotemporal range')
+        log.info(f'Looking for up to {N} cleanest images within spatiotemporal range of each MGRS tile')
         filtered_items = []
         mgrs_tiles = np.unique([i.properties['s2:mgrs_tile'] for i in refined_items])
         epsgs = np.unique([i.properties['proj:epsg'] for i in refined_items])
