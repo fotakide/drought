@@ -1,15 +1,86 @@
 import logging
 import odc.stac
+
+import planetary_computer
+import pystac_client
+from pystac_client.stac_api_io import StacApiIO
+from urllib3 import Retry
+
 import xarray as xr
 import numpy as np
+
 from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.sentinel2 import mask_with_scl
+
 import gc
 
 
 BANDS_R10m = ['B02', 'B03', 'B04']
 BANDS_R20m = ['B05', 'B07', 'B8A', 'SCL']
 
+def connect_to_STAC_catalog(catalog_endpoint="planetary_computer"):
+    # Open a client 
+    retry = Retry(
+        total=10,
+        backoff_factor=1,
+        status_forcelist=[404, 502, 503, 504],
+        allowed_methods=None, # {*} for CORS
+    )
+        
+    stac_api_io = StacApiIO(max_retries=retry)
+
+    logging.info("        Initialize the STAC client")
+    if catalog_endpoint=='planetary_computer':
+        # Planetary Computer
+        catalog = pystac_client.Client.open(
+            "https://planetarycomputer.microsoft.com/api/stac/v1",
+            modifier=planetary_computer.sign_inplace,
+            stac_io=stac_api_io
+        )
+    elif catalog_endpoint=='earth_search':
+        # AWS
+        catalog = pystac_client.Client.open(
+            "https://earth-search.aws.element84.com/v1",
+            stac_io=stac_api_io
+            )
+    elif catalog_endpoint=='landsatlook':
+        catalog = pystac_client. Client.open(
+            "https://landsatlook.usgs.gov/stac-server/",
+            stac_io=stac_api_io
+        )
+    else:
+        logging.error("You must provide a catalog endpoint alias, available [planetary_computer, earth_search, landsatlook]")
+
+    return catalog
+
+
+def refetch_S2L2A_items_from_catalog(epsg_filtered_items):
+    catalog = connect_to_STAC_catalog(catalog_endpoint="planetary_computer")
+    ids = [item.id for item in epsg_filtered_items]
+    search = catalog.search(
+        ids=ids,
+        collections=["sentinel-2-l2a"],  # optional but recommended
+        limit=100
+    )
+
+    return search.item_collection()
+
+
+def odc_stac_load_Items(assets_to_load, aoi_bbox, bands, epsg, resolution):
+    return odc.stac.stac_load(
+        assets_to_load,
+        bbox=aoi_bbox,
+        bands=bands,
+        chunks=dict(y=1024, x=1024),
+        crs=f'EPSG:{epsg}',  # {epsgs[0]}
+        resolution=resolution,
+        groupby='time', # if 'time' loads all items, retaining duplicates
+        fail_on_error=True,
+        # resampling={
+        #     "*": RESAMPLING_ALGO,
+        # },
+    ).compute()
+    
 
 def process_epsg(filtered_items, aoi_bbox, EPSG):
     
@@ -32,20 +103,30 @@ def process_epsg(filtered_items, aoi_bbox, EPSG):
         logging.info(f'        Bands: {BANDS}')
         logging.info(f'        Spatial resolution: {RESOLUTION}')
 
+        logging.info(f'        Get Assets from STAC Items')
+        assets_to_load = refetch_S2L2A_items_from_catalog(epsg_filtered_items)
         
-        ds_cube = odc.stac.stac_load(
-            epsg_filtered_items,
-            bbox=aoi_bbox,
-            bands=BANDS,
-            chunks=dict(y=1024, x=1024),
-            crs=f'EPSG:{EPSG}',  # {epsgs[0]}
-            resolution=RESOLUTION,
-            groupby='time', # if 'time' loads all items, retaining duplicates
-            fail_on_error=True,
-            # resampling={
-            #     "*": RESAMPLING_ALGO,
-            # },
-        ).compute()
+        logging.info(f'        Loading {len(epsg_filtered_items)} STAC Items....')
+        ds_cube = odc_stac_load_Items(
+            assets_to_load, 
+            aoi_bbox, 
+            BANDS, 
+            EPSG,
+            RESOLUTION
+        )
+        # ds_cube = odc.stac.stac_load(
+        #     epsg_filtered_items,
+        #     bbox=aoi_bbox,
+        #     bands=BANDS,
+        #     chunks=dict(y=1024, x=1024),
+        #     crs=f'EPSG:{EPSG}',  # {epsgs[0]}
+        #     resolution=RESOLUTION,
+        #     groupby='time', # if 'time' loads all items, retaining duplicates
+        #     fail_on_error=True,
+        #     # resampling={
+        #     #     "*": RESAMPLING_ALGO,
+        #     # },
+        # ).compute()
         
         logging.info(f'        Cube has been downloaded')
         

@@ -36,6 +36,7 @@ import json
 import datetime
 import pytz
 from pathlib import Path
+import time
 
 from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.metadata import prepare_eo3_metadata_NAS
@@ -49,6 +50,7 @@ warnings.filterwarnings("ignore")
 
 def generate_composite(year_month: str, tile: pd.Series):
     try:
+        start_time = time.time()
         # Set up logger.
         log = setup_logger(logger_name='compgen_',
                                     logger_path=f'../logs/compgen_{datetime.datetime.now(pytz.timezone("Europe/Athens")).strftime("%Y%m%dT%H%M%S")}.log', 
@@ -94,6 +96,11 @@ def generate_composite(year_month: str, tile: pd.Series):
         if find_ds_in_sc:
             log.warning(f"This composite already exists in {find_ds_in_sc[0].uri}")
             log.warning("The composite is skipped. Exit function. Continuing to next.")
+            log.info(f'')
+            log.info(f'             !!! SKIPPED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
+            log.info(f'')
+            client.close()
+            cluster.close()
             return
         else:
             log.info("The composite requested will be computed")
@@ -155,7 +162,7 @@ def generate_composite(year_month: str, tile: pd.Series):
             limit=100,
             query={
                 "eo:cloud_cover": {"lt":cloud_cover},
-                "s2:nodata_pixel_percentage": {"lt":20},
+                "s2:nodata_pixel_percentage": {"lt":33},
             },
         )
         log.info('        Query parameters:')
@@ -387,7 +394,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         cluster.close()
         
         log.info(f'')
-        log.info(f'             ✓✓✓ COMPLETED: Tile {tile_id} | Time: {year_month}')
+        log.info(f'             ✓✓✓ COMPLETED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
         log.info(f'')
     except Exception as exc:
         msg=f'✗ Failed loading for : Tile {tile_id} | Time: {year_month}\nwith Exception: {exc}'
