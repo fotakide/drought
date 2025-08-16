@@ -15,7 +15,7 @@ Based on [Open Data Cube](https://www.opendatacube.org/). For the EODC the follo
 ### Tiling schema
 The study area is dividing by tiling schema in 20 tiles of size 48x48km. The naming follows `x00_y00` format without nagative indexes.
 
-![Grid](wiki_img/Grid.JPG)
+![Grid](wiki_img/Grid.jpg)
 
 ## Composite generation
 The composite pipeline automates the creation of monthly median mosaics of Sentinel-2 L2A data using [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a) via the [STAC catalog](https://planetarycomputer.microsoft.com/api/stac/v1).
