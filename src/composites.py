@@ -23,14 +23,13 @@ import pystac_client
 import odc.stac
 import pystac
 from odc.stac import configure_rio
-from datacube.utils.aws import configure_s3_access
+# from datacube.utils.aws import configure_s3_access
 import planetary_computer
 from pystac_client.stac_api_io import StacApiIO
 from urllib3 import Retry
 
 from distributed import LocalCluster, Client
 
-import os
 import gc
 import json
 import datetime
@@ -38,11 +37,10 @@ import pytz
 from pathlib import Path
 import time
 
-from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.metadata import prepare_eo3_metadata_NAS
-from utils.sentinel2 import check_gri_refinement, mask_with_scl, plot_mgrs_tiles_with_aoi
+from utils.sentinel2 import check_gri_refinement, plot_mgrs_tiles_with_aoi
 from utils.timeseries_processing import merge_nodata0, save_dataset_preview, process_epsg
-from utils.utils import mkdir, get_sys_argv, setup_logger, generate_json_files_for_composites
+from utils.utils import mkdir, setup_logger, generate_json_files_for_composites
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -65,11 +63,19 @@ def generate_composite(year_month: str, tile: pd.Series):
         cluster = LocalCluster(
             n_workers=8, 
             threads_per_worker=1, 
-            processes=False,
-            memory_limit='5GB', 
+            processes=True,
+            memory_limit='3.5GiB', 
             # local_directory="/tmp/dask-worker-space",
             )
         client = Client(cluster)
+        
+        client.run(lambda: __import__("dask").config.set({
+            "distributed.worker.memory.target": 0.60,
+            "distributed.worker.memory.spill": 0.70,
+            "distributed.worker.memory.pause": 0.80,
+            "distributed.worker.memory.terminate": 0.95,
+        }))
+        
         configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
         log.info(f'The Dask client listens to {client.dashboard_link}')
         

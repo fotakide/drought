@@ -1,7 +1,6 @@
 import logging
-import odc.stac
+import odc.geo
 
-import planetary_computer
 import pystac_client
 from pystac_client.stac_api_io import StacApiIO
 from urllib3 import Retry
@@ -34,7 +33,7 @@ def connect_to_STAC_catalog(catalog_endpoint="planetary_computer"):
         # Planetary Computer
         catalog = pystac_client.Client.open(
             "https://planetarycomputer.microsoft.com/api/stac/v1",
-            modifier=planetary_computer.sign_inplace,
+            # modifier=planetary_computer.sign_inplace,
             stac_io=stac_api_io
         )
     elif catalog_endpoint=='earth_search':
@@ -60,22 +59,35 @@ def refetch_S2L2A_items_from_catalog(epsg_filtered_items):
     search = catalog.search(
         ids=ids,
         collections=["sentinel-2-l2a"],  # optional but recommended
-        limit=100
+        limit=len(ids)
     )
 
     return search.item_collection()
 
 
-def odc_stac_load_Items(assets_to_load, aoi_bbox, bands, epsg, resolution):
+def odc_stac_load_Items(unsigned_items, aoi_bbox, bands, epsg, resolution):
+    # Harden GDAL before odc/rasterio touch anything networky
+    import os
+    os.environ.setdefault("GDAL_HTTP_TIMEOUT", "30")
+    os.environ.setdefault("GDAL_HTTP_MAX_RETRY", "2")
+    os.environ.setdefault("GDAL_HTTP_RETRY_DELAY", "1")
+    os.environ.setdefault("GDAL_DISABLE_READDIR_ON_OPEN", "YES")
+    os.environ.setdefault("CPL_VSIL_CURL_ALLOWED_EXTENSIONS", ".tif,.tiff,.TIF,.TIFF,.json")
+    os.environ.setdefault("VSI_CACHE", "FALSE")
+        
+    import planetary_computer as pc
+    import odc.stac
+    
+    signed_items = [pc.sign(it) for it in unsigned_items]
     return odc.stac.stac_load(
-        assets_to_load,
+        signed_items,
         bbox=aoi_bbox,
         bands=bands,
         chunks=dict(y=1024, x=1024),
         crs=f'EPSG:{epsg}',  # {epsgs[0]}
         resolution=resolution,
         groupby='time', # if 'time' loads all items, retaining duplicates
-        fail_on_error=True,
+        fail_on_error=False,
         # resampling={
         #     "*": RESAMPLING_ALGO,
         # },
