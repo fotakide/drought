@@ -37,7 +37,7 @@ def process_epsg(filtered_items, aoi_bbox, EPSG):
             epsg_filtered_items,
             bbox=aoi_bbox,
             bands=BANDS,
-            chunks=dict(y=2048, x=2048),
+            chunks=dict(y=1024, x=1024),
             crs=f'EPSG:{EPSG}',  # {epsgs[0]}
             resolution=RESOLUTION,
             groupby='time', # if 'time' loads all items, retaining duplicates
@@ -46,6 +46,8 @@ def process_epsg(filtered_items, aoi_bbox, EPSG):
             #     "*": RESAMPLING_ALGO,
             # },
         ).compute()
+        
+        logging.info(f'        Cube has been downloaded')
         
         if RESOLUTION==10:
             logging.info('        Downsample 10m bands to 20m by average 2x2 binning')

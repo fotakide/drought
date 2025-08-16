@@ -1,3 +1,6 @@
+import os
+os.environ.setdefault("MPLBACKEND", "Agg")  # must be set before matplotlib is imported
+
 import datacube
 from datacube.index.hl import Doc2Dataset
 from eodatasets3 import serialise
@@ -37,7 +40,7 @@ from pathlib import Path
 from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.metadata import prepare_eo3_metadata_NAS
 from utils.sentinel2 import check_gri_refinement, mask_with_scl, plot_mgrs_tiles_with_aoi
-from utils.timeseries_processing import process_epsg, merge_nodata0, save_dataset_preview
+from utils.timeseries_processing import merge_nodata0, save_dataset_preview, process_epsg
 from utils.utils import mkdir, get_sys_argv, setup_logger, generate_json_files_for_composites
 
 import warnings
@@ -54,10 +57,6 @@ def generate_composite(year_month: str, tile: pd.Series):
         
         tile_id = tile.tile_ids
         log.info('#######################################################################')
-        log.info('Processing started')
-        log.info(f'        Tile: {tile_id}')
-        log.info(f'        Time: {year_month}')
-        
         
         log.info('                                 ')
         log.info('Initializing Dask cluster for parallelization')
@@ -65,12 +64,16 @@ def generate_composite(year_month: str, tile: pd.Series):
             n_workers=8, 
             threads_per_worker=1, 
             processes=False,
-            # memory_limit='4GB', 
+            memory_limit='5GB', 
             # local_directory="/tmp/dask-worker-space",
             )
         client = Client(cluster)
         configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
         log.info(f'The Dask client listens to {client.dashboard_link}')
+        
+        log.info('Processing started')
+        log.info(f'        Tile: {tile_id}')
+        log.info(f'        Time: {year_month}')
         
         
         log.info('                          ')
@@ -208,10 +211,11 @@ def generate_composite(year_month: str, tile: pd.Series):
         for stacitem in filtered_items:
             log.info(f'        {stacitem.id}')
 
-        plot_mgrs_tiles_with_aoi(filtered_items, 
-                                aoi_bbox, 
-                                save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg')
-
+        plot_mgrs_tiles_with_aoi( # It has logging in it
+            filtered_items, 
+            aoi_bbox, 
+            save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg'
+        )
 
         log.info(f'                                 ')
         log.info(f'Downstream STAC items from Planetary Computer')
@@ -239,7 +243,9 @@ def generate_composite(year_month: str, tile: pd.Series):
         baseline400_mask = ds_timeseries.time > pd.Timestamp('2022-01-25')
         if baseline400_mask.any():
             log.info('Scale SR to Sen2Cor Baseline 4.00 - Subtract 1000 in dates post 2022-01-25')
-            ds_timeseries = ds_timeseries.where(~baseline400_mask, ds_timeseries - 1000)
+            ds_timeseries = ds_timeseries.where(~baseline400_mask, ds_timeseries - 1000).astype(np.uint16)
+            for band in list(ds_timeseries.data_vars):
+                ds_timeseries[band].attrs['nodata']=np.iinfo(np.uint16).min
         else:
             del baseline400_mask
         
@@ -379,7 +385,6 @@ def generate_composite(year_month: str, tile: pd.Series):
         cluster.close()
         
         log.info(f'✓ COMPLETED: Tile {tile_id} | Time: {year_month} ✓')
-        
     except Exception as exc:
         msg=f'✗ Failed loading for : Tile {tile_id} | Time: {year_month}\nwith Exception: {exc}'
         log.error(msg)

@@ -1,0 +1,190 @@
+2025-08-16 10:51:29,668 - INFO - composites.py:59 - #######################################################################
+2025-08-16 10:51:29,668 - INFO - composites.py:61 -                                  
+2025-08-16 10:51:29,669 - INFO - composites.py:62 - Initializing Dask cluster for parallelization
+2025-08-16 10:51:30,418 - INFO - composites.py:72 - The Dask client listens to http://155.207.39.39:8787/status
+2025-08-16 10:51:30,418 - INFO - composites.py:74 - Processing started
+2025-08-16 10:51:30,418 - INFO - composites.py:75 -         Tile: x09_y07
+2025-08-16 10:51:30,418 - INFO - composites.py:76 -         Time: 2020-01
+2025-08-16 10:51:30,419 - INFO - composites.py:79 -                           
+2025-08-16 10:51:30,419 - INFO - composites.py:80 - Establishing connection to datacube
+2025-08-16 10:51:30,924 - INFO - composites.py:83 -                           
+2025-08-16 10:51:30,924 - INFO - composites.py:84 - Check if dataset already exists in the datacube
+2025-08-16 10:51:30,952 - INFO - composites.py:99 - The composite requested will be computed
+2025-08-16 10:51:30,973 - INFO - composites.py:101 - Create directories and naming conversions
+2025-08-16 10:51:30,982 - INFO - composites.py:112 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y07
+2025-08-16 10:51:30,982 - INFO - composites.py:115 -                           
+2025-08-16 10:51:30,982 - INFO - composites.py:116 - Retrieve tile geometry
+2025-08-16 10:51:31,012 - INFO - composites.py:121 - Create the Bounding Box (lat,lon)
+2025-08-16 10:51:31,012 - INFO - composites.py:127 - Create the Bounding Box (x,y)
+2025-08-16 10:51:31,012 - INFO - composites.py:140 -                           
+2025-08-16 10:51:31,012 - INFO - composites.py:141 - Connect to Planetary Computer STAC Catalog
+2025-08-16 10:51:31,288 - INFO - composites.py:149 - Search the STAC Catalog
+2025-08-16 10:51:31,453 - INFO - composites.py:161 -         Query parameters:
+2025-08-16 10:51:31,453 - INFO - composites.py:162 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-16 10:51:31,453 - INFO - composites.py:163 -             client:       microsoft-pc
+2025-08-16 10:51:31,453 - INFO - composites.py:164 -             collection:   sentinel-2-l2a
+2025-08-16 10:51:31,453 - INFO - composites.py:165 -             bbox:         (21.71333520153107, 36.50350503998516, 22.366269659639244, 37.05189725494875)
+2025-08-16 10:51:31,453 - INFO - composites.py:166 -             time range:   2024-07-01T00:00:00Z/2024-07-31T23:59:59Z
+2025-08-16 10:51:31,453 - INFO - composites.py:167 -             cloud cover:  0% - 70%
+2025-08-16 10:51:31,453 - INFO - composites.py:168 -             nodata cover: 0% - 20%
+2025-08-16 10:51:31,453 - INFO - composites.py:170 -                           
+2025-08-16 10:51:31,453 - INFO - composites.py:171 - Searching...
+2025-08-16 10:51:31,962 - INFO - composites.py:174 - Query found 27 items
+2025-08-16 10:51:31,968 - INFO - composites.py:176 - Searching for GRI REFINED scenes:
+2025-08-16 10:51:35,126 - INFO - sentinel2.py:63 - 1/27 - S2A_MSIL2A_20240731T092031_R093_T34SFG_20240731T132944 -> REFINED
+2025-08-16 10:51:38,231 - INFO - sentinel2.py:63 - 2/27 - S2A_MSIL2A_20240731T092031_R093_T34SEG_20240731T132944 -> REFINED
+2025-08-16 10:51:41,969 - INFO - sentinel2.py:63 - 3/27 - S2A_MSIL2A_20240731T092031_R093_T34SEF_20240731T153052 -> REFINED
+2025-08-16 10:51:46,205 - INFO - sentinel2.py:63 - 4/27 - S2A_MSIL2A_20240728T090601_R050_T34SFF_20240728T152859 -> REFINED
+2025-08-16 10:51:50,148 - INFO - sentinel2.py:63 - 5/27 - S2B_MSIL2A_20240726T091559_R093_T34SFG_20240726T122410 -> REFINED
+2025-08-16 10:51:53,427 - INFO - sentinel2.py:63 - 6/27 - S2B_MSIL2A_20240726T091559_R093_T34SEG_20240726T122410 -> REFINED
+2025-08-16 10:51:57,544 - INFO - sentinel2.py:63 - 7/27 - S2B_MSIL2A_20240726T091559_R093_T34SEF_20240726T122410 -> REFINED
+2025-08-16 10:52:00,590 - INFO - sentinel2.py:63 - 8/27 - S2B_MSIL2A_20240723T090559_R050_T34SFF_20240723T120201 -> REFINED
+2025-08-16 10:52:04,276 - INFO - sentinel2.py:63 - 9/27 - S2A_MSIL2A_20240721T092031_R093_T34SFG_20240721T162303 -> REFINED
+2025-08-16 10:52:07,419 - INFO - sentinel2.py:63 - 10/27 - S2A_MSIL2A_20240721T092031_R093_T34SEG_20240721T161905 -> REFINED
+2025-08-16 10:52:11,503 - INFO - sentinel2.py:63 - 11/27 - S2A_MSIL2A_20240721T092031_R093_T34SEF_20240721T161639 -> REFINED
+2025-08-16 10:52:14,922 - INFO - sentinel2.py:63 - 12/27 - S2A_MSIL2A_20240718T090551_R050_T34SFF_20240718T133931 -> REFINED
+2025-08-16 10:52:18,077 - INFO - sentinel2.py:63 - 13/27 - S2B_MSIL2A_20240716T091559_R093_T34SFG_20240716T125154 -> REFINED
+2025-08-16 10:52:21,263 - INFO - sentinel2.py:63 - 14/27 - S2B_MSIL2A_20240716T091559_R093_T34SEG_20240716T122518 -> REFINED
+2025-08-16 10:52:25,367 - INFO - sentinel2.py:63 - 15/27 - S2B_MSIL2A_20240716T091559_R093_T34SEF_20240716T125119 -> REFINED
+2025-08-16 10:52:29,213 - INFO - sentinel2.py:63 - 16/27 - S2B_MSIL2A_20240713T090559_R050_T34SFF_20240713T124111 -> REFINED
+2025-08-16 10:52:32,126 - INFO - sentinel2.py:63 - 17/27 - S2A_MSIL2A_20240711T092031_R093_T34SFG_20240711T151939 -> REFINED
+2025-08-16 10:52:35,948 - INFO - sentinel2.py:63 - 18/27 - S2A_MSIL2A_20240711T092031_R093_T34SEG_20240711T152630 -> REFINED
+2025-08-16 10:52:39,101 - INFO - sentinel2.py:63 - 19/27 - S2A_MSIL2A_20240711T092031_R093_T34SEF_20240711T152316 -> REFINED
+2025-08-16 10:52:42,812 - INFO - sentinel2.py:63 - 20/27 - S2A_MSIL2A_20240708T090601_R050_T34SFF_20240708T132854 -> REFINED
+2025-08-16 10:52:46,673 - INFO - sentinel2.py:63 - 21/27 - S2B_MSIL2A_20240706T091559_R093_T34SFG_20240706T133943 -> REFINED
+2025-08-16 10:52:49,755 - INFO - sentinel2.py:63 - 22/27 - S2B_MSIL2A_20240706T091559_R093_T34SEG_20240706T134613 -> REFINED
+2025-08-16 10:52:52,762 - INFO - sentinel2.py:63 - 23/27 - S2B_MSIL2A_20240706T091559_R093_T34SEF_20240706T134308 -> REFINED
+2025-08-16 10:52:55,690 - INFO - sentinel2.py:63 - 24/27 - S2B_MSIL2A_20240703T090559_R050_T34SFF_20240703T133914 -> REFINED
+2025-08-16 10:52:59,720 - INFO - sentinel2.py:63 - 25/27 - S2A_MSIL2A_20240701T092031_R093_T34SFG_20240702T001203 -> REFINED
+2025-08-16 10:53:02,755 - INFO - sentinel2.py:63 - 26/27 - S2A_MSIL2A_20240701T092031_R093_T34SEG_20240702T001300 -> REFINED
+2025-08-16 10:53:06,744 - INFO - sentinel2.py:63 - 27/27 - S2A_MSIL2A_20240701T092031_R093_T34SEF_20240702T001143 -> REFINED
+2025-08-16 10:53:06,777 - INFO - composites.py:179 -                                  
+2025-08-16 10:53:06,783 - INFO - composites.py:180 - 27/27 were refined by GRI.
+2025-08-16 10:53:06,784 - INFO - composites.py:192 - Looking for up to 10 cleanest images within spatiotemporal range
+2025-08-16 10:53:06,784 - INFO - composites.py:206 - Filtered cleanest scenes: Kept 27 out of 27 items. 
+2025-08-16 10:53:06,784 - INFO - composites.py:207 -         Included MGRS Tiles: ['34SEF' '34SEG' '34SFF' '34SFG']
+2025-08-16 10:53:06,785 - INFO - composites.py:208 -         Included EPSG codes: [32634]
+2025-08-16 10:53:06,785 - INFO - composites.py:210 - Selected scenes:
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240721T092031_R093_T34SEF_20240721T161639
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240706T091559_R093_T34SEF_20240706T134308
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240731T092031_R093_T34SEF_20240731T153052
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240711T092031_R093_T34SEF_20240711T152316
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240716T091559_R093_T34SEF_20240716T125119
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240701T092031_R093_T34SEF_20240702T001143
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240726T091559_R093_T34SEF_20240726T122410
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240701T092031_R093_T34SEG_20240702T001300
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240716T091559_R093_T34SEG_20240716T122518
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240721T092031_R093_T34SEG_20240721T161905
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240706T091559_R093_T34SEG_20240706T134613
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240711T092031_R093_T34SEG_20240711T152630
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240731T092031_R093_T34SEG_20240731T132944
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240726T091559_R093_T34SEG_20240726T122410
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240708T090601_R050_T34SFF_20240708T132854
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240728T090601_R050_T34SFF_20240728T152859
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240718T090551_R050_T34SFF_20240718T133931
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240723T090559_R050_T34SFF_20240723T120201
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240703T090559_R050_T34SFF_20240703T133914
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240713T090559_R050_T34SFF_20240713T124111
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240716T091559_R093_T34SFG_20240716T125154
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240711T092031_R093_T34SFG_20240711T151939
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240731T092031_R093_T34SFG_20240731T132944
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240701T092031_R093_T34SFG_20240702T001203
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240706T091559_R093_T34SFG_20240706T133943
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2A_MSIL2A_20240721T092031_R093_T34SFG_20240721T162303
+2025-08-16 10:53:06,785 - INFO - composites.py:212 -         S2B_MSIL2A_20240726T091559_R093_T34SFG_20240726T122410
+2025-08-16 10:53:07,549 - INFO - sentinel2.py:205 - Write input scenes footprint overlay: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y07/S2L2A_medcomp_x09_y07_202001_InDataFootprint.jpeg
+2025-08-16 10:53:07,813 - INFO - composites.py:220 -                                  
+2025-08-16 10:53:07,813 - INFO - composites.py:221 - Downstream STAC items from Planetary Computer
+2025-08-16 10:53:07,813 - INFO - timeseries_processing.py:16 -                                  
+2025-08-16 10:53:07,813 - INFO - timeseries_processing.py:17 - Loading bands of diferent resolutions in EPSG:32634
+2025-08-16 10:53:07,813 - INFO - timeseries_processing.py:21 -     Filtering items with native UTM EPSG:32634
+2025-08-16 10:53:07,814 - INFO - timeseries_processing.py:23 -     27 Items in EPSG:32634
+2025-08-16 10:53:07,814 - INFO - timeseries_processing.py:30 -                        
+2025-08-16 10:53:07,814 - INFO - timeseries_processing.py:31 -     Loading parameters:
+2025-08-16 10:53:07,814 - INFO - timeseries_processing.py:32 -         Bands: ['B05', 'B07', 'B8A', 'SCL']
+2025-08-16 10:53:07,814 - INFO - timeseries_processing.py:33 -         Spatial resolution: 20
+2025-08-16 10:53:28,189 - INFO - timeseries_processing.py:57 -         Fix order of dimensions
+2025-08-16 10:53:28,191 - INFO - timeseries_processing.py:62 -         Append bands to the band-list of EPSG:32634
+2025-08-16 10:53:28,191 - INFO - timeseries_processing.py:30 -                        
+2025-08-16 10:53:28,191 - INFO - timeseries_processing.py:31 -     Loading parameters:
+2025-08-16 10:53:28,191 - INFO - timeseries_processing.py:32 -         Bands: ['B02', 'B03', 'B04']
+2025-08-16 10:53:28,191 - INFO - timeseries_processing.py:33 -         Spatial resolution: 10
+2025-08-16 10:54:47,043 - INFO - timeseries_processing.py:51 -         Downsample 10m bands to 20m by average 2x2 binning
+2025-08-16 10:55:03,790 - INFO - timeseries_processing.py:54 -         Warp (reproject) 2x2 binned bands like native 20m bands: method=bilinear
+2025-08-16 10:55:14,163 - INFO - timeseries_processing.py:62 -         Append bands to the band-list of EPSG:32634
+2025-08-16 10:55:14,163 - INFO - timeseries_processing.py:66 -                        
+2025-08-16 10:55:14,163 - INFO - timeseries_processing.py:67 -     Merging bands in a single dataset
+2025-08-16 10:55:14,163 - INFO - timeseries_processing.py:68 -     Ensure all partial datasets are at (x=20, y=-20) resolution
+2025-08-16 10:55:14,164 - INFO - timeseries_processing.py:72 -     Clip to the intersection of indexes
+2025-08-16 10:55:15,247 - INFO - timeseries_processing.py:81 -     Make a list of bands to merge
+2025-08-16 10:55:15,249 - INFO - timeseries_processing.py:85 -     Merge on intersection
+2025-08-16 10:55:15,250 - INFO - timeseries_processing.py:93 -     Apply masks on clouds, shadows, thin cirrus, and snow/ice
+2025-08-16 10:55:15,250 - INFO - sentinel2.py:107 -                 Masking bits: [3, 7, 8, 9, 10, 11]
+2025-08-16 10:55:17,010 - INFO - timeseries_processing.py:99 -     Reproject to Tiling Schema projection EPSG:3035
+2025-08-16 10:55:33,479 - INFO - composites.py:230 - Clip and align to tile geometry
+2025-08-16 10:55:37,595 - INFO - composites.py:245 - Scale SR to Sen2Cor Baseline 4.00 - Subtract 1000 in dates post 2022-01-25
+2025-08-16 10:55:39,117 - INFO - composites.py:253 - ////Clearing up space////
+2025-08-16 10:55:39,432 - INFO - composites.py:257 - Creating preview plot of input scenes
+2025-08-16 10:56:23,895 - INFO - timeseries_processing.py:245 - Saved preview for 'B04' to //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y07/S2L2A_medcomp_x09_y07_202001_InDataPreview.jpeg
+2025-08-16 10:56:23,895 - INFO - composites.py:264 - Clip value range
+2025-08-16 10:56:25,107 - INFO - composites.py:271 -                           
+2025-08-16 10:56:25,107 - INFO - composites.py:272 - Computing spectral indices:
+2025-08-16 10:56:25,107 - INFO - composites.py:275 -     EVI...
+2025-08-16 10:56:25,116 - INFO - composites.py:277 -     NDVI...
+2025-08-16 10:56:25,119 - INFO - composites.py:279 -     PSRI2...
+2025-08-16 10:56:25,122 - INFO - composites.py:282 - Clip to typical value range
+2025-08-16 10:56:25,135 - INFO - composites.py:289 - Reducing to median value temporal composite
+2025-08-16 11:04:44,686 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294794' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,689 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294792' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,690 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294799' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,690 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294796' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,690 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294793' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,690 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294798' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,691 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294797' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,691 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294795' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit
+2025-08-16 11:04:44,691 - ERROR - base_events.py:1826 - Task exception was never retrieved
+future: <Task finished name='Task-294800' coro=<Client._gather.<locals>.wait() done, defined at C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py:2371> exception=AllExit()>
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\distributed\client.py", line 2380, in wait
+    raise AllExit()
+distributed.client.AllExit

@@ -9,11 +9,8 @@ import pandas as pd
 
 
 import geopandas as gpd
-import matplotlib.pyplot as plt
 import numpy as np
 from shapely.geometry import box
-from matplotlib.patches import Patch
-from matplotlib.lines import Line2D
 
 
 def check_gri_refinement(items: List[pystac.Item]) -> Tuple[List[pystac.Item], pd.DataFrame]:
@@ -107,7 +104,7 @@ def mask_with_scl(ds, bands):
     # - 10: thin cirrus
     # - 11: snow or ice
     invalid_scl_values = [3, 7, 8, 9, 10, 11]
-    logging.info(f'                Masking bits: {invalid_scl_values}')
+    logging.info(f'               Masking bits: {invalid_scl_values}')
     cloud_binary_mask = ds.SCL.isin(invalid_scl_values)
 
     bands.remove('SCL')    
@@ -116,7 +113,7 @@ def mask_with_scl(ds, bands):
     return ds
 
 
-def plot_mgrs_tiles_with_aoi(filtered_items, aoi_bbox, save_path=None):
+def plot_mgrs_tiles_with_aoi(filtered_items, aoi_bbox, save_path=None):    
     # https://gist.github.com/scottyhq/ed8247f3ae1d42543f7bbfb02a5fa8ad
     """
     Plot MGRS tiles from a STAC ItemCollection with an AOI bbox overlay.
@@ -133,6 +130,13 @@ def plot_mgrs_tiles_with_aoi(filtered_items, aoi_bbox, save_path=None):
         If None, plot will be displayed in the current cell.
         If a string, the plot will be saved at that location (JPEG, 300 DPI).
     """
+    
+    import matplotlib
+    matplotlib.use("Agg", force=True)    # ensure no Tk
+    import matplotlib.pyplot as plt       # import AFTER forcing backend
+    from matplotlib.patches import Patch
+    from matplotlib.lines import Line2D
+    logging.info("Matplotlib backend: %s", matplotlib.get_backend())
 
     # --- STAC items -> GeoDataFrame ---
     if not isinstance(filtered_items, pystac.ItemCollection):
@@ -188,7 +192,8 @@ def plot_mgrs_tiles_with_aoi(filtered_items, aoi_bbox, save_path=None):
     )
 
     # Title & axes styling
-    ax.set_title("Tiles Included in the composite (WGS84)", fontsize=14, fontweight="bold")
+    componame = save_path.split('/')[-1].split('_InDataFootprint.jpeg')[0]
+    ax.set_title(f"Tiles Included in the composite {componame} (WGS84)", fontsize=14, fontweight="bold")
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
     ax.set_aspect('equal')

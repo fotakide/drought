@@ -65,7 +65,7 @@ def generate_json_files_for_composites(
         with open(file_path, "w") as f:
             json.dump(data, f, indent=4)
         
-        print(f"Saved: {file_path}")
+        # print(f"Saved: {file_path}")
         
         # Move to the next month
         current_date += datetime.timedelta(days=32)
