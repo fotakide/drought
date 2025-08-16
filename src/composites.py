@@ -81,7 +81,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         dc = datacube.Datacube(app='Composite generation', env='drought')
         
         log.info('                          ')
-        log.info('Check if dataset already exists in the datacube')
+        log.info('Sanity test: Check if dataset already exists in the datacube')
         find_ds_in_sc = dc.find_datasets(
             **dict(
                 product='composites',
@@ -92,8 +92,8 @@ def generate_composite(year_month: str, tile: pd.Series):
         )
             
         if find_ds_in_sc:
-            msg = f"This composite already exists in {find_ds_in_sc[0].uri} | Continuing."
-            log.warning(msg)
+            log.warning(f"This composite already exists in {find_ds_in_sc[0].uri}")
+            log.warning("The composite is skipped. Exit function. Continuing to next.")
             return
         else:
             log.info("The composite requested will be computed")
@@ -118,7 +118,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         minl, minf, maxl, maxf = tile.geometry.bounds
         minx, miny, maxx, maxy = geom.total_bounds
 
-        log.info('Create the Bounding Box (lat,lon)')
+        log.info('Create the Bounding Box (φ,λ)')
         aoi_bbox = BoundingBox.from_xy(
             (minl, maxl),
             (minf, maxf)
