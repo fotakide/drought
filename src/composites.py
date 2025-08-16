@@ -58,27 +58,6 @@ def generate_composite(year_month: str, tile: pd.Series):
         tile_id = tile.tile_ids
         log.info('#######################################################################')
         
-        log.info('                                 ')
-        log.info('Initializing Dask cluster for parallelization')
-        cluster = LocalCluster(
-            n_workers=8, 
-            threads_per_worker=1, 
-            processes=True,
-            memory_limit='3.5GiB', 
-            # local_directory="/tmp/dask-worker-space",
-            )
-        client = Client(cluster)
-        
-        client.run(lambda: __import__("dask").config.set({
-            "distributed.worker.memory.target": 0.60,
-            "distributed.worker.memory.spill": 0.70,
-            "distributed.worker.memory.pause": 0.80,
-            "distributed.worker.memory.terminate": 0.95,
-        }))
-        
-        configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
-        log.info(f'The Dask client listens to {client.dashboard_link}')
-        
         log.info('Processing started')
         log.info(f'        Tile: {tile_id}')
         log.info(f'        Time: {year_month}')
@@ -105,12 +84,33 @@ def generate_composite(year_month: str, tile: pd.Series):
             log.info(f'')
             log.info(f'             !!! SKIPPED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
             log.info(f'')
-            client.close()
-            cluster.close()
             return
         else:
             log.info("The composite requested will be computed")
-            
+        
+        
+        log.info('                                 ')
+        log.info('Initializing Dask cluster for parallelization')
+        cluster = LocalCluster(
+            n_workers=8, 
+            threads_per_worker=1, 
+            processes=True,
+            memory_limit='3.5GiB', 
+            # local_directory="/tmp/dask-worker-space",
+            )
+        client = Client(cluster)
+        
+        client.run(lambda: __import__("dask").config.set({
+            "distributed.worker.memory.target": 0.60,
+            "distributed.worker.memory.spill": 0.70,
+            "distributed.worker.memory.pause": 0.80,
+            "distributed.worker.memory.terminate": 0.95,
+        }))
+        
+        configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
+        log.info(f'The Dask client listens to {client.dashboard_link}')
+        
+        
         log.info('Create directories and naming conversions')   
         yyyy = year_month[0:4]
         mm1 = year_month[5:8]     

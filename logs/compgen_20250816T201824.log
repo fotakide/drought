@@ -1,0 +1,273 @@
+2025-08-16 20:18:24,733 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:24,733 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:24,733 - INFO - composites.py:62 -         Tile: x09_y07
+2025-08-16 20:18:24,733 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:24,733 - INFO - composites.py:66 -                           
+2025-08-16 20:18:24,733 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,400 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,400 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,417 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y07/S2L2A_medcomp_x09_y07_202001.odc-metadata.yaml
+2025-08-16 20:18:25,417 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,417 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,417 - INFO - composites.py:85 -              !!! SKIPPED: Tile x09_y07 | Time: 2020-01 | In 0.01 minutes
+2025-08-16 20:18:25,417 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,417 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,417 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,417 - INFO - composites.py:62 -         Tile: x10_y07
+2025-08-16 20:18:25,417 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,417 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,418 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,447 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,447 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,460 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x10_y07/S2L2A_medcomp_x10_y07_202001.odc-metadata.yaml
+2025-08-16 20:18:25,461 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,461 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,461 - INFO - composites.py:85 -              !!! SKIPPED: Tile x10_y07 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,461 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,461 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,461 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,461 - INFO - composites.py:62 -         Tile: x09_y08
+2025-08-16 20:18:25,461 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,461 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,461 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,492 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,492 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,506 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y08/S2L2A_medcomp_x09_y08_202001.odc-metadata.yaml
+2025-08-16 20:18:25,506 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,506 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,506 - INFO - composites.py:85 -              !!! SKIPPED: Tile x09_y08 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,506 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,506 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,506 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,506 - INFO - composites.py:62 -         Tile: x10_y08
+2025-08-16 20:18:25,506 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,506 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,506 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,539 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,539 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,553 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x10_y08/S2L2A_medcomp_x10_y08_202001.odc-metadata.yaml
+2025-08-16 20:18:25,553 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,553 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,553 - INFO - composites.py:85 -              !!! SKIPPED: Tile x10_y08 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,553 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,554 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,554 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,554 - INFO - composites.py:62 -         Tile: x11_y08
+2025-08-16 20:18:25,554 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,554 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,554 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,586 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,586 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,606 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x11_y08/S2L2A_medcomp_x11_y08_202001.odc-metadata.yaml
+2025-08-16 20:18:25,606 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,606 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,606 - INFO - composites.py:85 -              !!! SKIPPED: Tile x11_y08 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,606 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,606 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,606 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,606 - INFO - composites.py:62 -         Tile: x09_y09
+2025-08-16 20:18:25,606 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,606 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,606 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,638 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,638 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,653 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y09/S2L2A_medcomp_x09_y09_202001.odc-metadata.yaml
+2025-08-16 20:18:25,653 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,653 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,653 - INFO - composites.py:85 -              !!! SKIPPED: Tile x09_y09 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,653 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,653 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,653 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,653 - INFO - composites.py:62 -         Tile: x10_y09
+2025-08-16 20:18:25,653 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,653 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,653 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,684 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,684 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,697 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x10_y09/S2L2A_medcomp_x10_y09_202001.odc-metadata.yaml
+2025-08-16 20:18:25,697 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,697 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,698 - INFO - composites.py:85 -              !!! SKIPPED: Tile x10_y09 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,698 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,698 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,698 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,698 - INFO - composites.py:62 -         Tile: x06_y10
+2025-08-16 20:18:25,698 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,698 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,698 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,726 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,726 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,739 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x06_y10/S2L2A_medcomp_x06_y10_202001.odc-metadata.yaml
+2025-08-16 20:18:25,739 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,739 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,739 - INFO - composites.py:85 -              !!! SKIPPED: Tile x06_y10 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,739 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,739 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,739 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,739 - INFO - composites.py:62 -         Tile: x08_y10
+2025-08-16 20:18:25,739 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,739 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,740 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,771 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,771 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,786 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x08_y10/S2L2A_medcomp_x08_y10_202001.odc-metadata.yaml
+2025-08-16 20:18:25,786 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,786 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,786 - INFO - composites.py:85 -              !!! SKIPPED: Tile x08_y10 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,786 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,787 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,787 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,787 - INFO - composites.py:62 -         Tile: x09_y10
+2025-08-16 20:18:25,787 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,787 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,787 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,818 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,818 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,830 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y10/S2L2A_medcomp_x09_y10_202001.odc-metadata.yaml
+2025-08-16 20:18:25,830 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,830 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,830 - INFO - composites.py:85 -              !!! SKIPPED: Tile x09_y10 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,830 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,831 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,831 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,831 - INFO - composites.py:62 -         Tile: x10_y10
+2025-08-16 20:18:25,831 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,831 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,831 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,867 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,867 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,883 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x10_y10/S2L2A_medcomp_x10_y10_202001.odc-metadata.yaml
+2025-08-16 20:18:25,883 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,883 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,883 - INFO - composites.py:85 -              !!! SKIPPED: Tile x10_y10 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,883 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,883 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,883 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,883 - INFO - composites.py:62 -         Tile: x11_y10
+2025-08-16 20:18:25,883 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,883 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,883 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,913 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,913 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,927 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x11_y10/S2L2A_medcomp_x11_y10_202001.odc-metadata.yaml
+2025-08-16 20:18:25,927 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,927 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,927 - INFO - composites.py:85 -              !!! SKIPPED: Tile x11_y10 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,927 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,927 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,927 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,927 - INFO - composites.py:62 -         Tile: x08_y11
+2025-08-16 20:18:25,927 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,927 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,927 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:25,957 - INFO - composites.py:70 -                           
+2025-08-16 20:18:25,958 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:25,972 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x08_y11/S2L2A_medcomp_x08_y11_202001.odc-metadata.yaml
+2025-08-16 20:18:25,972 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:25,973 - INFO - composites.py:84 - 
+2025-08-16 20:18:25,973 - INFO - composites.py:85 -              !!! SKIPPED: Tile x08_y11 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:25,973 - INFO - composites.py:86 - 
+2025-08-16 20:18:25,973 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:25,973 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:25,973 - INFO - composites.py:62 -         Tile: x09_y11
+2025-08-16 20:18:25,973 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:25,973 - INFO - composites.py:66 -                           
+2025-08-16 20:18:25,973 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:26,004 - INFO - composites.py:70 -                           
+2025-08-16 20:18:26,004 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:26,025 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y11/S2L2A_medcomp_x09_y11_202001.odc-metadata.yaml
+2025-08-16 20:18:26,025 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:26,025 - INFO - composites.py:84 - 
+2025-08-16 20:18:26,025 - INFO - composites.py:85 -              !!! SKIPPED: Tile x09_y11 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:26,025 - INFO - composites.py:86 - 
+2025-08-16 20:18:26,025 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:26,025 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:26,025 - INFO - composites.py:62 -         Tile: x10_y11
+2025-08-16 20:18:26,025 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:26,025 - INFO - composites.py:66 -                           
+2025-08-16 20:18:26,025 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:26,059 - INFO - composites.py:70 -                           
+2025-08-16 20:18:26,059 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:26,076 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x10_y11/S2L2A_medcomp_x10_y11_202001.odc-metadata.yaml
+2025-08-16 20:18:26,076 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:26,076 - INFO - composites.py:84 - 
+2025-08-16 20:18:26,076 - INFO - composites.py:85 -              !!! SKIPPED: Tile x10_y11 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:26,076 - INFO - composites.py:86 - 
+2025-08-16 20:18:26,077 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:26,077 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:26,077 - INFO - composites.py:62 -         Tile: x12_y11
+2025-08-16 20:18:26,077 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:26,077 - INFO - composites.py:66 -                           
+2025-08-16 20:18:26,077 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:26,216 - INFO - composites.py:70 -                           
+2025-08-16 20:18:26,216 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:26,229 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x12_y11/S2L2A_medcomp_x12_y11_202001.odc-metadata.yaml
+2025-08-16 20:18:26,229 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:26,229 - INFO - composites.py:84 - 
+2025-08-16 20:18:26,229 - INFO - composites.py:85 -              !!! SKIPPED: Tile x12_y11 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:26,229 - INFO - composites.py:86 - 
+2025-08-16 20:18:26,229 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:26,229 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:26,229 - INFO - composites.py:62 -         Tile: x08_y12
+2025-08-16 20:18:26,230 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:26,230 - INFO - composites.py:66 -                           
+2025-08-16 20:18:26,230 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:26,266 - INFO - composites.py:70 -                           
+2025-08-16 20:18:26,266 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:26,280 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x08_y12/S2L2A_medcomp_x08_y12_202001.odc-metadata.yaml
+2025-08-16 20:18:26,280 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:26,280 - INFO - composites.py:84 - 
+2025-08-16 20:18:26,280 - INFO - composites.py:85 -              !!! SKIPPED: Tile x08_y12 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:26,281 - INFO - composites.py:86 - 
+2025-08-16 20:18:26,281 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:26,281 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:26,281 - INFO - composites.py:62 -         Tile: x09_y12
+2025-08-16 20:18:26,281 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:26,281 - INFO - composites.py:66 -                           
+2025-08-16 20:18:26,281 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:26,313 - INFO - composites.py:70 -                           
+2025-08-16 20:18:26,313 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:26,326 - WARNING - composites.py:82 - This composite already exists in file://///nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x09_y12/S2L2A_medcomp_x09_y12_202001.odc-metadata.yaml
+2025-08-16 20:18:26,326 - WARNING - composites.py:83 - The composite is skipped. Exit function. Continuing to next.
+2025-08-16 20:18:26,326 - INFO - composites.py:84 - 
+2025-08-16 20:18:26,326 - INFO - composites.py:85 -              !!! SKIPPED: Tile x09_y12 | Time: 2020-01 | In 0.0 minutes
+2025-08-16 20:18:26,326 - INFO - composites.py:86 - 
+2025-08-16 20:18:26,327 - INFO - composites.py:59 - #######################################################################
+2025-08-16 20:18:26,327 - INFO - composites.py:61 - Processing started
+2025-08-16 20:18:26,327 - INFO - composites.py:62 -         Tile: x11_y12
+2025-08-16 20:18:26,327 - INFO - composites.py:63 -         Time: 2020-01
+2025-08-16 20:18:26,327 - INFO - composites.py:66 -                           
+2025-08-16 20:18:26,327 - INFO - composites.py:67 - Establishing connection to datacube
+2025-08-16 20:18:26,358 - INFO - composites.py:70 -                           
+2025-08-16 20:18:26,358 - INFO - composites.py:71 - Sanity test: Check if dataset already exists in the datacube
+2025-08-16 20:18:26,372 - INFO - composites.py:89 - The composite requested will be computed
+2025-08-16 20:18:26,372 - INFO - composites.py:92 -                                  
+2025-08-16 20:18:26,372 - INFO - composites.py:93 - Initializing Dask cluster for parallelization
+2025-08-16 20:18:32,455 - INFO - composites.py:111 - The Dask client listens to http://127.0.0.1:8787/status
+2025-08-16 20:18:32,455 - INFO - composites.py:114 - Create directories and naming conversions
+2025-08-16 20:18:32,465 - INFO - composites.py:125 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/01/x11_y12
+2025-08-16 20:18:32,465 - INFO - composites.py:128 -                           
+2025-08-16 20:18:32,465 - INFO - composites.py:129 - Retrieve tile geometry
+2025-08-16 20:18:32,495 - INFO - composites.py:134 - Create the Bounding Box (φ,λ)
+2025-08-16 20:18:32,495 - INFO - composites.py:140 - Create the Bounding Box (x,y)
+2025-08-16 20:18:32,495 - INFO - composites.py:153 -                           
+2025-08-16 20:18:32,495 - INFO - composites.py:154 - Connect to Planetary Computer STAC Catalog
+2025-08-16 20:18:32,780 - INFO - composites.py:162 - Search the STAC Catalog
+2025-08-16 20:18:32,851 - INFO - composites.py:174 -         Query parameters:
+2025-08-16 20:18:32,851 - INFO - composites.py:175 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-16 20:18:32,851 - INFO - composites.py:176 -             client:       microsoft-pc
+2025-08-16 20:18:32,851 - INFO - composites.py:177 -             collection:   sentinel-2-l2a
+2025-08-16 20:18:32,851 - INFO - composites.py:178 -             bbox:         (23.175099953185697, 38.50017402535158, 23.855798034177884, 39.054471826094584)
+2025-08-16 20:18:32,851 - INFO - composites.py:179 -             time range:   2020-01-01T00:00:00Z/2020-01-31T23:59:59Z
+2025-08-16 20:18:32,851 - INFO - composites.py:180 -             cloud cover:  0% - 70%
+2025-08-16 20:18:32,851 - INFO - composites.py:181 -             nodata cover: 0% - 33%
+2025-08-16 20:18:32,851 - INFO - composites.py:183 -                           
+2025-08-16 20:18:32,851 - INFO - composites.py:184 - Searching...
+2025-08-16 20:18:33,342 - INFO - composites.py:187 - Query found 24 items
+2025-08-16 20:18:33,342 - INFO - composites.py:189 - Searching for GRI REFINED scenes:
+2025-08-16 20:18:37,979 - INFO - sentinel2.py:63 - 1/24 - S2A_MSIL2A_20200131T091231_R050_T35SKD_20201002T161015 -> Not Found
+2025-08-16 20:18:41,813 - INFO - sentinel2.py:63 - 2/24 - S2A_MSIL2A_20200131T091231_R050_T35SKC_20201002T161015 -> Not Found
+2025-08-16 20:18:46,339 - INFO - sentinel2.py:63 - 3/24 - S2A_MSIL2A_20200131T091231_R050_T34SGJ_20201002T161005 -> Not Found
+2025-08-16 20:18:51,088 - INFO - sentinel2.py:63 - 4/24 - S2A_MSIL2A_20200131T091231_R050_T34SGH_20201002T161010 -> Not Found
+2025-08-16 20:18:54,691 - INFO - sentinel2.py:63 - 5/24 - S2B_MSIL2A_20200126T091139_R050_T35SKD_20201002T114901 -> Not Found
+2025-08-16 20:18:59,231 - INFO - sentinel2.py:63 - 6/24 - S2B_MSIL2A_20200126T091139_R050_T34SGJ_20201002T114858 -> Not Found
