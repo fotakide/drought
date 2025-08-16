@@ -236,7 +236,7 @@ def generate_composite(year_month: str, tile: pd.Series):
             log.info(f'Mosaic datasets of different native UTM zones to a single dataset')
             ds_timeseries = merge_nodata0(processed_epsgs_to_tile, vars_mode="intersection", method="mean", chunks=None)
         else:
-            ds_timeseries = processed_epsgs[0]
+            ds_timeseries = processed_epsgs_to_tile[0]
         
         
         # https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a#Baseline-Change
