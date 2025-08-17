@@ -6,6 +6,9 @@
 /wiki_img/*.svg
 !/wiki_img/Grid.jpg
 
+/geojsons
+/jsons
+
 /notebooks/S2B*
 /notebooks/debug*
 

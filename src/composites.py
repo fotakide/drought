@@ -18,6 +18,7 @@ from dea_tools.spatial import xr_rasterize
 
 import geopandas as gpd
 from odc.geo.geom import BoundingBox
+from shapely.geometry import shape as shapely_shape
 
 import pystac_client
 import odc.stac
@@ -30,45 +31,62 @@ from urllib3 import Retry
 
 from distributed import LocalCluster, Client
 
-import gc
+import gc 
 import json
-import datetime
-import pytz
+import datetime, pytz
 from pathlib import Path
-import time
+import time, logging
 
 from utils.metadata import prepare_eo3_metadata_NAS
 from utils.sentinel2 import check_gri_refinement, plot_mgrs_tiles_with_aoi
 from utils.timeseries_processing import merge_nodata0, save_dataset_preview, process_epsg
-from utils.utils import mkdir, setup_logger, generate_json_files_for_composites
+from utils.utils import mkdir, setup_logger, generate_geojson_files_for_composites
 
 import warnings
 warnings.filterwarnings("ignore")
 
 
-def generate_composite(year_month: str, tile: pd.Series):
+def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
+    """
+    Parameters
+    ----------
+    year_month : str
+        Year–month string in the format "YYYY-MM" (e.g., "2020-01").
+    tile_id : str
+        Identifier of the tile (e.g., "x09_y07").
+    tile_geom : dict or shapely geometry
+        Tile geometry in one of the following formats:
+          - GeoJSON geometry dict (as stored in your .geojson files, e.g.:
+            {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [21.8109, 37.0269],
+                        [21.73834, 36.5964],
+                        ...
+                    ]
+                ]
+            }
+          )
+          - A shapely geometry object (Polygon, MultiPolygon, etc.).
+    """
+    
     try:
         start_time = time.time()
-        # Set up logger.
-        log = setup_logger(logger_name='compgen_',
-                                    logger_path=f'../logs/compgen_{datetime.datetime.now(pytz.timezone("Europe/Athens")).strftime("%Y%m%dT%H%M%S")}.log', 
-                                    logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
-                                    )
         
-        tile_id = tile.tile_ids
-        log.info('#######################################################################')
+        logging.info('#######################################################################')
         
-        log.info('Processing started')
-        log.info(f'        Tile: {tile_id}')
-        log.info(f'        Time: {year_month}')
+        logging.info('Processing started')
+        logging.info(f'        Tile: {tile_id}')
+        logging.info(f'        Time: {year_month}')
         
         
-        log.info('                          ')
-        log.info('Establishing connection to datacube')
+        logging.info('                          ')
+        logging.info('Establishing connection to datacube')
         dc = datacube.Datacube(app='Composite generation', env='drought')
         
-        log.info('                          ')
-        log.info('Sanity test: Check if dataset already exists in the datacube')
+        logging.info('                          ')
+        logging.info('Sanity test: Check if dataset already exists in the datacube')
         find_ds_in_sc = dc.find_datasets(
             **dict(
                 product='composites',
@@ -79,18 +97,18 @@ def generate_composite(year_month: str, tile: pd.Series):
         )
             
         if find_ds_in_sc:
-            log.warning(f"This composite already exists in {find_ds_in_sc[0].uri}")
-            log.warning("The composite is skipped. Exit function. Continuing to next.")
-            log.info(f'')
-            log.info(f'             !!! SKIPPED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
-            log.info(f'')
+            logging.warning(f"This composite already exists in {find_ds_in_sc[0].uri}")
+            logging.warning("The composite is skipped. Exit function. Continuing to next.")
+            logging.info(f'')
+            logging.info(f'             !!! SKIPPED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
+            logging.info(f'')
             return
         else:
-            log.info("The composite requested will be computed")
+            logging.info("The composite requested will be computed")
         
         
-        log.info('                                 ')
-        log.info('Initializing Dask cluster for parallelization')
+        logging.info('                                 ')
+        logging.info('Initializing Dask cluster for parallelization')
         cluster = LocalCluster(
             n_workers=8, 
             threads_per_worker=1, 
@@ -108,10 +126,10 @@ def generate_composite(year_month: str, tile: pd.Series):
         }))
         
         configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
-        log.info(f'The Dask client listens to {client.dashboard_link}')
+        logging.info(f'The Dask client listens to {client.dashboard_link}')
         
         
-        log.info('Create directories and naming conversions')   
+        logging.info('Create directories and naming conversions')   
         yyyy = year_month[0:4]
         mm1 = year_month[5:8]     
         NASROOT='//nas-rs.topo.auth.gr/Latomeia/DROUGHT'
@@ -122,22 +140,28 @@ def generate_composite(year_month: str, tile: pd.Series):
         mkdir(collection_path)
         eo3_path = f'{collection_path}/{DATASET}.odc-metadata.yaml'
         stac_path = f'{collection_path}/{DATASET}.stac-metadata.json'
-        log.info(f'Dataset location: {collection_path}')
+        logging.info(f'Dataset location: {collection_path}')
         
         
-        log.info('                          ')
-        log.info('Retrieve tile geometry')
-        geom = gpd.GeoSeries([tile.geometry], crs='EPSG:4326').to_crs(epsg=3035)
-        minl, minf, maxl, maxf = tile.geometry.bounds
-        minx, miny, maxx, maxy = geom.total_bounds
+        logging.info('                          ')
+        logging.info('Retrieve tile geometry')
+        # # Ensure shapely geometry
+        if isinstance(tile_geom, dict): 
+            geom_ll = shapely_shape(tile_geom)   
+        else:
+            geom_ll = tile_geom   
+        geom_3035 = gpd.GeoSeries([geom_ll], crs="EPSG:4326").to_crs(epsg=3035)
+        
+        minl, minf, maxl, maxf = geom_ll.bounds
+        minx, miny, maxx, maxy = geom_3035.total_bounds
 
-        log.info('Create the Bounding Box (φ,λ)')
+        logging.info('Create the Bounding Box (φ,λ)')
         aoi_bbox = BoundingBox.from_xy(
             (minl, maxl),
             (minf, maxf)
         ).buffered(xbuff=0.025, ybuff=0.025)
 
-        log.info('Create the Bounding Box (x,y)')
+        logging.info('Create the Bounding Box (x,y)')
         tile_bbox = BoundingBox.from_xy(
             (minx, maxx),
             (miny, maxy),
@@ -150,8 +174,8 @@ def generate_composite(year_month: str, tile: pd.Series):
         )
 
         
-        log.info('                          ')
-        log.info('Connect to Planetary Computer STAC Catalog')
+        logging.info('                          ')
+        logging.info('Connect to Planetary Computer STAC Catalog')
         stac_api_io = StacApiIO(max_retries=Retry(total=5, backoff_factor=5))
         catalog = pystac_client.Client.open(
             "https://planetarycomputer.microsoft.com/api/stac/v1",
@@ -159,7 +183,7 @@ def generate_composite(year_month: str, tile: pd.Series):
             stac_io=stac_api_io
         )
         
-        log.info('Search the STAC Catalog')
+        logging.info('Search the STAC Catalog')
         cloud_cover = 70
         search = catalog.search(
             collections=["sentinel-2-l2a"], #hls2-s30
@@ -171,38 +195,38 @@ def generate_composite(year_month: str, tile: pd.Series):
                 "s2:nodata_pixel_percentage": {"lt":33},
             },
         )
-        log.info('        Query parameters:')
-        log.info(f'            url:          {search.url}')
-        log.info(f'            client:       {search.client.id}')
-        log.info(f'            collection:   {search._parameters['collections'][0]}')
-        log.info(f'            bbox:         {search._parameters['bbox']}')
-        log.info(f'            time range:   {search._parameters['datetime']}')
-        log.info(f'            cloud cover:  0% - {search._parameters['query']['eo:cloud_cover']['lt']}%')
-        log.info(f'            nodata cover: 0% - {search._parameters['query']['s2:nodata_pixel_percentage']['lt']}%')
+        logging.info('        Query parameters:')
+        logging.info(f'            url:          {search.url}')
+        logging.info(f'            client:       {search.client.id}')
+        logging.info(f'            collection:   {search._parameters['collections'][0]}')
+        logging.info(f'            bbox:         {search._parameters['bbox']}')
+        logging.info(f'            time range:   {search._parameters['datetime']}')
+        logging.info(f'            cloud cover:  0% - {search._parameters['query']['eo:cloud_cover']['lt']}%')
+        logging.info(f'            nodata cover: 0% - {search._parameters['query']['s2:nodata_pixel_percentage']['lt']}%')
         
-        log.info('                          ')
-        log.info('Searching...')
+        logging.info('                          ')
+        logging.info('Searching...')
         items = search.item_collection()
         
-        log.info(f'Query found {len(items)} items')
+        logging.info(f'Query found {len(items)} items')
         
-        log.info('Searching for GRI REFINED scenes:')
+        logging.info('Searching for GRI REFINED scenes:')
         refined_items, df_refinement_status = check_gri_refinement(items)
         
-        log.info('                                 ')
-        log.info(f'{len(refined_items)}/{len(df_refinement_status)} were refined by GRI.')
+        logging.info('                                 ')
+        logging.info(f'{len(refined_items)}/{len(df_refinement_status)} were refined by GRI.')
         
         if len(refined_items) == 0:
             msg = f"Tile {tile_id} | Time: {year_month}: All scenes are flagged NOT REFINED."
-            log.warning(msg)
-            log.warning(f"Tile {tile_id} | Time: {year_month}: The composite will be flagged with _NOREFINED.")
+            logging.warning(msg)
+            logging.warning(f"Tile {tile_id} | Time: {year_month}: The composite will be flagged with _NOREFINED.")
             REFINEMENT_FLAG = 'NOTREFINED'
             refined_items = items
         else:
             REFINEMENT_FLAG = 'REFINED'
 
         N = 10
-        log.info(f'Looking for up to {N} cleanest images within spatiotemporal range of each MGRS tile')
+        logging.info(f'Looking for up to {N} cleanest images within spatiotemporal range of each MGRS tile')
         filtered_items = []
         mgrs_tiles = np.unique([i.properties['s2:mgrs_tile'] for i in refined_items])
         epsgs = np.unique([i.properties['proj:epsg'] for i in refined_items])
@@ -216,13 +240,13 @@ def generate_composite(year_month: str, tile: pd.Series):
                 filtered_items.extend(item_mgrs_sorted[:N])
             else:
                 filtered_items.extend(item_mgrs_sorted)
-        log.info(f"Filtered cleanest scenes: Kept {len(filtered_items)} out of {len(refined_items)} items. ")
-        log.info(f"        Included MGRS Tiles: {mgrs_tiles}")
-        log.info(f"        Included EPSG codes: {epsgs}")
+        logging.info(f"Filtered cleanest scenes: Kept {len(filtered_items)} out of {len(refined_items)} items. ")
+        logging.info(f"        Included MGRS Tiles: {mgrs_tiles}")
+        logging.info(f"        Included EPSG codes: {epsgs}")
 
-        log.info('Selected scenes:')
+        logging.info('Selected scenes:')
         for stacitem in filtered_items:
-            log.info(f'        {stacitem.id}')
+            logging.info(f'        {stacitem.id}')
 
         plot_mgrs_tiles_with_aoi( # It has logging in it
             filtered_items, 
@@ -230,8 +254,8 @@ def generate_composite(year_month: str, tile: pd.Series):
             save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg'
         )
 
-        log.info(f'                                 ')
-        log.info(f'Downstream STAC items from Planetary Computer')
+        logging.info(f'                                 ')
+        logging.info(f'Downstream STAC items from Planetary Computer')
 
         # Loading for each EPSG and Native RESOLUTION separatelly, then merging into a single xr.Dataset
         # to to a correct downsampling
@@ -240,14 +264,14 @@ def generate_composite(year_month: str, tile: pd.Series):
             processed_epsgs.append(process_epsg(filtered_items, aoi_bbox, EPSG))
                
         
-        log.info('Clip and align to tile geometry')
+        logging.info('Clip and align to tile geometry')
         processed_epsgs_to_tile = [ds.odc.reproject(how=tile_geobox) for ds in processed_epsgs]
         del processed_epsgs
         gc.collect()
         
         if len(processed_epsgs_to_tile)>1:
-            log.info(f'                          ')
-            log.info(f'Mosaic datasets of different native UTM zones to a single dataset')
+            logging.info(f'                          ')
+            logging.info(f'Mosaic datasets of different native UTM zones to a single dataset')
             ds_timeseries = merge_nodata0(processed_epsgs_to_tile, vars_mode="intersection", method="mean", chunks=None)
         else:
             ds_timeseries = processed_epsgs_to_tile[0]
@@ -259,7 +283,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']
         baseline400_mask = ds_timeseries.time > pd.Timestamp('2022-01-25')
         if baseline400_mask.any():
-            log.info('Scale SR to Sen2Cor Baseline 4.00 - Subtract 1000 in dates post 2022-01-25')
+            logging.info('Scale SR to Sen2Cor Baseline 4.00 - Subtract 1000 in dates post 2022-01-25')
             boa = ds_timeseries[BANDS].astype('i4')                       # avoid uint16 underflow
             adj = xr.where(baseline400_mask, boa - 1000, boa)                    # subtract only post-cutover
             adj = adj.clip(min=0).astype('u2') 
@@ -272,36 +296,36 @@ def generate_composite(year_month: str, tile: pd.Series):
             del baseline400_mask
         
         
-        log.info('Creating preview plot of input scenes')
+        logging.info('Creating preview plot of input scenes')
         save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_InDataPreview.jpeg', dpi=300)
         
         # reset bands list
         ds_timeseries = ds_timeseries[['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']]
         
-        log.info('Clip value range')
+        logging.info('Clip value range')
         ds_timeseries = ds_timeseries.where(ds_timeseries > 0, np.nan)
         ds_timeseries = ds_timeseries.where(ds_timeseries<=10000)
         
                         
-        log.info(f'                          ')
-        log.info('Computing spectral indices:')
+        logging.info(f'                          ')
+        logging.info('Computing spectral indices:')
         SIS = ['evi', 'ndvi', 'psri2']
 
-        log.info('    EVI...')
+        logging.info('    EVI...')
         ds_timeseries['evi'] = 2.5 * ((ds_timeseries.B8A - ds_timeseries.B04)/10000) / ((ds_timeseries.B8A/10000 + 6*ds_timeseries.B04/10000 - 7.5*ds_timeseries.B02/10000) + 1)
-        log.info('    NDVI...')
+        logging.info('    NDVI...')
         ds_timeseries['ndvi'] = ((ds_timeseries.B05 - ds_timeseries.B03) / ds_timeseries.B07).astype('float32')
-        log.info('    PSRI2...')
+        logging.info('    PSRI2...')
         ds_timeseries['psri2'] = ((ds_timeseries.B8A - ds_timeseries.B04) / (ds_timeseries.B8A + ds_timeseries.B04)).astype('float32')
 
-        log.info('Clip to typical value range')
+        logging.info('Clip to typical value range')
         for si in SIS:
             if si in ['ndvi', 'evi']:
                 ds_timeseries[si] = ds_timeseries[si].where((ds_timeseries[si]>=-1)&(ds_timeseries[si]<=1))
             else:
                 ds_timeseries[si] = ds_timeseries[si].where((ds_timeseries[si]>=-1)&(ds_timeseries[si]<=4))
         
-        log.info('Reducing to median value temporal composite')
+        logging.info('Reducing to median value temporal composite')
         ds_timeseries = ds_timeseries.sortby('time')
         composite = ds_timeseries.median(dim='time').astype('float32').compute()
         
@@ -319,7 +343,7 @@ def generate_composite(year_month: str, tile: pd.Series):
         del ds_timeseries
         gc.collect()
         
-        log.info('Define data types and nodata per band')
+        logging.info('Define data types and nodata per band')
         VARS = BANDS+SIS
 
         for band in BANDS:
@@ -340,14 +364,14 @@ def generate_composite(year_month: str, tile: pd.Series):
             # composite[si].encoding["scale_factor"] = 1/scale
 
 
-        log.info('Assign time range and tile ID in metadata')
+        logging.info('Assign time range and tile ID in metadata')
         composite.attrs['dtr:start_datetime']=f'{yyyy}-{mm1:02d}-{dd1:02d}'
         composite.attrs['dtr:end_datetime']=f'{yyyy}-{mm2:02d}-{dd2:02d}'
         composite.attrs['odc:region_code']=tile_id
         composite.attrs['gri:refinement']=REFINEMENT_FLAG
         
         
-        log.info('Write bands to raster COG files')
+        logging.info('Write bands to raster COG files')
         name_measurements = []
         for var in list(composite.data_vars):
             file_path = f'{collection_path}/{DATASET}_{var}.tif'
@@ -360,11 +384,11 @@ def generate_composite(year_month: str, tile: pd.Series):
                 )
             name_measurements.append(file_path)
             
-            log.info(f'Write {var.upper()} -> {file_path}')
+            logging.info(f'Write {var.upper()} -> {file_path}')
             
 
 
-        log.info('Prepare metadata YAML document')        
+        logging.info('Prepare metadata YAML document')        
         eo3_doc, stac_doc = prepare_eo3_metadata_NAS(
             dc=dc,
             xr_cube=composite, 
@@ -380,12 +404,16 @@ def generate_composite(year_month: str, tile: pd.Series):
             version=1,
             )
         
-        log.info('Write metadata YAML document to disk')
+        del composite
+        gc.collect()
+        
+        
+        logging.info('Write metadata YAML document to disk')
         serialise.to_path(Path(eo3_path), eo3_doc)
         with open(stac_path, 'w') as json_file:
             json.dump(stac_doc, json_file, indent=4, default=False)
         
-        log.info('Create datacube.model.Dataset from eo3 metadata')
+        logging.info('Create datacube.model.Dataset from eo3 metadata')
         WORKING_ON_CLOUD=False
         uri = eo3_path if WORKING_ON_CLOUD else f"file:///{eo3_path}"
 
@@ -393,60 +421,73 @@ def generate_composite(year_month: str, tile: pd.Series):
         dataset_tobe_indexed, err  = resolver(doc_in=serialise.to_doc(eo3_doc), uri=uri)
         
         if err:
-            log.error(f'✗ {err}')
+            logging.error(f'✗ {err}')
             
-        log.info('Index to datacube')
+        logging.info('Index to datacube')
         dc.index.datasets.add(dataset=dataset_tobe_indexed, with_lineage=False)
         
-        log.info('Closing Dask')
-        client.close()
-        cluster.close()
-        
-        log.info(f'')
-        log.info(f'             ✓✓✓ COMPLETED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
-        log.info(f'')
+        logging.info(f'')
+        logging.info(f'             ✓✓✓ COMPLETED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
+        logging.info(f'')
     except Exception as exc:
         msg=f'             ✗✗✗ FAILED loading for : Tile {tile_id} | Time: {year_month} | with Exception: {exc}'
-        log.error(msg)
-        client.close()
-        cluster.close()
+        logging.error(msg)
         return
+    finally:
+        try:
+            if client is not None:
+                logging.info('Closing Dask client')
+                client.close()
+        finally:
+            if cluster is not None:
+                logging.info('Closing Dask cluster')
+                cluster.close()
 
 
 
 if __name__ == "__main__":
-    # Run the function to create json files
-    json_path = '../jsons/compgen'
+    # Set up logger.
+    log = setup_logger(logger_name='compgen_',
+                       logger_path=f'../logs/compgen_{datetime.datetime.now(pytz.timezone("Europe/Athens")).strftime("%Y%m%dT%H%M%S")}.log', 
+                       logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
+                       )
     
-    generate_json_files_for_composites(
-        output_dir=json_path,
+    # Run the function to create json files
+    geojson_path = "../geojsons/compgen"
+    
+    generate_geojson_files_for_composites(
+        output_dir=geojson_path,
         tile_geojson_filepath='../anciliary/grid_v2.geojson',
         start_date=datetime.datetime(2020, 1, 1),
         end_date=datetime.datetime(2025, 9, 1)
     )
     
     # Check if the path is a folder or a file
-    if os.path.isdir(json_path):
+    if os.path.isdir(geojson_path):
         # List all JSON files in the directory
-        json_files = [os.path.join(json_path, f) for f in os.listdir(json_path) if f.endswith('.json')]
+        geojson_files = [os.path.join(geojson_path, f) for f in os.listdir(geojson_path) if f.endswith('.json')]
     else:
         # Single file case
-        json_files = [json_path]
+        geojson_files = [geojson_path]
     
     # Loop through and process each JSON file
-    for json_file in json_files:
+    for geojson_file in geojson_files:
         try:
-            with open(json_file) as f:
+            with open(geojson_file) as f:
                 parameters_dict = json.load(f)
 
-                year_month = parameters_dict['year_month']
-                tilegrid_path = parameters_dict['tilegrid_path'] #'../anciliary/grid_v2.geojson'
+                year_month = parameters_dict['properties']['year_month']
+                tile_id = parameters_dict['properties']['tile_id'] #'../anciliary/grid_v2.geojson'
+                tile_geom = parameters_dict['geometry']
                 
-                aoi = gpd.read_file(tilegrid_path).to_crs('EPSG:4326')
-
-                for i, tile in aoi.iterrows():
-                    generate_composite(year_month=year_month, tile=tile)
+                generate_composite(
+                    year_month=year_month,
+                    tile_id=tile_id,
+                    tile_geom=tile_geom
+                )
                 
-                print(f"Processed {json_file}")
+                gc.collect()
+                
+                print(f"Processed {geojson_file}")
         except Exception as e:
-            print(f"Error processing {json_file}: {e}")
+            print(f"Error processing {geojson_file}: {e}")
