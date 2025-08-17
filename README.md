@@ -21,7 +21,7 @@ The study area is dividing by tiling schema in 20 tiles of size 48x48km. The nam
 The composite pipeline automates the creation of monthly median mosaics of Sentinel-2 L2A data using [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a) via the [STAC catalog](https://planetarycomputer.microsoft.com/api/stac/v1).
 
 ### Key points
-- Input: JSON configuration files define the year–month and tile code to process.
+- Input: GeoJSON configuration files define the year–month and tile code to process.
 - Data access: Images are retrieved from the STAC catalog, filtered by cloud cover (`70%`) and data quality (`nodata lt 33%`).
 - Native resolutions: Sentinel-2 provides different bands at 10 m and 20 m resolutions.
 - Since 10 m bands are not natively [available at 20 m](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a), we use the method of [Sen2Cor](https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-12/) by binning (2×2 mean aggregation) to bring them to 20 m instead of simple resampling, according to the [S2 MPC L2A ATBD](https://step.esa.int/thirdparties/sen2cor/2.10.0/docs/S2-PDGS-MPC-L2A-ATBD-V2.10.0.pdf). Sen2Cor uses [`skimage.measure.block_reduce`](https://github.com/scikit-image/scikit-image/blob/v0.25.2/skimage/measure/block.py#L5-L94) (and from [docs](https://scikit-image.org/docs/0.25.x/api/skimage.measure.html#skimage.measure.block_reduce)), as it can be found in the `L2A_Tables.py` module. However, `xarray`'s `coarsen` function is an exact copy of this function, as stated [in this issue](https://github.com/pydata/xarray/issues/2525). This ensures consistency with ESA’s Sen2Cor processing chain.
