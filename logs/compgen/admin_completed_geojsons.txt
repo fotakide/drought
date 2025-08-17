@@ -1,0 +1,3 @@
+../geojsons/compgen\compgen_202001_x06_y10.geojson
+../geojsons/compgen\compgen_202001_x08_y10.geojson
+../geojsons/compgen\compgen_202001_x08_y11.geojson

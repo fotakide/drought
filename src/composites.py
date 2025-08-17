@@ -67,13 +67,8 @@ logging.getLogger("distributed.worker.memory").setLevel(logging.ERROR)
 
 
 # ---- keep native libs and Dask tidy (Windows-friendly) ----
-os.environ.setdefault("DASK_DISTRIBUTED__COMM__TIMEOUTS__CONNECT", "60s")
-os.environ.setdefault("DASK_DISTRIBUTED__COMM__TIMEOUTS__TCP", "120s")
 os.environ.setdefault("GDAL_CACHEMAX", "512")             # MB; limit GDAL's cache (unmanaged memory)
 os.environ["CPL_VSIL_CURL_CACHE_SIZE"] = str(16 * 1024)     # 16 KiB    # avoid big HTTP cache if you hit cloud blobs
-os.environ.setdefault("OMP_NUM_THREADS", "1")             # keep native libs from oversubscribing CPU
-os.environ.setdefault("NUMEXPR_MAX_THREADS", "1")
-
 
 
 def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
@@ -156,7 +151,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             n_workers=8, 
             threads_per_worker=1, 
             processes=True,
-            memory_limit='3.0GiB', 
+            memory_limit='auto', 
             local_directory=tempfile.mkdtemp(),
             dashboard_address=":8787",
             # silence_logs=logging.WARN,
