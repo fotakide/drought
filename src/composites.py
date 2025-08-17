@@ -1,3 +1,18 @@
+'''
+######################################################################
+## ARISTOTLE UNIVERSITY OF THESSALONIKI
+## PERSLAB
+## REMOTE SENSING AND EARTH OBSERVATION TEAM
+##
+## DATE:             Aug-2025
+## SCRIPT:           composites.py
+## AUTHOR:           fotakidis@topo.auth.gr
+##
+## DESCRIPTION:      Script to compute Median monthly Composites from Sentinel-2 L2A time series and index into ODC
+##
+#######################################################################
+'''
+
 import os
 os.environ.setdefault("MPLBACKEND", "Agg")  # must be set before matplotlib is imported
 
@@ -29,7 +44,9 @@ import planetary_computer
 from pystac_client.stac_api_io import StacApiIO
 from urllib3 import Retry
 
+import dask.distributed
 from dask.distributed import LocalCluster, Client
+import tempfile
 
 import gc 
 import json
@@ -42,8 +59,11 @@ from utils.sentinel2 import check_gri_refinement, plot_mgrs_tiles_with_aoi
 from utils.timeseries_processing import merge_nodata0, save_dataset_preview, process_epsg
 from utils.utils import mkdir, setup_logger, generate_geojson_files_for_composites
 
+# Ignore warnings
 import warnings
-warnings.filterwarnings("ignore")
+import logging
+warnings.filterwarnings('ignore') 
+logging.getLogger("distributed.worker.memory").setLevel(logging.ERROR)
 
 
 # ---- keep native libs and Dask tidy (Windows-friendly) ----
@@ -121,27 +141,38 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         
         logging.info('                                 ')
         logging.info('Initializing Dask cluster for parallelization')
+        
+        dask.config.set({
+            'array.chunk-size': "256 MiB",
+            'array.slicing.split_large_chunks': True, #This can make AXIOM very slow
+            'distributed.comm.timeouts.connect': '120s',
+            'distributed.comm.timeouts.tcp': '120s',
+            'distributed.comm.retry.count': 10,
+            'distributed.scheduler.allowed-failures': 20,
+            "distributed.scheduler.worker-saturation": 1.1, #This should use the new behaviour which helps with memory pile up
+            })
+        
         cluster = LocalCluster(
             n_workers=8, 
             threads_per_worker=1, 
             processes=True,
             memory_limit='3.0GiB', 
-            local_directory=r"C:\Temp\dask-worker-space",
-            dashboard_address=None,
-            silence_logs=logging.WARNING,
+            local_directory=tempfile.mkdtemp(),
+            dashboard_address=":8787",
+            # silence_logs=logging.WARN,
             )
         client = Client(cluster)
         
-        # Dask memory policy: start spilling earlier so RSS stays lower
-        client.run(lambda: __import__("dask").config.set({
-            "distributed.worker.memory.target":    0.50,  # start spilling at 50% of limit
-            "distributed.worker.memory.spill":     0.60,
-            "distributed.worker.memory.pause":     0.80,
-            "distributed.worker.memory.terminate": 0.95,
-        }))
+        # # Dask memory policy: start spilling earlier so RSS stays lower
+        # client.run(lambda: __import__("dask").config.set({
+        #     "distributed.worker.memory.target":    0.50,  # start spilling at 50% of limit
+        #     "distributed.worker.memory.spill":     0.60,
+        #     "distributed.worker.memory.pause":     0.80,
+        #     "distributed.worker.memory.terminate": 0.95,
+        # }))
         
         configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
-        # logging.info(f'The Dask client listens to {client.dashboard_link}')
+        logging.info(f'Dask dashboard is available at: {client.dashboard_link}')
         
         
         logging.info('Create directories and naming conversions')   
@@ -262,6 +293,12 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         logging.info('Selected scenes:')
         for stacitem in filtered_items:
             logging.info(f'        {stacitem.id}')
+            
+        s2l2a_ids = [stacitem.id for stacitem in filtered_items]
+            
+        with open(f"{collection_path}/{DATASET}_IncludedScenes.txt", "w") as f:
+            for stacitem in filtered_items:
+                f.write(stacitem.id + "\n")
 
         plot_mgrs_tiles_with_aoi( # It has logging in it
             filtered_items, 
@@ -386,6 +423,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         composite.attrs['dtr:end_datetime']=f'{yyyy}-{mm2:02d}-{dd2:02d}'
         composite.attrs['odc:region_code']=tile_id
         composite.attrs['gri:refinement']=REFINEMENT_FLAG
+        composite.attrs['composite:input']=s2l2a_ids
         
         
         logging.info('Write bands to raster COG files')

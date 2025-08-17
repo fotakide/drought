@@ -62,6 +62,7 @@ def prepare_eo3_metadata_NAS(
         preparer.properties["odc:file_format"] = "GeoTIFF"
         preparer.properties["odc:processing_datetime"] = datetime.datetime.now().isoformat()
         preparer.properties["gri:refinement"] = xr_cube.attrs["gri:refinement"]
+        preparer.properties["composite:input"] = xr_cube.attrs['composite:input']
         
         if hasattr(xr_cube, 'eo:instrument"'):
             preparer.properties["eo:instrument"] = xr_cube.attrs['eo:instrument']
