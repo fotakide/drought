@@ -29,7 +29,7 @@ import planetary_computer
 from pystac_client.stac_api_io import StacApiIO
 from urllib3 import Retry
 
-from distributed import LocalCluster, Client
+from dask.distributed import LocalCluster, Client
 
 import gc 
 import json
@@ -44,6 +44,16 @@ from utils.utils import mkdir, setup_logger, generate_geojson_files_for_composit
 
 import warnings
 warnings.filterwarnings("ignore")
+
+
+# ---- keep native libs and Dask tidy (Windows-friendly) ----
+os.environ.setdefault("DASK_DISTRIBUTED__COMM__TIMEOUTS__CONNECT", "60s")
+os.environ.setdefault("DASK_DISTRIBUTED__COMM__TIMEOUTS__TCP", "120s")
+os.environ.setdefault("GDAL_CACHEMAX", "512")             # MB; limit GDAL's cache (unmanaged memory)
+os.environ["CPL_VSIL_CURL_CACHE_SIZE"] = str(16 * 1024)     # 16 KiB    # avoid big HTTP cache if you hit cloud blobs
+os.environ.setdefault("OMP_NUM_THREADS", "1")             # keep native libs from oversubscribing CPU
+os.environ.setdefault("NUMEXPR_MAX_THREADS", "1")
+
 
 
 def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
@@ -73,6 +83,8 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
     
     try:
         start_time = time.time()
+        client = None
+        cluster = None
         
         logging.info('#######################################################################')
         
@@ -113,20 +125,23 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             n_workers=8, 
             threads_per_worker=1, 
             processes=True,
-            memory_limit='3.5GiB', 
-            # local_directory="/tmp/dask-worker-space",
+            memory_limit='3.0GiB', 
+            local_directory=r"C:\Temp\dask-worker-space",
+            dashboard_address=None,
+            silence_logs=logging.WARNING,
             )
         client = Client(cluster)
         
+        # Dask memory policy: start spilling earlier so RSS stays lower
         client.run(lambda: __import__("dask").config.set({
-            "distributed.worker.memory.target": 0.60,
-            "distributed.worker.memory.spill": 0.70,
-            "distributed.worker.memory.pause": 0.80,
+            "distributed.worker.memory.target":    0.50,  # start spilling at 50% of limit
+            "distributed.worker.memory.spill":     0.60,
+            "distributed.worker.memory.pause":     0.80,
             "distributed.worker.memory.terminate": 0.95,
         }))
         
         configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
-        logging.info(f'The Dask client listens to {client.dashboard_link}')
+        # logging.info(f'The Dask client listens to {client.dashboard_link}')
         
         
         logging.info('Create directories and naming conversions')   
@@ -277,6 +292,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             ds_timeseries = processed_epsgs_to_tile[0]
             
         del processed_epsgs_to_tile
+        client.run(lambda: __import__("gc").collect()); gc.collect()
         gc.collect()
         
         # https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a#Baseline-Change
@@ -341,6 +357,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             1
         ]
         del ds_timeseries
+        client.run(lambda: __import__("gc").collect()); gc.collect()
         gc.collect()
         
         logging.info('Define data types and nodata per band')
@@ -405,6 +422,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             )
         
         del composite
+        client.run(lambda: __import__("gc").collect()); gc.collect()
         gc.collect()
         
         
@@ -427,10 +445,10 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         dc.index.datasets.add(dataset=dataset_tobe_indexed, with_lineage=False)
         
         logging.info(f'')
-        logging.info(f'             ✓✓✓ COMPLETED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
+        logging.info(f'             ✔✔✔ COMPLETED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
         logging.info(f'')
     except Exception as exc:
-        msg=f'             ✗✗✗ FAILED loading for : Tile {tile_id} | Time: {year_month} | with Exception: {exc}'
+        msg=f'             ✖✖✖ FAILED loading for : Tile {tile_id} | Time: {year_month} | with Exception: {exc}' # ✗
         logging.error(msg)
         return
     finally:
@@ -442,52 +460,32 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             if cluster is not None:
                 logging.info('Closing Dask cluster')
                 cluster.close()
-
-
-
+                
+                
 if __name__ == "__main__":
-    # Set up logger.
-    log = setup_logger(logger_name='compgen_',
-                       logger_path=f'../logs/compgen_{datetime.datetime.now(pytz.timezone("Europe/Athens")).strftime("%Y%m%dT%H%M%S")}.log', 
-                       logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
-                       )
-    
-    # Run the function to create json files
-    geojson_path = "../geojsons/compgen"
-    
-    generate_geojson_files_for_composites(
-        output_dir=geojson_path,
-        tile_geojson_filepath='../anciliary/grid_v2.geojson',
-        start_date=datetime.datetime(2020, 1, 1),
-        end_date=datetime.datetime(2025, 9, 1)
-    )
-    
-    # Check if the path is a folder or a file
-    if os.path.isdir(geojson_path):
-        # List all JSON files in the directory
-        geojson_files = [os.path.join(geojson_path, f) for f in os.listdir(geojson_path) if f.endswith('.json')]
-    else:
-        # Single file case
-        geojson_files = [geojson_path]
-    
-    # Loop through and process each JSON file
-    for geojson_file in geojson_files:
-        try:
-            with open(geojson_file) as f:
-                parameters_dict = json.load(f)
+    import argparse, json, sys, os, datetime, pytz
+    from utils.utils import setup_logger
 
-                year_month = parameters_dict['properties']['year_month']
-                tile_id = parameters_dict['properties']['tile_id'] #'../anciliary/grid_v2.geojson'
-                tile_geom = parameters_dict['geometry']
-                
-                generate_composite(
-                    year_month=year_month,
-                    tile_id=tile_id,
-                    tile_geom=tile_geom
-                )
-                
-                gc.collect()
-                
-                print(f"Processed {geojson_file}")
-        except Exception as e:
-            print(f"Error processing {geojson_file}: {e}")
+    p = argparse.ArgumentParser(description="Run ONE composite from a single .geojson and exit.")
+    p.add_argument("--geojson", required=True, help="Path to a single GeoJSON file")
+    args = p.parse_args()
+
+    try:
+        with open(args.geojson, "r", encoding="utf-8") as f:
+            d = json.load(f)
+        year_month = d["properties"]["year_month"]
+        tile_id    = d["properties"]["tile_id"]
+        tile_geom  = d["geometry"]
+        
+        log = setup_logger(
+            logger_name='compgen_',
+            logger_path=f'../logs/compgen/compgen_{year_month}_{tile_id}_{datetime.datetime.now(pytz.timezone("Europe/Athens")).strftime("%Y%m%dT%H%M%S")}.log',
+            logger_format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
+        )
+
+        generate_composite(year_month=year_month, tile_id=tile_id, tile_geom=tile_geom)
+        sys.exit(0)         # success (including "skipped" is still success)
+    except Exception:
+        import logging
+        logging.exception("Fatal error in composites.py")
+        sys.exit(1)        # fail
