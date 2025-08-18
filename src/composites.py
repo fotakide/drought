@@ -159,14 +159,6 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             )
         client = Client(cluster)
         
-        # # Dask memory policy: start spilling earlier so RSS stays lower
-        # client.run(lambda: __import__("dask").config.set({
-        #     "distributed.worker.memory.target":    0.50,  # start spilling at 50% of limit
-        #     "distributed.worker.memory.spill":     0.60,
-        #     "distributed.worker.memory.pause":     0.80,
-        #     "distributed.worker.memory.terminate": 0.95,
-        # }))
-        
         configure_rio(cloud_defaults=True, client=client) # For Planetary Computer
         logging.info(f'Dask dashboard is available at: {client.dashboard_link}')
         
