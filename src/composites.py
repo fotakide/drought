@@ -132,7 +132,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             logging.info('#######################################################################')
             return
         else:
-            logging.info("The composite requested will be computed")
+            logging.info("The composite requested was not found and it will be computed")
         
         
         logging.info('                                 ')
