@@ -182,3 +182,16 @@
 ../geojsons/compgen\compgen_202010_x08_y10.geojson
 ../geojsons/compgen\compgen_202010_x08_y11.geojson
 ../geojsons/compgen\compgen_202010_x08_y12.geojson
+../geojsons/compgen\compgen_202010_x09_y07.geojson
+../geojsons/compgen\compgen_202010_x09_y08.geojson
+../geojsons/compgen\compgen_202010_x09_y09.geojson
+../geojsons/compgen\compgen_202010_x09_y10.geojson
+../geojsons/compgen\compgen_202010_x09_y11.geojson
+../geojsons/compgen\compgen_202010_x09_y12.geojson
+../geojsons/compgen\compgen_202010_x10_y07.geojson
+../geojsons/compgen\compgen_202010_x10_y08.geojson
+../geojsons/compgen\compgen_202010_x10_y09.geojson
+../geojsons/compgen\compgen_202010_x10_y10.geojson
+../geojsons/compgen\compgen_202010_x10_y11.geojson
+../geojsons/compgen\compgen_202010_x11_y08.geojson
+../geojsons/compgen\compgen_202010_x11_y10.geojson
