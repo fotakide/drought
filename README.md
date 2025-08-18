@@ -30,3 +30,7 @@ The composite pipeline automates the creation of monthly median mosaics of Senti
 - **Spectral indices**: [NDVI](https://www.indexdatabase.de/db/i-single.php?id=58), [EVI](https://www.indexdatabase.de/db/i-single.php?id=16), and [PSRI2](https://www.indexdatabase.de/db/i-single.php?id=69) are calculated per timestamp, then reduced into median composites along with the spectral bands.
 - **Compositing**: A median temporal composite is produced per tile and month.
 - **Output**: Results are stored as Cloud-Optimized GeoTIFFs (COGs), with metadata ([dataset definitions](https://opendatacube.readthedocs.io/en/latest/installation/dataset-documents.html)) recorded in both [EO3 YAML](https://eodatasets.readthedocs.io/en/eodatasets3-1.9.3/) and [STAC JSON](https://pystac.readthedocs.io/en/latest/index.html) formats for datacube indexing.
+
+## References
+
+Hislop, S., Stone, C., Gibson, R.K., Roff, A., Choat, B., Nolan, R.H., Nguyen, T.H. and Carnegie, A.J., 2023. [Using dense Sentinel-2 time series to explore combined fire and drought impacts in eucalypt forests](https://www.frontiersin.org/journals/forests-and-global-change/articles/10.3389/ffgc.2023.1018936). *Frontiers in Forests and Global Change*, 6, p.1018936.
