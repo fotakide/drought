@@ -129,6 +129,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             logging.info(f'')
             logging.info(f'             !!! SKIPPED: Tile {tile_id} | Time: {year_month} | In {round((time.time() - start_time)/60, 2)} minutes')
             logging.info(f'')
+            logging.info('#######################################################################')
             return
         else:
             logging.info("The composite requested will be computed")
@@ -473,6 +474,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         
         if err:
             logging.error(f'✗ {err}')
+            logging.info('#######################################################################')
             
         logging.info('Index to datacube')
         dc.index.datasets.add(dataset=dataset_tobe_indexed, with_lineage=False)
@@ -492,6 +494,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         finally:
             if cluster is not None:
                 logging.info('Closing Dask cluster')
+                logging.info('#######################################################################')
                 cluster.close()
                 
                 
