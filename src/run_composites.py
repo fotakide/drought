@@ -6,7 +6,7 @@
 ##
 ## DATE:             Aug-2025
 ## SCRIPT:           run_composites.py
-## AUTHOR:           fotakidis@topo.auth.gr
+## AUTHOR:           Vangelis Fotakidis (fotakidis@topo.auth.gr)
 ##
 ## DESCRIPTION:      Script to run CLI subprocesses of the `composites.py` module 
 ##

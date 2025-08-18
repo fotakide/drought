@@ -6,7 +6,7 @@
 ##
 ## DATE:             Aug-2025
 ## SCRIPT:           utils/metadata.py
-## AUTHOR:           fotakidis@topo.auth.gr
+## AUTHOR:           Vangelis Fotakidis (fotakidis@topo.auth.gr)
 ##
 ## DESCRIPTION:      Utility module to record EO3 metadata, compatible with ODC schema
 ##

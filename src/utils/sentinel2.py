@@ -6,7 +6,7 @@
 ##
 ## DATE:             Aug-2025
 ## SCRIPT:           utils/sentinel2.py
-## AUTHOR:           fotakidis@topo.auth.gr
+## AUTHOR:           Vangelis Fotakidis (fotakidis@topo.auth.gr)
 ##
 ## DESCRIPTION:      Utility module to operate on Sentinel-2 metadata and bands
 ##

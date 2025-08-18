@@ -6,7 +6,7 @@
 ##
 ## DATE:             Aug-2025
 ## SCRIPT:           utils/utils.py
-## AUTHOR:           fotakidis@topo.auth.gr
+## AUTHOR:           Vangelis Fotakidis (fotakidis@topo.auth.gr)
 ##
 ## DESCRIPTION:      Utility module with general functions of features required in the pipelines
 ##

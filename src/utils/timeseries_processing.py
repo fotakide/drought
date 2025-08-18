@@ -6,7 +6,7 @@
 ##
 ## DATE:             Aug-2025
 ## SCRIPT:           utils/timeseries_processing.py
-## AUTHOR:           fotakidis@topo.auth.gr
+## AUTHOR:           Vangelis Fotakidis (fotakidis@topo.auth.gr)
 ##
 ## DESCRIPTION:      Utility module to process time series as required by the work package of the project
 ##
