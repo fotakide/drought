@@ -11,6 +11,7 @@
 
 /notebooks/S2B*
 /notebooks/debug*
+/notebooks/test_binning
 
 *.tif
 
