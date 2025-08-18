@@ -1,3 +1,18 @@
+'''
+######################################################################
+## ARISTOTLE UNIVERSITY OF THESSALONIKI
+## PERSLAB
+## REMOTE SENSING AND EARTH OBSERVATION TEAM
+##
+## DATE:             Aug-2025
+## SCRIPT:           run_composites.py
+## AUTHOR:           fotakidis@topo.auth.gr
+##
+## DESCRIPTION:      Script to run CLI subprocesses of the `composites.py` module 
+##
+#######################################################################
+'''
+
 from utils.utils import setup_logger, generate_geojson_files_for_composites, mkdir
 
 import datetime, pytz

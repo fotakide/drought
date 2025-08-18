@@ -1,9 +1,17 @@
-"""
-This module contains functions required to retrieve the tiling of the EMT Cube study area defined in a shapefile.
-Dec 2024.
-Eastern Macedonia and Thrace Data Cube edits and updates: Vangelis Fotakidis, Aristotle University of Thessaloniki
-
-"""
+'''
+######################################################################
+## ARISTOTLE UNIVERSITY OF THESSALONIKI
+## PERSLAB
+## REMOTE SENSING AND EARTH OBSERVATION TEAM
+##
+## DATE:             Aug-2025
+## SCRIPT:           tile_generation.py
+## AUTHOR:           fotakidis@topo.auth.gr
+##
+## DESCRIPTION:      Module to retrieve the tiling grid schema based on an input AOI shapefile.
+##
+#######################################################################
+'''
 
 import os
 import logging
@@ -29,7 +37,7 @@ GRIDS = {
             crs=epsg3035,
             tile_size=(48_000.0, 48_000.0),
             resolution=(-n, n),
-            origin=(1247985.0, 4943985.0),
+            origin=(1247985.0, 4943985.0),   # Captures Greece without negative indices.
             # origin=(1391985.0, 5087985.0),
             # origin=(2015985.0, 5375985.0),
         )

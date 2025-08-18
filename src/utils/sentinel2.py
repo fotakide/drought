@@ -1,3 +1,18 @@
+'''
+######################################################################
+## ARISTOTLE UNIVERSITY OF THESSALONIKI
+## PERSLAB
+## REMOTE SENSING AND EARTH OBSERVATION TEAM
+##
+## DATE:             Aug-2025
+## SCRIPT:           utils/sentinel2.py
+## AUTHOR:           fotakidis@topo.auth.gr
+##
+## DESCRIPTION:      Utility module to operate on Sentinel-2 metadata and bands
+##
+#######################################################################
+'''
+
 import logging
 import requests
 

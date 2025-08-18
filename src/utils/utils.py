@@ -1,3 +1,18 @@
+'''
+######################################################################
+## ARISTOTLE UNIVERSITY OF THESSALONIKI
+## PERSLAB
+## REMOTE SENSING AND EARTH OBSERVATION TEAM
+##
+## DATE:             Aug-2025
+## SCRIPT:           utils/utils.py
+## AUTHOR:           fotakidis@topo.auth.gr
+##
+## DESCRIPTION:      Utility module with general functions of features required in the pipelines
+##
+#######################################################################
+'''
+
 import os, json, datetime, argparse
 import logging
 from pathlib import Path

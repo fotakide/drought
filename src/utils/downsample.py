@@ -1,3 +1,18 @@
+'''
+######################################################################
+## ARISTOTLE UNIVERSITY OF THESSALONIKI
+## PERSLAB
+## REMOTE SENSING AND EARTH OBSERVATION TEAM
+##
+## DATE:             Aug-2025
+## SCRIPT:           utils/downsample.py
+## AUTHOR:           fotakidis@topo.auth.gr
+##
+## DESCRIPTION:      Utility module to downsample by binning 10m bands to 20m resolution like ESA Sen2Cor
+##
+#######################################################################
+'''
+
 import xarray as xr
 import numpy as np
 from numpy import uint16, mean

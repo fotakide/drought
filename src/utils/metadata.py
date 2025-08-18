@@ -1,3 +1,18 @@
+'''
+######################################################################
+## ARISTOTLE UNIVERSITY OF THESSALONIKI
+## PERSLAB
+## REMOTE SENSING AND EARTH OBSERVATION TEAM
+##
+## DATE:             Aug-2025
+## SCRIPT:           utils/metadata.py
+## AUTHOR:           fotakidis@topo.auth.gr
+##
+## DESCRIPTION:      Utility module to record EO3 metadata, compatible with ODC schema
+##
+#######################################################################
+'''
+
 import rasterio as rio
 from eodatasets3 import DatasetPrepare, DatasetDoc, ValidDataMethod
 from eodatasets3.model import ProductDoc, AccessoryDoc
