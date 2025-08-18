@@ -144,3 +144,4 @@
 ../geojsons/compgen\compgen_202008_x08_y12.geojson
 ../geojsons/compgen\compgen_202008_x09_y07.geojson
 ../geojsons/compgen\compgen_202008_x09_y08.geojson
+../geojsons/compgen\compgen_202008_x09_y09.geojson
