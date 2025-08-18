@@ -4,3 +4,44 @@
 2025-08-18 14:12:33,326 - INFO - composites.py:108 -         Time: 2020-09
 2025-08-18 14:12:33,326 - INFO - composites.py:111 -                           
 2025-08-18 14:12:33,326 - INFO - composites.py:112 - Establishing connection to datacube
+2025-08-18 14:12:34,129 - INFO - composites.py:115 -                           
+2025-08-18 14:12:34,129 - INFO - composites.py:116 - Sanity test: Check if dataset already exists in the datacube
+2025-08-18 14:12:34,149 - INFO - composites.py:134 - The composite requested will be computed
+2025-08-18 14:12:34,149 - INFO - composites.py:137 -                                  
+2025-08-18 14:12:34,149 - INFO - composites.py:138 - Initializing Dask cluster for parallelization
+2025-08-18 14:12:40,610 - INFO - composites.py:170 - Dask dashboard is available at: http://127.0.0.1:8787/status
+2025-08-18 14:12:40,610 - INFO - composites.py:173 - Create directories and naming conversions
+2025-08-18 14:12:40,615 - INFO - composites.py:184 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/09/x09_y12
+2025-08-18 14:12:40,615 - INFO - composites.py:187 -                           
+2025-08-18 14:12:40,615 - INFO - composites.py:188 - Retrieve tile geometry
+2025-08-18 14:12:40,662 - INFO - composites.py:199 - Create the Bounding Box (φ,λ)
+2025-08-18 14:12:40,662 - INFO - composites.py:205 - Create the Bounding Box (x,y)
+2025-08-18 14:12:40,662 - INFO - composites.py:218 -                           
+2025-08-18 14:12:40,662 - INFO - composites.py:219 - Connect to Planetary Computer STAC Catalog
+2025-08-18 14:12:40,986 - INFO - composites.py:227 - Search the STAC Catalog
+2025-08-18 14:12:41,057 - INFO - composites.py:239 -         Query parameters:
+2025-08-18 14:12:41,057 - INFO - composites.py:240 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-18 14:12:41,057 - INFO - composites.py:241 -             client:       microsoft-pc
+2025-08-18 14:12:41,057 - INFO - composites.py:242 -             collection:   sentinel-2-l2a
+2025-08-18 14:12:41,057 - INFO - composites.py:243 -             bbox:         (22.089419530330954, 38.650163857606934, 22.765503460110533, 39.19943817102155)
+2025-08-18 14:12:41,057 - INFO - composites.py:244 -             time range:   2020-09-01T00:00:00Z/2020-09-30T23:59:59Z
+2025-08-18 14:12:41,057 - INFO - composites.py:245 -             cloud cover:  0% - 70%
+2025-08-18 14:12:41,057 - INFO - composites.py:246 -             nodata cover: 0% - 33%
+2025-08-18 14:12:41,057 - INFO - composites.py:248 -                           
+2025-08-18 14:12:41,057 - INFO - composites.py:249 - Searching...
+2025-08-18 14:12:41,504 - INFO - composites.py:252 - Query found 24 items
+2025-08-18 14:12:41,504 - INFO - composites.py:254 - Searching for GRI REFINED scenes:
+2025-08-18 14:12:53,063 - INFO - sentinel2.py:63 - 1/24 - S2A_MSIL2A_20200930T092031_R093_T34SFJ_20201002T062129 -> Not Found
+2025-08-18 14:13:05,251 - INFO - sentinel2.py:63 - 2/24 - S2A_MSIL2A_20200930T092031_R093_T34SFH_20201002T062307 -> Not Found
+2025-08-18 14:13:13,503 - INFO - sentinel2.py:63 - 3/24 - S2A_MSIL2A_20200930T092031_R093_T34SEJ_20201002T062819 -> Not Found
+2025-08-18 14:13:24,035 - INFO - sentinel2.py:63 - 4/24 - S2A_MSIL2A_20200930T092031_R093_T34SEH_20201002T062414 -> Not Found
+2025-08-18 14:13:32,067 - INFO - sentinel2.py:63 - 5/24 - S2B_MSIL2A_20200925T092029_R093_T34SFJ_20200926T230415 -> Not Found
+2025-08-18 14:13:41,227 - INFO - sentinel2.py:63 - 6/24 - S2B_MSIL2A_20200925T092029_R093_T34SFH_20200926T230424 -> Not Found
+2025-08-18 14:13:50,750 - INFO - sentinel2.py:63 - 7/24 - S2B_MSIL2A_20200925T092029_R093_T34SEJ_20200926T230419 -> Not Found
+2025-08-18 14:14:00,245 - INFO - sentinel2.py:63 - 8/24 - S2B_MSIL2A_20200925T092029_R093_T34SEH_20200926T230409 -> Not Found
+2025-08-18 14:14:08,031 - INFO - sentinel2.py:63 - 9/24 - S2A_MSIL2A_20200920T092031_R093_T34SFJ_20200923T000508 -> Not Found
+2025-08-18 14:14:16,808 - INFO - sentinel2.py:63 - 10/24 - S2A_MSIL2A_20200920T092031_R093_T34SFH_20200923T000444 -> Not Found
+2025-08-18 14:14:23,851 - INFO - sentinel2.py:63 - 11/24 - S2A_MSIL2A_20200920T092031_R093_T34SEJ_20200923T000440 -> Not Found
+2025-08-18 14:14:31,880 - INFO - sentinel2.py:63 - 12/24 - S2A_MSIL2A_20200920T092031_R093_T34SEH_20200923T000440 -> Not Found
+2025-08-18 14:14:44,734 - INFO - sentinel2.py:63 - 13/24 - S2B_MSIL2A_20200915T092029_R093_T34SFJ_20200918T102700 -> Not Found
+2025-08-18 14:14:52,097 - INFO - sentinel2.py:63 - 14/24 - S2B_MSIL2A_20200915T092029_R093_T34SFH_20200918T102643 -> Not Found

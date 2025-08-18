@@ -27,9 +27,13 @@ The composite pipeline automates the creation of monthly median mosaics of Senti
   - Implementation note: Sen2Cor uses [`skimage.measure.block_reduce`](https://github.com/scikit-image/scikit-image/blob/v0.25.2/skimage/measure/block.py#L5-L94) (and from [docs](https://scikit-image.org/docs/0.25.x/api/skimage.measure.html#skimage.measure.block_reduce)), as it can be found in the `L2A_Tables.py` module. This is also available in `xarray`'s [`coarsen`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.coarsen.html#xarray-dataarray-coarsen) function, which is a replica of this function as stated [in this issue](https://github.com/pydata/xarray/issues/2525). This ensures consistency with ESA’s Sen2Cor processing chain.
 - **Baseline change**: Working with S2-L2A time series from MS PC requires a [baseline change](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a#Baseline-Change) [to Sen2Cor `4.00` ](https://sentinels.copernicus.eu/web/sentinel/-/copernicus-sentinel-2-major-products-upgrade-upcoming). For scenes after `2022-01-05` (January 25th, 2022), an offset of `-1000` is applied.
 - **Masking**: Cloud, shadow, cirrus, and snow/ice pixels are masked using the Scene Classification Layer (SCL).
-- **Spectral indices**: [NDVI](https://www.indexdatabase.de/db/i-single.php?id=58), [EVI](https://www.indexdatabase.de/db/i-single.php?id=16), and [PSRI2](https://www.indexdatabase.de/db/i-single.php?id=69) are calculated per timestamp, then reduced into median composites along with the spectral bands.
+- **Spectral indices**: [NDVI](https://www.indexdatabase.de/db/i-single.php?id=58), [EVI](https://www.indexdatabase.de/db/i-single.php?id=16), and [PSRI2](https://www.indexdatabase.de/db/i-single.php?id=69) are calculated per timestamp before median temporal reduction.
 - **Compositing**: A median temporal composite is produced per tile and month.
 - **Output**: Results are stored as Cloud-Optimized GeoTIFFs (COGs), with metadata ([dataset definitions](https://opendatacube.readthedocs.io/en/latest/installation/dataset-documents.html)) recorded in both [EO3 YAML](https://eodatasets.readthedocs.io/en/eodatasets3-1.9.3/) and [STAC JSON](https://pystac.readthedocs.io/en/latest/index.html) formats for datacube indexing.
+
+## Normalized time series
+
+## Classification
 
 ## References
 
