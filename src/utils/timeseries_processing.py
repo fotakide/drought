@@ -146,7 +146,7 @@ def process_epsg(filtered_items, aoi_bbox, EPSG):
             logging.info('        Downsample 10m bands to 20m by average 2x2 binning')
             ds_cube = s2_downsample_dataset_10m_to_20m(ds_cube)
             RESAMPLING_ALGO = "bilinear"
-            logging.info(f'        Warp (reproject) 2x2 binned bands like native 20m bands: method={RESAMPLING_ALGO}')
+            logging.info(f'        Warp (reproject) 2x2 binned bands to match shape of native 20m bands: method={RESAMPLING_ALGO}')
             ds_bands = ds_cube.odc.reproject(how=geobox, resampling=RESAMPLING_ALGO)
         elif RESOLUTION==20:
             logging.info('        Fix order of dimensions')
