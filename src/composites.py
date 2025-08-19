@@ -25,11 +25,7 @@ import numpy as np
 
 import xarray as xr
 import rioxarray as rxr
-from rioxarray.merge import merge_datasets
 import odc.geo.xr
-
-from odc.algo import mask_cleanup
-from dea_tools.spatial import xr_rasterize
 
 import geopandas as gpd
 from odc.geo.geom import BoundingBox
@@ -57,7 +53,7 @@ import time, logging
 from utils.metadata import prepare_eo3_metadata_NAS
 from utils.sentinel2 import check_gri_refinement, plot_mgrs_tiles_with_aoi
 from utils.timeseries_processing import merge_nodata0, save_dataset_preview, process_epsg
-from utils.utils import mkdir, setup_logger, generate_geojson_files_for_composites
+from utils.utils import mkdir, setup_logger
 
 # Ignore warnings
 import warnings
