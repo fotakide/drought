@@ -71,9 +71,9 @@ if __name__ == "__main__":
         if rc == 0:
             with done_file.open("a", encoding="utf-8") as df:
                 df.write(gf + "\n")
-            log.info(f"✔ Processed {gf} | [{i} / {len(geojson_files)} ({round(100*((i)/len(geojson_files)),2)}%]")
+            log.info(f"✔ Processed {gf} | [{i} / {len(geojson_files)}] ({round(100*((i)/len(geojson_files)),2)}%)")
         else:
-            log.error(f"✖ Failed {gf} with exit code {rc} | [{i} / {len(geojson_files)} ({round(100*((i)/len(geojson_files)),2)}%]")
+            log.error(f"✖ Failed {gf} with exit code {rc} | [{i} / {len(geojson_files)}] ({round(100*((i)/len(geojson_files)),2)}%)")
             # optional small backoff to avoid rapid-fire restarts on a flaky machine
             time.sleep(2)
             

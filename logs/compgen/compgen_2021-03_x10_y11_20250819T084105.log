@@ -1,0 +1,124 @@
+2025-08-19 08:41:05,032 - INFO - composites.py:104 - #######################################################################
+2025-08-19 08:41:05,032 - INFO - composites.py:106 - Processing started
+2025-08-19 08:41:05,033 - INFO - composites.py:107 -         Tile: x10_y11
+2025-08-19 08:41:05,033 - INFO - composites.py:108 -         Time: 2021-03
+2025-08-19 08:41:05,033 - INFO - composites.py:111 -                           
+2025-08-19 08:41:05,033 - INFO - composites.py:112 - Establishing connection to datacube
+2025-08-19 08:41:05,833 - INFO - composites.py:115 -                           
+2025-08-19 08:41:05,833 - INFO - composites.py:116 - Sanity test: Check if dataset already exists in the datacube
+2025-08-19 08:41:05,853 - INFO - composites.py:135 - The composite requested was not found and it will be computed
+2025-08-19 08:41:05,854 - INFO - composites.py:138 -                                  
+2025-08-19 08:41:05,854 - INFO - composites.py:139 - Initializing Dask cluster for parallelization
+2025-08-19 08:41:12,167 - INFO - composites.py:163 - Dask dashboard is available at: http://127.0.0.1:8787/status
+2025-08-19 08:41:12,168 - INFO - composites.py:166 - Create directories and naming conversions
+2025-08-19 08:41:12,174 - INFO - composites.py:177 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11
+2025-08-19 08:41:12,174 - INFO - composites.py:180 -                           
+2025-08-19 08:41:12,174 - INFO - composites.py:181 - Retrieve tile geometry
+2025-08-19 08:41:12,205 - INFO - composites.py:192 - Create the Bounding Box (φ,λ)
+2025-08-19 08:41:12,205 - INFO - composites.py:198 - Create the Bounding Box (x,y)
+2025-08-19 08:41:12,205 - INFO - composites.py:211 -                           
+2025-08-19 08:41:12,205 - INFO - composites.py:212 - Connect to Planetary Computer STAC Catalog
+2025-08-19 08:41:12,457 - INFO - composites.py:220 - Search the STAC Catalog
+2025-08-19 08:41:12,535 - INFO - composites.py:232 -         Query parameters:
+2025-08-19 08:41:12,535 - INFO - composites.py:233 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-19 08:41:12,535 - INFO - composites.py:234 -             client:       microsoft-pc
+2025-08-19 08:41:12,535 - INFO - composites.py:235 -             collection:   sentinel-2-l2a
+2025-08-19 08:41:12,535 - INFO - composites.py:236 -             bbox:         (22.551510740438168, 38.148576547644886, 23.225099953185694, 38.70016385760693)
+2025-08-19 08:41:12,535 - INFO - composites.py:237 -             time range:   2021-03-01T00:00:00Z/2021-03-31T23:59:59Z
+2025-08-19 08:41:12,535 - INFO - composites.py:238 -             cloud cover:  0% - 70%
+2025-08-19 08:41:12,535 - INFO - composites.py:239 -             nodata cover: 0% - 33%
+2025-08-19 08:41:12,535 - INFO - composites.py:241 -                           
+2025-08-19 08:41:12,535 - INFO - composites.py:242 - Searching...
+2025-08-19 08:41:12,912 - INFO - composites.py:245 - Query found 5 items
+2025-08-19 08:41:12,912 - INFO - composites.py:247 - Searching for GRI REFINED scenes:
+2025-08-19 08:41:20,934 - INFO - sentinel2.py:78 - 1/5 - S2A_MSIL2A_20210329T092031_R093_T34SFH_20210330T051057 -> Not Found
+2025-08-19 08:41:29,761 - INFO - sentinel2.py:78 - 2/5 - S2B_MSIL2A_20210324T092029_R093_T34SFH_20210324T204910 -> Not Found
+2025-08-19 08:41:37,814 - INFO - sentinel2.py:78 - 3/5 - S2A_MSIL2A_20210319T092031_R093_T34SFH_20210319T215858 -> Not Found
+2025-08-19 08:41:47,095 - INFO - sentinel2.py:78 - 4/5 - S2A_MSIL2A_20210309T092031_R093_T34SFH_20210309T215606 -> Not Found
+2025-08-19 08:41:56,143 - INFO - sentinel2.py:78 - 5/5 - S2B_MSIL2A_20210304T092029_R093_T34SFH_20210304T234652 -> Not Found
+2025-08-19 08:41:56,197 - INFO - composites.py:250 -                                  
+2025-08-19 08:41:56,197 - INFO - composites.py:251 - 0/5 were refined by GRI.
+2025-08-19 08:41:56,197 - WARNING - composites.py:255 - Tile x10_y11 | Time: 2021-03: All scenes are flagged NOT REFINED.
+2025-08-19 08:41:56,197 - WARNING - composites.py:256 - Tile x10_y11 | Time: 2021-03: The composite will be flagged with _NOREFINED.
+2025-08-19 08:41:56,198 - INFO - composites.py:263 - Looking for up to 10 cleanest images within spatiotemporal range of each MGRS tile
+2025-08-19 08:41:56,198 - INFO - composites.py:277 - Filtered cleanest scenes: Kept 5 out of 5 items. 
+2025-08-19 08:41:56,198 - INFO - composites.py:278 -         Included MGRS Tiles: ['34SFH']
+2025-08-19 08:41:56,199 - INFO - composites.py:279 -         Included EPSG codes: [32634]
+2025-08-19 08:41:56,211 - INFO - composites.py:281 - Selected scenes:
+2025-08-19 08:41:56,211 - INFO - composites.py:283 -         S2B_MSIL2A_20210304T092029_R093_T34SFH_20210304T234652
+2025-08-19 08:41:56,211 - INFO - composites.py:283 -         S2B_MSIL2A_20210324T092029_R093_T34SFH_20210324T204910
+2025-08-19 08:41:56,217 - INFO - composites.py:283 -         S2A_MSIL2A_20210319T092031_R093_T34SFH_20210319T215858
+2025-08-19 08:41:56,217 - INFO - composites.py:283 -         S2A_MSIL2A_20210329T092031_R093_T34SFH_20210330T051057
+2025-08-19 08:41:56,218 - INFO - composites.py:283 -         S2A_MSIL2A_20210309T092031_R093_T34SFH_20210309T215606
+2025-08-19 08:41:56,802 - INFO - sentinel2.py:154 - Matplotlib backend: Agg
+2025-08-19 08:41:56,970 - INFO - sentinel2.py:224 - Write input scenes footprint overlay: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_InDataFootprint.jpeg
+2025-08-19 08:41:57,248 - INFO - composites.py:297 -                                  
+2025-08-19 08:41:57,248 - INFO - composites.py:298 - Downstream STAC items from Planetary Computer
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:114 -                                  
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:115 - Loading bands of diferent resolutions in EPSG:32634
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:119 -     Filtering items with native UTM EPSG:32634
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:121 -     5 Items in EPSG:32634
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:128 -                        
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:129 -     Loading parameters:
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:130 -         Bands: ['B05', 'B07', 'B8A', 'SCL']
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:131 -         Spatial resolution: 20
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:133 -         Get Assets from STAC Items
+2025-08-19 08:41:57,248 - INFO - timeseries_processing.py:46 -         Initialize the STAC client
+2025-08-19 08:41:57,737 - INFO - timeseries_processing.py:136 -         Loading 5 STAC Items....
+2025-08-19 08:42:30,956 - INFO - timeseries_processing.py:158 -         Cube has been downloaded
+2025-08-19 08:42:30,957 - INFO - timeseries_processing.py:167 -         Fix order of dimensions
+2025-08-19 08:42:30,958 - INFO - timeseries_processing.py:172 -         Append bands to the band-list of EPSG:32634
+2025-08-19 08:42:30,960 - INFO - timeseries_processing.py:128 -                        
+2025-08-19 08:42:30,960 - INFO - timeseries_processing.py:129 -     Loading parameters:
+2025-08-19 08:42:30,960 - INFO - timeseries_processing.py:130 -         Bands: ['B02', 'B03', 'B04']
+2025-08-19 08:42:30,961 - INFO - timeseries_processing.py:131 -         Spatial resolution: 10
+2025-08-19 08:42:30,961 - INFO - timeseries_processing.py:133 -         Get Assets from STAC Items
+2025-08-19 08:42:30,961 - INFO - timeseries_processing.py:46 -         Initialize the STAC client
+2025-08-19 08:42:31,462 - INFO - timeseries_processing.py:136 -         Loading 5 STAC Items....
+2025-08-19 08:43:55,627 - INFO - timeseries_processing.py:158 -         Cube has been downloaded
+2025-08-19 08:43:55,627 - INFO - timeseries_processing.py:161 -         Downsample 10m bands to 20m by average 2x2 binning
+2025-08-19 08:44:02,938 - INFO - timeseries_processing.py:164 -         Warp (reproject) 2x2 binned bands to match shape of native 20m bands: method=bilinear
+2025-08-19 08:44:09,722 - INFO - timeseries_processing.py:172 -         Append bands to the band-list of EPSG:32634
+2025-08-19 08:44:09,722 - INFO - timeseries_processing.py:176 -                        
+2025-08-19 08:44:09,722 - INFO - timeseries_processing.py:177 -     Merging bands in a single dataset
+2025-08-19 08:44:09,722 - INFO - timeseries_processing.py:178 -     Ensure all partial datasets are at (x=20, y=-20) resolution
+2025-08-19 08:44:09,723 - INFO - timeseries_processing.py:182 -     Clip to the intersection of indexes
+2025-08-19 08:44:11,107 - INFO - timeseries_processing.py:191 -     Make a list of bands to merge
+2025-08-19 08:44:11,108 - INFO - timeseries_processing.py:195 -     Merge on intersection
+2025-08-19 08:44:11,108 - INFO - timeseries_processing.py:203 -     Apply masks on clouds, shadows, thin cirrus, and snow/ice
+2025-08-19 08:44:11,108 - INFO - sentinel2.py:122 -                Masking bits: [3, 7, 8, 9, 10, 11]
+2025-08-19 08:44:11,799 - INFO - timeseries_processing.py:209 -     Reproject to Tiling Schema projection EPSG:3035
+2025-08-19 08:44:18,915 - INFO - composites.py:307 - Clip and align to tile geometry
+2025-08-19 08:44:21,447 - INFO - composites.py:340 - Creating preview plot of input scenes
+2025-08-19 08:44:49,393 - INFO - timeseries_processing.py:367 - Saved preview for 'B04' to //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_InDataPreview.jpeg
+2025-08-19 08:44:49,398 - INFO - composites.py:346 - Clip value range
+2025-08-19 08:44:50,520 - INFO - composites.py:351 -                           
+2025-08-19 08:44:50,520 - INFO - composites.py:352 - Computing spectral indices:
+2025-08-19 08:44:50,520 - INFO - composites.py:355 -     EVI...
+2025-08-19 08:44:51,242 - INFO - composites.py:357 -     NDVI...
+2025-08-19 08:44:51,388 - INFO - composites.py:359 -     PSRI2...
+2025-08-19 08:44:51,623 - INFO - composites.py:362 - Clip to typical value range
+2025-08-19 08:44:51,901 - INFO - composites.py:369 - Reducing to median value temporal composite
+2025-08-19 08:45:21,229 - INFO - composites.py:388 - Define data types and nodata per band
+2025-08-19 08:45:21,396 - INFO - composites.py:409 - Assign time range and tile ID in metadata
+2025-08-19 08:45:21,397 - INFO - composites.py:417 - Write bands to raster COG files
+2025-08-19 08:45:26,031 - INFO - composites.py:430 - Write B02 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_B02.tif
+2025-08-19 08:45:30,717 - INFO - composites.py:430 - Write B03 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_B03.tif
+2025-08-19 08:45:35,480 - INFO - composites.py:430 - Write B04 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_B04.tif
+2025-08-19 08:45:40,241 - INFO - composites.py:430 - Write B05 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_B05.tif
+2025-08-19 08:45:44,981 - INFO - composites.py:430 - Write B07 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_B07.tif
+2025-08-19 08:45:49,677 - INFO - composites.py:430 - Write B8A -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_B8A.tif
+2025-08-19 08:45:54,473 - INFO - composites.py:430 - Write EVI -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_evi.tif
+2025-08-19 08:45:59,320 - INFO - composites.py:430 - Write NDVI -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_ndvi.tif
+2025-08-19 08:46:04,854 - INFO - composites.py:430 - Write PSRI2 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2021/03/x10_y11/S2L2A_medcomp_x10_y11_202103_psri2.tif
+2025-08-19 08:46:04,873 - INFO - composites.py:434 - Prepare metadata YAML document
+2025-08-19 08:46:05,756 - INFO - composites.py:455 - Write metadata YAML document to disk
+2025-08-19 08:46:05,800 - INFO - composites.py:460 - Create datacube.model.Dataset from eo3 metadata
+2025-08-19 08:46:05,819 - INFO - composites.py:471 - Index to datacube
+2025-08-19 08:46:05,820 - INFO - _datasets.py:191 - Indexing 5457df95-d801-42a9-a338-98052aeaf46d
+2025-08-19 08:46:05,833 - INFO - composites.py:474 - 
+2025-08-19 08:46:05,833 - INFO - composites.py:475 -              ✔✔✔ COMPLETED: Tile x10_y11 | Time: 2021-03 | In 5.01 minutes
+2025-08-19 08:46:05,833 - INFO - composites.py:476 - 
+2025-08-19 08:46:05,833 - INFO - composites.py:484 - Closing Dask client
+2025-08-19 08:46:05,835 - INFO - composites.py:488 - Closing Dask cluster
+2025-08-19 08:46:05,835 - INFO - composites.py:489 - #######################################################################
