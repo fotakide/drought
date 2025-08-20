@@ -1,0 +1,6 @@
+2025-08-20 17:29:10,357 - INFO - composites.py:100 - #######################################################################
+2025-08-20 17:29:10,358 - INFO - composites.py:102 - Processing started
+2025-08-20 17:29:10,358 - INFO - composites.py:103 -         Tile: x12_y12
+2025-08-20 17:29:10,358 - INFO - composites.py:104 -         Time: 2022-02
+2025-08-20 17:29:10,358 - INFO - composites.py:107 -                           
+2025-08-20 17:29:10,358 - INFO - composites.py:108 - Establishing connection to datacube
