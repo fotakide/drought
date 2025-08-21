@@ -146,7 +146,7 @@ def process_epsg(filtered_items, aoi_bbox, EPSG):
         logging.info(f'        Cube has been downloaded')
         
         if RESOLUTION==10:
-            logging.info('        Downsample 10m bands to 20m by average 2x2 binning and shape matching')
+            logging.info('        Reproject to downsample 10m bands to 20m by Resampling.average 2x2 binning and shape matching with odc.geo.GeoBox')
             # ds_cube = s2_downsample_dataset_10m_to_20m(ds_cube)
             # RESAMPLING_ALGO = "average" # not the same as rasterio.enums.Resampling.average
             # logging.info(f'        Align binned bands to native 20m bands (shape matching): method={RESAMPLING_ALGO}')
