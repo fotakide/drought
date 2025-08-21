@@ -303,6 +303,8 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         RESAMPLING_ALGO = "bilinear"
         logging.info(f'Reproject from UTM Zone to Tile geometry -> CRS(EPSG:{EPSG}), Resampling.{RESAMPLING_ALGO.lower()}')
         processed_epsgs_to_tile = [ds.odc.reproject(how=tile_geobox, resampling=Resampling[RESAMPLING_ALGO]) for ds in processed_epsgs]
+        
+        logging.info(f'    New shape of datasets: {processed_epsgs_to_tile[0].odc.geobox.shape}')
         del processed_epsgs
         gc.collect()
         
