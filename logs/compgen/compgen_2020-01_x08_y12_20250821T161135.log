@@ -96,7 +96,7 @@
 2025-08-21 16:13:18,501 - INFO - timeseries_processing.py:47 -         Initialize the STAC client
 2025-08-21 16:13:19,030 - INFO - timeseries_processing.py:137 -         Loading 15 STAC Items....
 2025-08-21 16:14:45,057 - INFO - timeseries_processing.py:146 -         Cube has been downloaded
-2025-08-21 16:14:45,057 - INFO - timeseries_processing.py:149 -         Downsample 10m bands to 20m by average 2x2 binning and shape matching
+2025-08-21 16:14:45,057 - INFO - timeseries_processing.py:149 -         Reproject to downsample 10m bands to 20m by Resampling.average 2x2 binning and shape matching with odc.geo.GeoBox
 2025-08-21 16:14:51,085 - INFO - timeseries_processing.py:161 -         Append bands to the band-list of EPSG:32634
 2025-08-21 16:14:51,086 - INFO - timeseries_processing.py:165 -                        
 2025-08-21 16:14:51,086 - INFO - timeseries_processing.py:166 -     Merging bands in a single dataset
