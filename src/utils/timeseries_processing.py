@@ -23,6 +23,7 @@ from urllib3 import Retry
 import xarray as xr
 import numpy as np
 
+from rasterio.enums import Resampling
 from utils.downsample import s2_downsample_dataset_10m_to_20m
 from utils.sentinel2 import mask_with_scl
 
@@ -141,28 +142,16 @@ def process_epsg(filtered_items, aoi_bbox, EPSG):
             EPSG,
             RESOLUTION
         )
-        # ds_cube = odc.stac.stac_load(
-        #     epsg_filtered_items,
-        #     bbox=aoi_bbox,
-        #     bands=BANDS,
-        #     chunks=dict(y=1024, x=1024),
-        #     crs=f'EPSG:{EPSG}',  # {epsgs[0]}
-        #     resolution=RESOLUTION,
-        #     groupby='time', # if 'time' loads all items, retaining duplicates
-        #     fail_on_error=True,
-        #     # resampling={
-        #     #     "*": RESAMPLING_ALGO,
-        #     # },
-        # ).compute()
         
         logging.info(f'        Cube has been downloaded')
         
         if RESOLUTION==10:
-            logging.info('        Downsample 10m bands to 20m by average 2x2 binning')
-            ds_cube = s2_downsample_dataset_10m_to_20m(ds_cube)
-            RESAMPLING_ALGO = "bilinear"
-            logging.info(f'        Align binned bands to native 20m bands (shape matching): method={RESAMPLING_ALGO}')
-            ds_bands = ds_cube.odc.reproject(how=geobox, resampling=RESAMPLING_ALGO)
+            logging.info('        Downsample 10m bands to 20m by average 2x2 binning and shape matching')
+            # ds_cube = s2_downsample_dataset_10m_to_20m(ds_cube)
+            # RESAMPLING_ALGO = "bilinear"
+            # logging.info(f'        Align binned bands to native 20m bands (shape matching): method={RESAMPLING_ALGO}')
+            # ds_bands = ds_cube.odc.reproject(how=geobox, resampling=RESAMPLING_ALGO)
+            ds_bands = ds_cube.odc.reproject(how=geobox, resampling=Resampling.average) #, dst_nodata=0)
         elif RESOLUTION==20:
             logging.info('        Fix order of dimensions')
             ds_bands = ds_cube[['time','y','x']+list(ds_cube.data_vars)]

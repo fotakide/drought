@@ -8,7 +8,7 @@
 ## SCRIPT:           run_composites.py
 ## AUTHOR:           Vangelis Fotakidis (fotakidis@topo.auth.gr)
 ##
-## DESCRIPTION:      Script to run CLI subprocesses of the `composites.py` module 
+## DESCRIPTION:      Script to run CLI subprocesses of the `composites.py` module  >>> (venv) python run_composites.py
 ##
 #######################################################################
 '''
