@@ -18,9 +18,11 @@ import logging
 
 from typing import Tuple, Optional, Dict
 import geopandas as gpd
-from datacube.utils.geometry import CRS, Geometry
-from datacube.model import GridSpec
+
+from odc.geo.gridspec import GridSpec
+from odc.geo import Resolution, CRS, XY, Shape2d, Geometry
 from odc.io.text import split_and_check, parse_range_int
+
 
 # ====================
 # sources: 
@@ -29,15 +31,13 @@ from odc.io.text import split_and_check, parse_range_int
 # ====================
 
 
-epsg3035 = CRS("epsg:3035")
-
 GRIDS = {
     **{
         f"lambert_gr_{n}": GridSpec(
-            crs=epsg3035,
-            tile_size=(48_000.0, 48_000.0),
-            resolution=(-n, n),
-            origin=(1247985.0, 4943985.0),   # Captures Greece without negative indices.
+            crs=CRS("EPSG:3035"),
+            tile_shape=Shape2d(48_000.0/n, 48_000.0/n),
+            resolution=Resolution(x=n, y=-n),
+            origin=XY(4943980.0, 1247980.0),   # Captures Greece without negative indices.
             # origin=(1391985.0, 5087985.0),
             # origin=(2015985.0, 5375985.0),
         )
@@ -99,7 +99,7 @@ def get_tiles(resolution, aoi_gdf_path, outfile):
    
     # From the GridSpec get the crs and resolution.
     crs = gridspec.crs
-    resolution = abs(gridspec.resolution[0])
+    resolution = abs(gridspec.resolution.x)
 
     area_footprint = gpd.read_file(aoi_gdf_path).to_crs(crs).dissolve()
     
