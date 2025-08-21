@@ -193,13 +193,6 @@ def process_epsg(filtered_items, aoi_bbox, EPSG):
     BANDS = ['B02', 'B03', 'B04', 'B05', 'B07', 'B8A', 'SCL']
     ds_epsg_masked = mask_with_scl(ds_epsg, BANDS)
     
-    RESAMPLING_ALGO = "bilinear"
-    EPSG = '3035'
-    logging.info(f'    Reproject to Tiling Schema projection EPSG:{EPSG}')
-    ds_epsg_masked = ds_epsg_masked.odc.reproject(how=f'EPSG:{EPSG}', resampling=RESAMPLING_ALGO)
-    
-    # processed_epsgs.append(ds_epsg_masked)
-    # gc.collect()
     return ds_epsg_masked
 
 

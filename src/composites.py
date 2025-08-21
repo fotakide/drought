@@ -30,6 +30,7 @@ import odc.geo.xr
 import geopandas as gpd
 from odc.geo.geom import BoundingBox
 from shapely.geometry import shape as shapely_shape
+from rasterio.enums import Resampling
 
 import pystac_client
 import odc.stac
@@ -299,15 +300,15 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         for EPSG in epsgs:
             processed_epsgs.append(process_epsg(filtered_items, aoi_bbox, EPSG))
                
-        
-        logging.info('Clip and align to tile geometry')
-        processed_epsgs_to_tile = [ds.odc.reproject(how=tile_geobox) for ds in processed_epsgs]
+        RESAMPLING_ALGO = "bilinear"
+        logging.info(f'Reproject from UTM Zone to Tile geometry -> CRS(EPSG:{EPSG}), Resampling.{RESAMPLING_ALGO.lower()}')
+        processed_epsgs_to_tile = [ds.odc.reproject(how=tile_geobox, resampling=Resampling[RESAMPLING_ALGO]) for ds in processed_epsgs]
         del processed_epsgs
         gc.collect()
         
         if len(processed_epsgs_to_tile)>1:
             logging.info(f'                          ')
-            logging.info(f'Mosaic datasets of different native UTM zones to a single dataset')
+            logging.info(f'Mosaic datasets to a single dataset')
             ds_timeseries = merge_nodata0(processed_epsgs_to_tile, vars_mode="intersection", method="mean", chunks=None)
         else:
             ds_timeseries = processed_epsgs_to_tile[0]
