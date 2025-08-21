@@ -62,7 +62,7 @@ def setup_logger(logger_name, logger_path, logger_format):
 
 def generate_geojson_files_for_composites(
     output_dir="../geojsons/compgen",
-    tile_geojson_filepath="../anciliary/grid_v2.geojson",
+    tile_geojson_filepath="../anciliary/grid_20_v2.geojson",
     start_date=datetime.datetime(2020, 1, 1),
     end_date=datetime.datetime(2025, 9, 1),
 ):

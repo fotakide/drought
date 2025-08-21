@@ -13,7 +13,7 @@ Based on [Open Data Cube](https://www.opendatacube.org/). For the EODC, the foll
 6. Verified dataset storage, indexing, and retrieval from NAS using EO3 datasets and EODC
 
 ### Tiling schema
-The study area is divided into 20 tiles, each measuring 48 × 48 km. Tile naming follows the format `x00_y00` format without negative indices. In 20-m imagery this translates to time×variables×2400×2400 pixel time series. A 2400×2400 size was found appropriate for an effective processing in a 32GB - 8 CPU configuration, with an average product delivery time of 7 minutes.
+The study area is divided into 21 tiles, each measuring 48 × 48 km. Tile naming follows the format `x00_y00` format without negative indices. In 20-m imagery this translates to time×variables×2400×2400 pixel time series. A 2400×2400 size was found appropriate for an effective processing in a 32GB - 8 CPU configuration, with an average product delivery time of 7 minutes.
 
 ![Grid](wiki_img/Grid.jpg)
 
