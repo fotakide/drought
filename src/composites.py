@@ -51,9 +51,10 @@ import datetime, pytz
 from pathlib import Path
 import time, logging
 
-from utils.metadata import prepare_eo3_metadata_NAS
 from utils.sentinel2 import check_gri_refinement, plot_mgrs_tiles_with_aoi
+from utils import spectral_indices
 from utils.timeseries_processing import merge_nodata0, save_dataset_preview, process_epsg
+from utils.metadata import prepare_eo3_metadata_NAS
 from utils.utils import mkdir, setup_logger
 
 # Ignore warnings
@@ -352,11 +353,11 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         SIS = ['evi', 'ndvi', 'psri2']
 
         logging.info('    EVI...')
-        ds_timeseries['evi'] = 2.5 * ((ds_timeseries.B8A - ds_timeseries.B04)/10000) / ((ds_timeseries.B8A/10000 + 6*ds_timeseries.B04/10000 - 7.5*ds_timeseries.B02/10000) + 1)
+        ds_timeseries['evi'] = spectral_indices.evi(ds=ds_timeseries)
         logging.info('    NDVI...')
-        ds_timeseries['ndvi'] = ((ds_timeseries.B05 - ds_timeseries.B03) / ds_timeseries.B07).astype('float32')
+        ds_timeseries['ndvi'] = spectral_indices.ndvi(ds_timeseries)
         logging.info('    PSRI2...')
-        ds_timeseries['psri2'] = ((ds_timeseries.B8A - ds_timeseries.B04) / (ds_timeseries.B8A + ds_timeseries.B04)).astype('float32')
+        ds_timeseries['psri2'] = spectral_indices.psri2(ds_timeseries)
 
         logging.info('Clip to typical value range')
         for si in SIS:
