@@ -385,7 +385,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         client.run(lambda: __import__("gc").collect()); gc.collect()
         gc.collect()
         
-        logging.info('Define data types and nodata per band')
+        logging.info('Scale and Define data types & nodata per band')
         VARS = BANDS+SIS
 
         for band in BANDS:
