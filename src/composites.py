@@ -350,18 +350,18 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
                         
         logging.info(f'                          ')
         logging.info('Computing spectral indices:')
-        SIS = ['evi', 'ndvi', 'psri2']
+        SIS = ['EVI', 'NDVI', 'PSRI2']
 
         logging.info('    EVI...')
-        ds_timeseries['evi'] = spectral_indices.evi(ds=ds_timeseries)
+        ds_timeseries['EVI'] = spectral_indices.evi(ds=ds_timeseries)
         logging.info('    NDVI...')
-        ds_timeseries['ndvi'] = spectral_indices.ndvi(ds_timeseries)
+        ds_timeseries['NDVI'] = spectral_indices.ndvi(ds_timeseries)
         logging.info('    PSRI2...')
-        ds_timeseries['psri2'] = spectral_indices.psri2(ds_timeseries)
+        ds_timeseries['PSRI2'] = spectral_indices.psri2(ds_timeseries)
 
         logging.info('Clip to typical value range')
         for si in SIS:
-            if si in ['ndvi', 'evi']:
+            if si in ['NDVI', 'EVI']:
                 ds_timeseries[si] = ds_timeseries[si].where((ds_timeseries[si]>=-1)&(ds_timeseries[si]<=1))
             else:
                 ds_timeseries[si] = ds_timeseries[si].where((ds_timeseries[si]>=-1)&(ds_timeseries[si]<=4))

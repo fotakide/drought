@@ -64,22 +64,22 @@ measurements:
 
   # spectral indices (3)
       # Normalized Difference Vegetation Index
-  - name: "ndvi"
-    aliases: [NDVI]
+  - name: "NDVI"
+    aliases: [ndvi]
     units: "1"
     dtype: int16
     nodata: -32768
 
       # Enhanced Vegetation Index
-  - name: "evi"
-    aliases: [EVI]
+  - name: "EVI"
+    aliases: [evi]
     units: "1"
     dtype: int16
     nodata: -32768
 
       # Plant Senescence Reflectance Index 2
-  - name: "psri2"
-    aliases: [PSRI2]
+  - name: "PSRI2"
+    aliases: [psri2]
     units: "1"
     dtype: int16
     nodata: -32768
