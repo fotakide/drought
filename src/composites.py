@@ -345,7 +345,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         
         logging.info('Clip value range')
         ds_timeseries = ds_timeseries.where(ds_timeseries > 0, np.nan)
-        ds_timeseries = ds_timeseries.where(ds_timeseries<=10000)
+        ds_timeseries = ds_timeseries.where(ds_timeseries<=12000)
         
                         
         logging.info(f'                          ')

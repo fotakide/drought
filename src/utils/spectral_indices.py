@@ -8,7 +8,7 @@ def evi(ds):
     # scale bands to [0, 1]
     nir = ds.B8A / 10000.0
     red = ds.B04 / 10000.0
-    blue = blue / 10000.0
+    blue = ds.B02 / 10000.0
     
     return (G * ((nir-red) / (nir + C1 * red - C2 * blue +L))).astype('float32')
 
