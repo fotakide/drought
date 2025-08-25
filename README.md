@@ -35,6 +35,20 @@ The composite pipeline automates the creation of monthly median mosaics of Senti
 
 ## Classification
 
+## OWS
+
+1. `drought-ows-drought_ows-1`
+2. `datacube system check`
+  - `Valid connection:       YES`
+3. `datacube-ows-update --schema --write-role odc_phd --read-role odc_phd`
+4. `datacube-ows-update --views`
+5. `datacube-ows-update`
+
+### Ignoring Exception
+```
+Ignoring Exception: /nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x06_y10/\\nas-rs.topo.auth.gr\Latomeia\DROUGHT\COMPOS\2020\06\x06_y10\S2L2A_medcomp_x06_y10_202006_B02.tif: No such file or directory
+```
+
 ## References
 
 Hislop, S., Stone, C., Gibson, R.K., Roff, A., Choat, B., Nolan, R.H., Nguyen, T.H. and Carnegie, A.J., 2023. [Using dense Sentinel-2 time series to explore combined fire and drought impacts in eucalypt forests](https://www.frontiersin.org/journals/forests-and-global-change/articles/10.3389/ffgc.2023.1018936). *Frontiers in Forests and Global Change*, 6, p.1018936.

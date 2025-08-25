@@ -1,0 +1,229 @@
+2025-08-25 11:26:25,008 - INFO - composites.py:102 - #######################################################################
+2025-08-25 11:26:25,008 - INFO - composites.py:104 - Processing started
+2025-08-25 11:26:25,008 - INFO - composites.py:105 -         Tile: x11_y10
+2025-08-25 11:26:25,008 - INFO - composites.py:106 -         Time: 2020-06
+2025-08-25 11:26:25,008 - INFO - composites.py:109 -                           
+2025-08-25 11:26:25,008 - INFO - composites.py:110 - Establishing connection to datacube
+2025-08-25 11:26:25,515 - INFO - composites.py:113 -                           
+2025-08-25 11:26:25,515 - INFO - composites.py:114 - Sanity test: Check if dataset already exists in the datacube
+2025-08-25 11:26:25,533 - INFO - composites.py:133 - The composite requested was not found and it will be computed
+2025-08-25 11:26:25,533 - INFO - composites.py:136 -                                  
+2025-08-25 11:26:25,533 - INFO - composites.py:137 - Initializing Dask cluster for parallelization
+2025-08-25 11:26:30,793 - INFO - composites.py:161 - Dask dashboard is available at: http://127.0.0.1:8787/status
+2025-08-25 11:26:30,794 - INFO - composites.py:164 - Create directories and naming conversions
+2025-08-25 11:26:30,801 - INFO - composites.py:175 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10
+2025-08-25 11:26:30,801 - INFO - composites.py:178 -                           
+2025-08-25 11:26:30,801 - INFO - composites.py:179 - Retrieve tile geometry
+2025-08-25 11:26:30,830 - INFO - composites.py:190 - Create the Bounding Box (φ,λ)
+2025-08-25 11:26:30,830 - INFO - composites.py:196 - Create the Bounding Box (x,y)
+2025-08-25 11:26:30,832 - INFO - composites.py:209 -                           
+2025-08-25 11:26:30,832 - INFO - composites.py:210 - Connect to Planetary Computer STAC Catalog
+2025-08-25 11:26:31,046 - INFO - composites.py:218 - Search the STAC Catalog
+2025-08-25 11:26:31,121 - INFO - composites.py:230 -         Query parameters:
+2025-08-25 11:26:31,121 - INFO - composites.py:231 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-25 11:26:31,121 - INFO - composites.py:232 -             client:       microsoft-pc
+2025-08-25 11:26:31,121 - INFO - composites.py:233 -             collection:   sentinel-2-l2a
+2025-08-25 11:26:31,121 - INFO - composites.py:234 -             bbox:         (23.00741948027706, 37.64467818172542, 23.67848359322628, 38.19853968883684)
+2025-08-25 11:26:31,121 - INFO - composites.py:235 -             time range:   2020-06-01T00:00:00Z/2020-06-30T23:59:59Z
+2025-08-25 11:26:31,121 - INFO - composites.py:236 -             cloud cover:  0% - 70%
+2025-08-25 11:26:31,121 - INFO - composites.py:237 -             nodata cover: 0% - 33%
+2025-08-25 11:26:31,121 - INFO - composites.py:239 -                           
+2025-08-25 11:26:31,121 - INFO - composites.py:240 - Searching...
+2025-08-25 11:26:31,719 - INFO - composites.py:243 - Query found 42 items
+2025-08-25 11:26:31,719 - INFO - composites.py:245 - Searching for GRI REFINED scenes:
+2025-08-25 11:26:37,687 - INFO - sentinel2.py:78 - 1/42 - S2A_MSIL2A_20200629T090601_R050_T35SKC_20200824T131338 -> Not Found
+2025-08-25 11:26:42,675 - INFO - sentinel2.py:78 - 2/42 - S2A_MSIL2A_20200629T090601_R050_T35SKB_20200824T131337 -> Not Found
+2025-08-25 11:26:47,862 - INFO - sentinel2.py:78 - 3/42 - S2A_MSIL2A_20200629T090601_R050_T34SGH_20200824T131328 -> Not Found
+2025-08-25 11:26:53,695 - INFO - sentinel2.py:78 - 4/42 - S2A_MSIL2A_20200629T090601_R050_T34SGG_20200824T131317 -> Not Found
+2025-08-25 11:26:58,667 - INFO - sentinel2.py:78 - 5/42 - S2A_MSIL2A_20200629T090601_R050_T34SFG_20200824T131302 -> Not Found
+2025-08-25 11:27:04,214 - INFO - sentinel2.py:78 - 6/42 - S2B_MSIL2A_20200627T092029_R093_T34SFH_20200824T084050 -> Not Found
+2025-08-25 11:27:09,518 - INFO - sentinel2.py:78 - 7/42 - S2B_MSIL2A_20200627T092029_R093_T34SFG_20200824T084051 -> Not Found
+2025-08-25 11:27:15,155 - INFO - sentinel2.py:78 - 8/42 - S2B_MSIL2A_20200624T090559_R050_T35SKC_20200823T233528 -> Not Found
+2025-08-25 11:27:21,262 - INFO - sentinel2.py:78 - 9/42 - S2B_MSIL2A_20200624T090559_R050_T35SKB_20200823T233527 -> Not Found
+2025-08-25 11:27:27,005 - INFO - sentinel2.py:78 - 10/42 - S2B_MSIL2A_20200624T090559_R050_T34SGH_20200823T233514 -> Not Found
+2025-08-25 11:27:32,697 - INFO - sentinel2.py:78 - 11/42 - S2B_MSIL2A_20200624T090559_R050_T34SGG_20200823T233514 -> Not Found
+2025-08-25 11:27:39,879 - INFO - sentinel2.py:78 - 12/42 - S2B_MSIL2A_20200624T090559_R050_T34SFG_20200823T233508 -> Not Found
+2025-08-25 11:27:44,896 - INFO - sentinel2.py:78 - 13/42 - S2A_MSIL2A_20200622T092031_R093_T34SFH_20200823T155905 -> Not Found
+2025-08-25 11:27:50,694 - INFO - sentinel2.py:78 - 14/42 - S2A_MSIL2A_20200622T092031_R093_T34SFG_20200823T155855 -> Not Found
+2025-08-25 11:27:55,719 - INFO - sentinel2.py:78 - 15/42 - S2A_MSIL2A_20200619T090601_R050_T35SKC_20200823T070640 -> Not Found
+2025-08-25 11:28:00,579 - INFO - sentinel2.py:78 - 16/42 - S2A_MSIL2A_20200619T090601_R050_T35SKB_20200823T070640 -> Not Found
+2025-08-25 11:28:06,583 - INFO - sentinel2.py:78 - 17/42 - S2A_MSIL2A_20200619T090601_R050_T34SGH_20200823T070631 -> Not Found
+2025-08-25 11:28:11,549 - INFO - sentinel2.py:78 - 18/42 - S2A_MSIL2A_20200619T090601_R050_T34SGG_20200823T070631 -> Not Found
+2025-08-25 11:28:17,001 - INFO - sentinel2.py:78 - 19/42 - S2A_MSIL2A_20200619T090601_R050_T34SFG_20200823T070618 -> Not Found
+2025-08-25 11:28:23,050 - INFO - sentinel2.py:78 - 20/42 - S2B_MSIL2A_20200617T092029_R093_T34SFH_20200908T173003 -> Not Found
+2025-08-25 11:28:29,033 - INFO - sentinel2.py:78 - 21/42 - S2B_MSIL2A_20200617T092029_R093_T34SFG_20200908T172959 -> Not Found
+2025-08-25 11:28:34,547 - INFO - sentinel2.py:78 - 22/42 - S2B_MSIL2A_20200614T090559_R050_T35SKC_20200827T093602 -> Not Found
+2025-08-25 11:28:40,795 - INFO - sentinel2.py:78 - 23/42 - S2B_MSIL2A_20200614T090559_R050_T35SKB_20200919T044454 -> Not Found
+2025-08-25 11:28:46,564 - INFO - sentinel2.py:78 - 24/42 - S2B_MSIL2A_20200614T090559_R050_T34SGH_20200827T093553 -> Not Found
+2025-08-25 11:28:52,703 - INFO - sentinel2.py:78 - 25/42 - S2B_MSIL2A_20200614T090559_R050_T34SGG_20200827T093555 -> Not Found
+2025-08-25 11:28:57,749 - INFO - sentinel2.py:78 - 26/42 - S2B_MSIL2A_20200614T090559_R050_T34SFG_20200827T093538 -> Not Found
+2025-08-25 11:29:03,661 - INFO - sentinel2.py:78 - 27/42 - S2A_MSIL2A_20200612T092041_R093_T34SFH_20200827T020830 -> Not Found
+2025-08-25 11:29:09,974 - INFO - sentinel2.py:78 - 28/42 - S2A_MSIL2A_20200612T092041_R093_T34SFG_20201027T073339 -> Not Found
+2025-08-25 11:29:15,487 - INFO - sentinel2.py:78 - 29/42 - S2A_MSIL2A_20200609T090601_R050_T35SKC_20200826T171338 -> Not Found
+2025-08-25 11:29:20,914 - INFO - sentinel2.py:78 - 30/42 - S2A_MSIL2A_20200609T090601_R050_T35SKB_20200826T171336 -> Not Found
+2025-08-25 11:29:26,465 - INFO - sentinel2.py:78 - 31/42 - S2A_MSIL2A_20200609T090601_R050_T34SGH_20200826T171312 -> Not Found
+2025-08-25 11:29:31,572 - INFO - sentinel2.py:78 - 32/42 - S2A_MSIL2A_20200609T090601_R050_T34SGG_20200826T171307 -> Not Found
+2025-08-25 11:29:37,856 - INFO - sentinel2.py:78 - 33/42 - S2A_MSIL2A_20200609T090601_R050_T34SFG_20201027T073014 -> Not Found
+2025-08-25 11:29:43,400 - INFO - sentinel2.py:78 - 34/42 - S2B_MSIL2A_20200607T092029_R093_T34SFH_20201101T142239 -> Not Found
+2025-08-25 11:29:49,315 - INFO - sentinel2.py:78 - 35/42 - S2B_MSIL2A_20200607T092029_R093_T34SFG_20200909T152327 -> Not Found
+2025-08-25 11:29:55,398 - INFO - sentinel2.py:78 - 36/42 - S2B_MSIL2A_20200604T090559_R050_T35SKC_20200826T035526 -> Not Found
+2025-08-25 11:30:00,428 - INFO - sentinel2.py:78 - 37/42 - S2B_MSIL2A_20200604T090559_R050_T35SKB_20200826T035524 -> Not Found
+2025-08-25 11:30:05,322 - INFO - sentinel2.py:78 - 38/42 - S2B_MSIL2A_20200604T090559_R050_T34SGH_20200826T035504 -> Not Found
+2025-08-25 11:30:10,866 - INFO - sentinel2.py:78 - 39/42 - S2B_MSIL2A_20200604T090559_R050_T34SGG_20200908T173025 -> Not Found
+2025-08-25 11:30:16,465 - INFO - sentinel2.py:78 - 40/42 - S2B_MSIL2A_20200604T090559_R050_T34SFG_20200908T172954 -> Not Found
+2025-08-25 11:30:21,322 - INFO - sentinel2.py:78 - 41/42 - S2A_MSIL2A_20200602T092041_R093_T34SFH_20200825T202003 -> Not Found
+2025-08-25 11:30:26,844 - INFO - sentinel2.py:78 - 42/42 - S2A_MSIL2A_20200602T092041_R093_T34SFG_20200825T202003 -> Not Found
+2025-08-25 11:30:26,897 - INFO - composites.py:248 -                                  
+2025-08-25 11:30:26,897 - INFO - composites.py:249 - 0/42 were refined by GRI.
+2025-08-25 11:30:26,906 - WARNING - composites.py:253 - Tile x11_y10 | Time: 2020-06: All scenes are flagged NOT REFINED.
+2025-08-25 11:30:26,922 - WARNING - composites.py:254 - Tile x11_y10 | Time: 2020-06: The composite will be flagged with _NOREFINED.
+2025-08-25 11:30:26,922 - INFO - composites.py:261 - Looking for up to 10 cleanest images within spatiotemporal range of each MGRS tile
+2025-08-25 11:30:26,922 - INFO - composites.py:275 - Filtered cleanest scenes: Kept 40 out of 42 items. 
+2025-08-25 11:30:26,922 - INFO - composites.py:276 -         Included MGRS Tiles: ['34SFG' '34SFH' '34SGG' '34SGH' '35SKB' '35SKC']
+2025-08-25 11:30:26,923 - INFO - composites.py:277 -         Included EPSG codes: [32634 32635]
+2025-08-25 11:30:26,924 - INFO - composites.py:279 - Selected scenes:
+2025-08-25 11:30:26,924 - INFO - composites.py:281 -         S2B_MSIL2A_20200614T090559_R050_T34SFG_20200827T093538
+2025-08-25 11:30:26,924 - INFO - composites.py:281 -         S2A_MSIL2A_20200629T090601_R050_T34SFG_20200824T131302
+2025-08-25 11:30:26,924 - INFO - composites.py:281 -         S2A_MSIL2A_20200609T090601_R050_T34SFG_20201027T073014
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200619T090601_R050_T34SFG_20200823T070618
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200604T090559_R050_T34SFG_20200908T172954
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200627T092029_R093_T34SFG_20200824T084051
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200612T092041_R093_T34SFG_20201027T073339
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200617T092029_R093_T34SFG_20200908T172959
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200624T090559_R050_T34SFG_20200823T233508
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200607T092029_R093_T34SFG_20200909T152327
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200627T092029_R093_T34SFH_20200824T084050
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200612T092041_R093_T34SFH_20200827T020830
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200617T092029_R093_T34SFH_20200908T173003
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200607T092029_R093_T34SFH_20201101T142239
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200602T092041_R093_T34SFH_20200825T202003
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200622T092031_R093_T34SFH_20200823T155905
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200629T090601_R050_T34SGG_20200824T131317
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200604T090559_R050_T34SGG_20200908T173025
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200609T090601_R050_T34SGG_20200826T171307
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200619T090601_R050_T34SGG_20200823T070631
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200614T090559_R050_T34SGG_20200827T093555
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200624T090559_R050_T34SGG_20200823T233514
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200629T090601_R050_T34SGH_20200824T131328
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200619T090601_R050_T34SGH_20200823T070631
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200604T090559_R050_T34SGH_20200826T035504
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200614T090559_R050_T34SGH_20200827T093553
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200609T090601_R050_T34SGH_20200826T171312
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200624T090559_R050_T34SGH_20200823T233514
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200629T090601_R050_T35SKB_20200824T131337
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200604T090559_R050_T35SKB_20200826T035524
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200609T090601_R050_T35SKB_20200826T171336
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200619T090601_R050_T35SKB_20200823T070640
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200614T090559_R050_T35SKB_20200919T044454
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200624T090559_R050_T35SKB_20200823T233527
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200629T090601_R050_T35SKC_20200824T131338
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200619T090601_R050_T35SKC_20200823T070640
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200604T090559_R050_T35SKC_20200826T035526
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200614T090559_R050_T35SKC_20200827T093602
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2A_MSIL2A_20200609T090601_R050_T35SKC_20200826T171338
+2025-08-25 11:30:26,925 - INFO - composites.py:281 -         S2B_MSIL2A_20200624T090559_R050_T35SKC_20200823T233528
+2025-08-25 11:30:27,414 - INFO - sentinel2.py:154 - Matplotlib backend: Agg
+2025-08-25 11:30:27,744 - INFO - sentinel2.py:224 - Write input scenes footprint overlay: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_InDataFootprint.jpeg
+2025-08-25 11:30:28,067 - INFO - composites.py:295 -                                  
+2025-08-25 11:30:28,067 - INFO - composites.py:296 - Downstream STAC items from Planetary Computer
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:115 -                                  
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:116 - Loading bands of diferent resolutions in EPSG:32634
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:120 -     Filtering items with native UTM EPSG:32634
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:122 -     28 Items in EPSG:32634
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:129 -                        
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:130 -     Loading parameters:
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:131 -         Bands: ['B05', 'B07', 'B8A', 'SCL']
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:132 -         Spatial resolution: 20
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:134 -         Get Assets from STAC Items
+2025-08-25 11:30:28,067 - INFO - timeseries_processing.py:47 -         Initialize the STAC client
+2025-08-25 11:30:28,731 - INFO - timeseries_processing.py:137 -         Loading 28 STAC Items....
+2025-08-25 11:32:06,784 - INFO - timeseries_processing.py:146 -         Cube has been downloaded
+2025-08-25 11:32:06,784 - INFO - timeseries_processing.py:156 -         Fix order of dimensions
+2025-08-25 11:32:06,787 - INFO - timeseries_processing.py:161 -         Append bands to the band-list of EPSG:32634
+2025-08-25 11:32:06,787 - INFO - timeseries_processing.py:129 -                        
+2025-08-25 11:32:06,787 - INFO - timeseries_processing.py:130 -     Loading parameters:
+2025-08-25 11:32:06,787 - INFO - timeseries_processing.py:131 -         Bands: ['B02', 'B03', 'B04']
+2025-08-25 11:32:06,787 - INFO - timeseries_processing.py:132 -         Spatial resolution: 10
+2025-08-25 11:32:06,803 - INFO - timeseries_processing.py:134 -         Get Assets from STAC Items
+2025-08-25 11:32:06,818 - INFO - timeseries_processing.py:47 -         Initialize the STAC client
+2025-08-25 11:32:07,449 - INFO - timeseries_processing.py:137 -         Loading 28 STAC Items....
+2025-08-25 11:34:38,631 - INFO - timeseries_processing.py:146 -         Cube has been downloaded
+2025-08-25 11:34:38,631 - INFO - timeseries_processing.py:149 -         Reproject to downsample 10m bands to 20m by Resampling.average 2x2 binning and shape matching with odc.geo.GeoBox
+2025-08-25 11:34:56,422 - INFO - timeseries_processing.py:161 -         Append bands to the band-list of EPSG:32634
+2025-08-25 11:34:56,422 - INFO - timeseries_processing.py:165 -                        
+2025-08-25 11:34:56,422 - INFO - timeseries_processing.py:166 -     Merging bands in a single dataset
+2025-08-25 11:34:56,422 - INFO - timeseries_processing.py:167 -     Ensure all partial datasets are at (x=20, y=-20) resolution
+2025-08-25 11:34:56,424 - INFO - timeseries_processing.py:171 -     Clip to the intersection of indexes
+2025-08-25 11:34:57,898 - INFO - timeseries_processing.py:180 -     Make a list of bands to merge
+2025-08-25 11:34:57,898 - INFO - timeseries_processing.py:184 -     Merge on intersection
+2025-08-25 11:34:57,899 - INFO - timeseries_processing.py:192 -     Apply masks on clouds, shadows, thin cirrus, and snow/ice
+2025-08-25 11:34:57,899 - INFO - sentinel2.py:122 -                Masking bits: [3, 7, 8, 9, 10, 11]
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:115 -                                  
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:116 - Loading bands of diferent resolutions in EPSG:32635
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:120 -     Filtering items with native UTM EPSG:32635
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:122 -     12 Items in EPSG:32635
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:129 -                        
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:130 -     Loading parameters:
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:131 -         Bands: ['B05', 'B07', 'B8A', 'SCL']
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:132 -         Spatial resolution: 20
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:134 -         Get Assets from STAC Items
+2025-08-25 11:34:59,484 - INFO - timeseries_processing.py:47 -         Initialize the STAC client
+2025-08-25 11:35:00,009 - INFO - timeseries_processing.py:137 -         Loading 12 STAC Items....
+2025-08-25 11:35:17,269 - INFO - timeseries_processing.py:146 -         Cube has been downloaded
+2025-08-25 11:35:17,269 - INFO - timeseries_processing.py:156 -         Fix order of dimensions
+2025-08-25 11:35:17,271 - INFO - timeseries_processing.py:161 -         Append bands to the band-list of EPSG:32635
+2025-08-25 11:35:17,271 - INFO - timeseries_processing.py:129 -                        
+2025-08-25 11:35:17,271 - INFO - timeseries_processing.py:130 -     Loading parameters:
+2025-08-25 11:35:17,271 - INFO - timeseries_processing.py:131 -         Bands: ['B02', 'B03', 'B04']
+2025-08-25 11:35:17,271 - INFO - timeseries_processing.py:132 -         Spatial resolution: 10
+2025-08-25 11:35:17,271 - INFO - timeseries_processing.py:134 -         Get Assets from STAC Items
+2025-08-25 11:35:17,274 - INFO - timeseries_processing.py:47 -         Initialize the STAC client
+2025-08-25 11:35:17,801 - INFO - timeseries_processing.py:137 -         Loading 12 STAC Items....
+2025-08-25 11:35:39,508 - INFO - timeseries_processing.py:146 -         Cube has been downloaded
+2025-08-25 11:35:39,508 - INFO - timeseries_processing.py:149 -         Reproject to downsample 10m bands to 20m by Resampling.average 2x2 binning and shape matching with odc.geo.GeoBox
+2025-08-25 11:35:46,861 - INFO - timeseries_processing.py:161 -         Append bands to the band-list of EPSG:32635
+2025-08-25 11:35:46,861 - INFO - timeseries_processing.py:165 -                        
+2025-08-25 11:35:46,861 - INFO - timeseries_processing.py:166 -     Merging bands in a single dataset
+2025-08-25 11:35:46,861 - INFO - timeseries_processing.py:167 -     Ensure all partial datasets are at (x=20, y=-20) resolution
+2025-08-25 11:35:46,862 - INFO - timeseries_processing.py:171 -     Clip to the intersection of indexes
+2025-08-25 11:35:46,863 - INFO - timeseries_processing.py:180 -     Make a list of bands to merge
+2025-08-25 11:35:46,864 - INFO - timeseries_processing.py:184 -     Merge on intersection
+2025-08-25 11:35:46,865 - INFO - timeseries_processing.py:192 -     Apply masks on clouds, shadows, thin cirrus, and snow/ice
+2025-08-25 11:35:46,865 - INFO - sentinel2.py:122 -                Masking bits: [3, 7, 8, 9, 10, 11]
+2025-08-25 11:35:47,664 - INFO - composites.py:305 - Reproject from UTM Zone to Tile geometry -> CRS(EPSG:32635), Resampling.bilinear
+2025-08-25 11:36:01,020 - INFO - composites.py:308 -     New shape of datasets: Shape2d(x=2400, y=2400)
+2025-08-25 11:36:01,441 - INFO - composites.py:313 -                           
+2025-08-25 11:36:01,441 - INFO - composites.py:314 - Mosaic datasets to a single dataset
+2025-08-25 11:36:11,667 - INFO - composites.py:340 - Creating preview plot of input scenes
+2025-08-25 11:36:49,479 - INFO - timeseries_processing.py:349 - Saved preview for 'B04' to //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_InDataPreview.jpeg
+2025-08-25 11:36:49,489 - INFO - composites.py:346 - Clip value range
+2025-08-25 11:36:51,936 - INFO - composites.py:351 -                           
+2025-08-25 11:36:51,936 - INFO - composites.py:352 - Computing spectral indices:
+2025-08-25 11:36:51,936 - INFO - composites.py:355 -     EVI...
+2025-08-25 11:36:53,403 - INFO - composites.py:357 -     NDVI...
+2025-08-25 11:36:53,942 - INFO - composites.py:359 -     PSRI2...
+2025-08-25 11:36:54,333 - INFO - composites.py:362 - Clip to typical value range
+2025-08-25 11:36:54,806 - INFO - composites.py:369 - Reducing to median value temporal composite
+2025-08-25 11:37:22,053 - INFO - composites.py:388 - Scale and Define data types & nodata per band
+2025-08-25 11:37:22,202 - INFO - composites.py:409 - Assign time range and tile ID in metadata
+2025-08-25 11:37:22,202 - INFO - composites.py:417 - Write bands to raster COG files
+2025-08-25 11:37:26,285 - INFO - composites.py:430 - Write B02 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_B02.tif
+2025-08-25 11:37:30,261 - INFO - composites.py:430 - Write B03 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_B03.tif
+2025-08-25 11:37:34,354 - INFO - composites.py:430 - Write B04 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_B04.tif
+2025-08-25 11:37:38,381 - INFO - composites.py:430 - Write B05 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_B05.tif
+2025-08-25 11:37:42,490 - INFO - composites.py:430 - Write B07 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_B07.tif
+2025-08-25 11:37:46,771 - INFO - composites.py:430 - Write B8A -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_B8A.tif
+2025-08-25 11:37:50,713 - INFO - composites.py:430 - Write EVI -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_EVI.tif
+2025-08-25 11:37:54,792 - INFO - composites.py:430 - Write NDVI -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_NDVI.tif
+2025-08-25 11:37:58,720 - INFO - composites.py:430 - Write PSRI2 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x11_y10/S2L2A_medcomp_x11_y10_202006_PSRI2.tif
+2025-08-25 11:37:58,730 - INFO - composites.py:434 - Prepare metadata YAML document
+2025-08-25 11:37:59,529 - INFO - composites.py:455 - Write metadata YAML document to disk
+2025-08-25 11:37:59,558 - INFO - composites.py:460 - Create datacube.model.Dataset from eo3 metadata
+2025-08-25 11:37:59,568 - INFO - composites.py:471 - Index to datacube
+2025-08-25 11:37:59,568 - INFO - _datasets.py:191 - Indexing 0d433ce9-3028-4627-bac0-82be9a308012
+2025-08-25 11:37:59,576 - INFO - composites.py:474 - 
+2025-08-25 11:37:59,577 - INFO - composites.py:475 -              ✔✔✔ COMPLETED: Tile x11_y10 | Time: 2020-06 | In 11.58 minutes
+2025-08-25 11:37:59,577 - INFO - composites.py:476 - 
+2025-08-25 11:37:59,577 - INFO - composites.py:484 - Closing Dask client
+2025-08-25 11:37:59,578 - INFO - composites.py:488 - Closing Dask cluster
+2025-08-25 11:37:59,578 - INFO - composites.py:489 - #######################################################################
