@@ -33,3 +33,41 @@
 2025-08-25 18:28:20,473 - INFO - composites.py:247 - Searching for GRI REFINED scenes:
 2025-08-25 18:28:26,105 - INFO - sentinel2.py:78 - 1/8 - S2A_MSIL2A_20200124T092251_R093_T34SDH_20201002T083600 -> Not Found
 2025-08-25 18:28:31,721 - INFO - sentinel2.py:78 - 2/8 - S2B_MSIL2A_20200122T093209_R136_T34SDH_20201002T060451 -> Not Found
+2025-08-25 18:28:36,594 - INFO - sentinel2.py:78 - 3/8 - S2B_MSIL2A_20200119T092219_R093_T34SDH_20201002T205129 -> Not Found
+2025-08-25 18:28:41,679 - INFO - sentinel2.py:78 - 4/8 - S2A_MSIL2A_20200117T093321_R136_T34SDH_20201002T194542 -> Not Found
+2025-08-25 18:28:47,864 - INFO - sentinel2.py:78 - 5/8 - S2B_MSIL2A_20200109T092249_R093_T34SDH_20201029T174458 -> Not Found
+2025-08-25 18:28:53,649 - INFO - sentinel2.py:78 - 6/8 - S2A_MSIL2A_20200107T093351_R136_T34SDH_20201029T110928 -> Not Found
+2025-08-25 18:28:59,937 - INFO - sentinel2.py:78 - 7/8 - S2A_MSIL2A_20200104T092401_R093_T34SDH_20201002T224237 -> Not Found
+2025-08-25 18:29:06,149 - INFO - sentinel2.py:78 - 8/8 - S2B_MSIL2A_20200102T093309_R136_T34SDH_20201002T220500 -> Not Found
+2025-08-25 18:29:06,181 - INFO - composites.py:250 -                                  
+2025-08-25 18:29:06,181 - INFO - composites.py:251 - 0/8 were refined by GRI.
+2025-08-25 18:29:06,181 - WARNING - composites.py:255 - Tile x06_y10 | Time: 2020-01: All scenes are flagged NOT REFINED.
+2025-08-25 18:29:06,181 - WARNING - composites.py:256 - Tile x06_y10 | Time: 2020-01: The composite will be flagged with _NOREFINED.
+2025-08-25 18:29:06,181 - INFO - composites.py:263 - Looking for up to 10 cleanest images within spatiotemporal range of each MGRS tile
+2025-08-25 18:29:06,183 - INFO - composites.py:277 - Filtered cleanest scenes: Kept 8 out of 8 items. 
+2025-08-25 18:29:06,183 - INFO - composites.py:278 -         Included MGRS Tiles: ['34SDH']
+2025-08-25 18:29:06,183 - INFO - composites.py:279 -         Included EPSG codes: [32634]
+2025-08-25 18:29:06,184 - INFO - composites.py:281 - Selected scenes:
+2025-08-25 18:29:06,184 - INFO - composites.py:283 -         S2B_MSIL2A_20200109T092249_R093_T34SDH_20201029T174458
+2025-08-25 18:29:06,184 - INFO - composites.py:283 -         S2A_MSIL2A_20200107T093351_R136_T34SDH_20201029T110928
+2025-08-25 18:29:06,188 - INFO - composites.py:283 -         S2A_MSIL2A_20200117T093321_R136_T34SDH_20201002T194542
+2025-08-25 18:29:06,190 - INFO - composites.py:283 -         S2B_MSIL2A_20200102T093309_R136_T34SDH_20201002T220500
+2025-08-25 18:29:06,190 - INFO - composites.py:283 -         S2B_MSIL2A_20200122T093209_R136_T34SDH_20201002T060451
+2025-08-25 18:29:06,190 - INFO - composites.py:283 -         S2A_MSIL2A_20200104T092401_R093_T34SDH_20201002T224237
+2025-08-25 18:29:06,190 - INFO - composites.py:283 -         S2A_MSIL2A_20200124T092251_R093_T34SDH_20201002T083600
+2025-08-25 18:29:06,190 - INFO - composites.py:283 -         S2B_MSIL2A_20200119T092219_R093_T34SDH_20201002T205129
+2025-08-25 18:29:06,583 - INFO - sentinel2.py:154 - Matplotlib backend: Agg
+2025-08-25 18:29:06,726 - INFO - sentinel2.py:224 - Write input scenes footprint overlay: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x06/y10/2020/01/01/S2L2A_medcomp_x06y10_202001_InDataFootprint.jpeg
+2025-08-25 18:29:06,997 - INFO - composites.py:297 -                                  
+2025-08-25 18:29:06,998 - INFO - composites.py:298 - Downstream STAC items from Planetary Computer
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:115 -                                  
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:116 - Loading bands of diferent resolutions in EPSG:32634
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:120 -     Filtering items with native UTM EPSG:32634
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:122 -     8 Items in EPSG:32634
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:129 -                        
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:130 -     Loading parameters:
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:131 -         Bands: ['B05', 'B07', 'B8A', 'SCL']
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:132 -         Spatial resolution: 20
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:134 -         Get Assets from STAC Items
+2025-08-25 18:29:06,998 - INFO - timeseries_processing.py:47 -         Initialize the STAC client
+2025-08-25 18:29:07,580 - INFO - timeseries_processing.py:137 -         Loading 8 STAC Items....

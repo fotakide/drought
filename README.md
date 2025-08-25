@@ -37,7 +37,7 @@ The composite pipeline automates the creation of monthly median mosaics of Senti
 
 ## OWS
 
-** Dont' forget to allow fire sharing in Docker**
+**Dont' forget to allow fire sharing in Docker**
 
 1. `drought-ows-drought_ows-1`
 2. `datacube system check`
