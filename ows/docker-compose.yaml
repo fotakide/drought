@@ -1,5 +1,14 @@
 # Default compose will create an ows image, with dev settings and connect to a local db
 name: drought
+
+volumes:
+  nas_drought:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "//nas-rs.topo.auth.gr/Latomeia/DROUGHT"
+      o: "username=${NAS_USER},password=${NAS_PASS},vers=3.0,ro,dir_mode=0777,file_mode=0777,uid=1000,gid=1000"
+
 services:
   drought_ows:
     build:
@@ -50,13 +59,24 @@ services:
       - ${OWS_CFG_DIR}:${OWS_CFG_MOUNT_DIR}
       - ./:/src/
       - ./artifacts:/mnt/artifacts
-      - "//nas-rs.topo.auth.gr/Latomeia/DROUGHT:/nas/Latomeia/DROUGHT"
+      - type: volume
+        source: nas_drought
+        target: /nas/Latomeia/DROUGHT
+        read_only: true
       # - type: bind
-      #   source: //nas-rs.topo.auth.gr/Latomeia/DROUGHT   # Windows UNC (escaped)
-      #   target: /mnt/nas/Latomeia/DROUGHT                              # single mount point
+      #   source: //nas-rs.topo.auth.gr/Latomeia/DROUGHT
+      #   target: /nas/Latomeia/DROUGHT
       #   read_only: true
     restart: always
     ports:
       - 9000:9000
     command: ["flask", "run", "--host=0.0.0.0", "--port=9000"]
     # command: ["/bin/sh", "-c", "ln -s /D /D: && flask run --host=0.0.0.0 --port=8000"]
+
+# volumes:
+# drought_nas:
+#   driver: local
+#   driver_opts:
+#     type: cifs
+#     device: "//nas-rs.topo.auth.gr/Latomeia"  # or "//nas-rs.topo.auth.gr/Latomeia/DROUGHT" to limit scope
+#     o: "username=${NAS_USER},password=${NAS_PASSWORD},vers=3.0,dir_mode=0777,file_mode=0777,uid=0,gid=0,noperm"
