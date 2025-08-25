@@ -430,10 +430,11 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             name_measurements.append(file_path)
             
             logging.info(f'Write {var.upper()} -> {file_path}')
-            
+        
 
 
-        logging.info('Prepare metadata YAML document')        
+        logging.info('Prepare metadata YAML document')
+        relative_name_measurements = [p.split("/")[-1] for p in name_measurements]
         eo3_doc, stac_doc = prepare_eo3_metadata_NAS(
             dc=dc,
             xr_cube=composite, 
@@ -442,7 +443,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             product_name=PRODUCT_NAME,
             product_family='ard',
             bands=VARS,
-            name_measurements=name_measurements,
+            name_measurements=relative_name_measurements,
             datetime_list=datetime_list,
             set_range=False,
             lineage_path=None,

@@ -45,6 +45,8 @@ The composite pipeline automates the creation of monthly median mosaics of Senti
 5. `datacube-ows-update`
 
 ### Ignoring Exception
+
+If below error, then metadata are not in relative paths:
 ```
 Ignoring Exception: /nas-rs.topo.auth.gr/Latomeia/DROUGHT/COMPOS/2020/06/x06_y10/\\nas-rs.topo.auth.gr\Latomeia\DROUGHT\COMPOS\2020\06\x06_y10\S2L2A_medcomp_x06_y10_202006_B02.tif: No such file or directory
 ```
