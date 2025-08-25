@@ -72,11 +72,3 @@ services:
       - 9000:9000
     command: ["flask", "run", "--host=0.0.0.0", "--port=9000"]
     # command: ["/bin/sh", "-c", "ln -s /D /D: && flask run --host=0.0.0.0 --port=8000"]
-
-# volumes:
-# drought_nas:
-#   driver: local
-#   driver_opts:
-#     type: cifs
-#     device: "//nas-rs.topo.auth.gr/Latomeia"  # or "//nas-rs.topo.auth.gr/Latomeia/DROUGHT" to limit scope
-#     o: "username=${NAS_USER},password=${NAS_PASSWORD},vers=3.0,dir_mode=0777,file_mode=0777,uid=0,gid=0,noperm"
