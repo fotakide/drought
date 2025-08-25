@@ -24,7 +24,8 @@
 /logs/debug*
 /logs/sanity*
 
-ows/.env
+/ows/.env
+/ows/.gitignore
 /ows/.env_ows_root
 /ows/.env_simple
 /ows/launch.bat

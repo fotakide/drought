@@ -82,7 +82,7 @@ ows_*_cfg.py
 ows_cfg.py
 
 _version.py
-!.env
+# !.env
 ows_refactored/
 local_cfg/
 .mypy_cache/
