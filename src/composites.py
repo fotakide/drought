@@ -165,14 +165,16 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         yyyy = year_month[0:4]
         mm1 = year_month[5:8]     
         NASROOT='//nas-rs.topo.auth.gr/Latomeia/DROUGHT'
-        FOLDER=f'COMPOS/{yyyy}/{mm1}/{tile_id}'
-        DATASET= f'S2L2A_medcomp_{tile_id}_{yyyy}{mm1}'
         PRODUCT_NAME = 'composites'
-        collection_path = f"{NASROOT}/{FOLDER}"
-        mkdir(collection_path)
-        eo3_path = f'{collection_path}/{DATASET}.odc-metadata.yaml'
-        stac_path = f'{collection_path}/{DATASET}.stac-metadata.json'
-        logging.info(f'Dataset location: {collection_path}')
+        FOLDER=f'{PRODUCT_NAME}/{tile_id.split('_')[0]}/{tile_id.split('_')[1]}/{yyyy}/{mm1}/01'
+        DATASET= f'S2L2A_medcomp_{tile_id}_{yyyy}{mm1}'
+        
+        collection_path = f"{NASROOT}/{PRODUCT_NAME}"
+        dataset_path = f"{NASROOT}/{FOLDER}"
+        mkdir(dataset_path)
+        eo3_path = f'{dataset_path}/{DATASET}.odc-metadata.yaml'
+        stac_path = f'{dataset_path}/{DATASET}.stac-metadata.json'
+        log.info(f'Dataset location: {dataset_path}')
         
         
         logging.info('                          ')
@@ -282,14 +284,14 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
             
         s2l2a_ids = [stacitem.id for stacitem in filtered_items]
             
-        with open(f"{collection_path}/{DATASET}_IncludedScenes.txt", "w") as f:
+        with open(f"{dataset_path}/{DATASET}_IncludedScenes.txt", "w") as f:
             for stacitem in filtered_items:
                 f.write(stacitem.id + "\n")
 
         plot_mgrs_tiles_with_aoi( # It has logging in it
             filtered_items, 
             aoi_bbox, 
-            save_path=f'{collection_path}/{DATASET}_InDataFootprint.jpeg'
+            save_path=f'{dataset_path}/{DATASET}_InDataFootprint.jpeg'
         )
 
         logging.info(f'                                 ')
@@ -338,7 +340,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         
         
         logging.info('Creating preview plot of input scenes')
-        save_dataset_preview(ds_timeseries, "B04", f'{collection_path}/{DATASET}_InDataPreview.jpeg', dpi=300)
+        save_dataset_preview(ds_timeseries, "B04", f'{dataset_path}/{DATASET}_InDataPreview.jpeg', dpi=300)
         
         # reset bands list
         ds_timeseries = ds_timeseries[['B02', 'B03', 'B04', 'B05', 'B07', 'B8A']]
@@ -417,7 +419,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         logging.info('Write bands to raster COG files')
         name_measurements = []
         for var in list(composite.data_vars):
-            file_path = f'{collection_path}/{DATASET}_{var}.tif'
+            file_path = f'{dataset_path}/{DATASET}_{var}.tif'
             
             composite[var].rio.to_raster(
                 raster_path=file_path, 
@@ -435,7 +437,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         eo3_doc, stac_doc = prepare_eo3_metadata_NAS(
             dc=dc,
             xr_cube=composite, 
-            collection_path=collection_path,
+            collection_path=Path(NASROOT),
             dataset_name=DATASET,
             product_name=PRODUCT_NAME,
             product_family='ard',

@@ -24,6 +24,7 @@
 /logs/debug*
 /logs/sanity*
 
+!/ows/datacube_ows/ogc_utils.py
 /ows/.env
 /ows/.gitignore
 /ows/.env_ows_root

@@ -17,6 +17,7 @@ import rasterio as rio
 from eodatasets3 import DatasetPrepare, DatasetDoc, ValidDataMethod
 from eodatasets3.model import ProductDoc, AccessoryDoc
 from eodatasets3 import serialise
+from eodatasets3 import images
 from eodatasets3.stac import to_stac_item
 
 from shapely import Polygon
@@ -48,7 +49,7 @@ def prepare_eo3_metadata_NAS(
     
     with DatasetPrepare(
         dataset_location=Path(collection_path),                 #  A string location is expected to be a URL or VSI path.
-        metadata_path=Path(f'{collection_path}/{dataset_name}.odc-metadata.yaml'), #  A string location is expected to be a URL or VSI path.
+        # metadata_path=Path(f'{collection_path}/{dataset_name}.odc-metadata.yaml'), #  A string location is expected to be a URL or VSI path.
         allow_absolute_paths=False,
         naming_conventions="default"
     ) as preparer:
@@ -73,7 +74,7 @@ def prepare_eo3_metadata_NAS(
                                 23,59,59)]
         preparer.processed_now()
 
-        preparer.properties["odc:region_code"] = xr_cube.attrs['odc:region_code']
+        preparer.properties["odc:region_code"] = xr_cube.attrs['odc:region_code'].replace('_','')
         preparer.properties["odc:file_format"] = "GeoTIFF"
         preparer.properties["odc:processing_datetime"] = datetime.datetime.now().isoformat()
         preparer.properties["gri:refinement"] = xr_cube.attrs["gri:refinement"]
@@ -97,7 +98,16 @@ def prepare_eo3_metadata_NAS(
 
         bands = list(dc.list_measurements().loc[product_name].name.values)
         for name, path in zip(bands, name_measurements):
-            preparer.note_measurement(name, str(Path(path).resolve()), relative_to_dataset_location=False) # else: (name, f'{granule_dir}/{path}', relative_to_dataset_location=False)
+            # preparer.note_measurement(name, str(Path(path).resolve()), relative_to_dataset_location=False) # else: (name, f'{granule_dir}/{path}', relative_to_dataset_location=False)
+            preparer.note_measurement(
+                name=name, 
+                path=path, 
+                relative_to_dataset_location=True,
+                grid=images.GridSpec.from_odc_xarray(xr_cube),
+                pixels=xr_cube[name],
+                nodata=xr_cube[name].attrs['_FillValue'],
+                expand_valid_data=True
+            )
 
         eo3_doc = preparer.to_dataset_doc()
 

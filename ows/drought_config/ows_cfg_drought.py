@@ -144,8 +144,8 @@ ows_cfg = {
         "title": "Open web-services for ODC in Drought Monitoring in Greece",
         "allowed_urls": ["http://localhost:9000",
                          "http://localhost:9000/wms",
-                         "https://emt-datacube-ows.ngrok.app/wms",
-                         "https://emt-datacube-ows.ngrok.app"
+                        #  "https://emt-datacube-ows.ngrok.app/wms",
+                        #  "https://emt-datacube-ows.ngrok.app"
                           ],
         "info_url": "https://github.com/fotakide",
         "abstract": """This research project analyzes drought impacts on Greek mountain ecosystems, focusing on fir forest (Abies cephalonica) die-off in regions such as Chelmos, Mainalo, Taygetos, Parnonas, and Epirus. The work includes environmental monitoring, GIS mapping, climate data analysis, and the development of strategies for resilience and restoration.""",
@@ -286,6 +286,9 @@ ows_cfg = {
             "native_resolution": [20.0, -20.0],
             "flags": None,
             "dynamic": True,
+            "patch_url_function": {
+                "function": "datacube_ows.ogc_utils.nas_patch"
+            },
             "image_processing": {
                 "extent_mask_func": "datacube_ows.ogc_utils.mask_by_val",
                 "always_fetch_bands": [],
@@ -297,7 +300,7 @@ ows_cfg = {
                 "styles": [
                     style_rgb, style_ndvi
                     ],
-            }
+            },
         }
     ]  ##### End of "layers" list.
 } #### End of configuration object

@@ -21,6 +21,13 @@ from shapely.geometry import mapping
 from dateutil.relativedelta import relativedelta
 
 
+def nas_patch(http_url):
+    url = http_url.replace(
+        "/nas-rs.topo.auth.gr", "////nas-rs.topo.auth.gr"
+    ).rstrip(":1")
+    return url
+
+
 def mkdir(path: str):
     Path(path).mkdir(parents=True, exist_ok=True)
     
