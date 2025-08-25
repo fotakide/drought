@@ -39,7 +39,7 @@ The composite pipeline automates the creation of monthly median mosaics of Senti
 
 **Dont' forget to allow fire sharing in Docker**
 
-1. `drought-ows-drought_ows-1`
+1. `docker exec -it drought-ows-drought_ows-1 bash`
 2. `datacube system check`
   - `Valid connection:       YES`
 3. `datacube-ows-update --schema --write-role odc_phd --read-role odc_phd`
