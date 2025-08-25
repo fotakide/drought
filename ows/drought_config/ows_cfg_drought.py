@@ -286,9 +286,9 @@ ows_cfg = {
             "native_resolution": [20.0, -20.0],
             "flags": None,
             "dynamic": True,
-            "patch_url_function": {
-                "function": "datacube_ows.ogc_utils.nas_patch"
-            },
+            "patch_url_function":  "datacube_ows.ogc_utils.nas_patch",
+                # https://datacube-ows.readthedocs.io/en/latest/cfg_layers.html#url-patching-patch-url-function
+                # https://github.com/digitalearthpacific/pacific-cube-in-a-box/blob/main/ows/ows_config/radar_backscatter/ows_s1_cfg.py#L88
             "image_processing": {
                 "extent_mask_func": "datacube_ows.ogc_utils.mask_by_val",
                 "always_fetch_bands": [],

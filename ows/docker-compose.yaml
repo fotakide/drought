@@ -1,5 +1,5 @@
 # Default compose will create an ows image, with dev settings and connect to a local db
-name: drought-ows
+name: drought
 services:
   drought_ows:
     build:
@@ -50,7 +50,11 @@ services:
       - ${OWS_CFG_DIR}:${OWS_CFG_MOUNT_DIR}
       - ./:/src/
       - ./artifacts:/mnt/artifacts
-      - //nas-rs.topo.auth.gr/Latomeia/DROUGHT:/nas-rs.topo.auth.gr/Latomeia/DROUGHT:ro
+      - "//nas-rs.topo.auth.gr/Latomeia/DROUGHT:/nas/Latomeia/DROUGHT"
+      # - type: bind
+      #   source: //nas-rs.topo.auth.gr/Latomeia/DROUGHT   # Windows UNC (escaped)
+      #   target: /mnt/nas/Latomeia/DROUGHT                              # single mount point
+      #   read_only: true
     restart: always
     ports:
       - 9000:9000

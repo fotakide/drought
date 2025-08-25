@@ -167,7 +167,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         NASROOT='//nas-rs.topo.auth.gr/Latomeia/DROUGHT'
         PRODUCT_NAME = 'composites'
         FOLDER=f'{PRODUCT_NAME}/{tile_id.split('_')[0]}/{tile_id.split('_')[1]}/{yyyy}/{mm1}/01'
-        DATASET= f'S2L2A_medcomp_{tile_id}_{yyyy}{mm1}'
+        DATASET= f'S2L2A_medcomp_{tile_id.replace('_','')}_{yyyy}{mm1}'
         
         collection_path = f"{NASROOT}/{PRODUCT_NAME}"
         dataset_path = f"{NASROOT}/{FOLDER}"
