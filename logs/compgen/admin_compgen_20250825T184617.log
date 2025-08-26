@@ -106,3 +106,107 @@
 2025-08-26 00:40:33,096 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x10_y07.geojson [53/1449]
 2025-08-26 00:51:44,366 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x10_y07.geojson | [53 / 1449] (3.66%)
 2025-08-26 00:51:44,366 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x10_y08.geojson [54/1449]
+2025-08-26 01:01:23,461 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x10_y08.geojson | [54 / 1449] (3.73%)
+2025-08-26 01:01:23,461 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x10_y09.geojson [55/1449]
+2025-08-26 01:07:40,257 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x10_y09.geojson | [55 / 1449] (3.8%)
+2025-08-26 01:07:40,257 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x10_y10.geojson [56/1449]
+2025-08-26 01:17:24,602 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x10_y10.geojson | [56 / 1449] (3.86%)
+2025-08-26 01:17:24,602 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x10_y11.geojson [57/1449]
+2025-08-26 01:21:18,241 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x10_y11.geojson | [57 / 1449] (3.93%)
+2025-08-26 01:21:18,241 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x11_y08.geojson [58/1449]
+2025-08-26 01:30:17,098 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x11_y08.geojson | [58 / 1449] (4.0%)
+2025-08-26 01:30:17,098 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x11_y10.geojson [59/1449]
+2025-08-26 01:39:23,255 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x11_y10.geojson | [59 / 1449] (4.07%)
+2025-08-26 01:39:23,255 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x11_y11.geojson [60/1449]
+2025-08-26 01:46:56,155 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x11_y11.geojson | [60 / 1449] (4.14%)
+2025-08-26 01:46:56,155 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x11_y12.geojson [61/1449]
+2025-08-26 01:57:02,081 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x11_y12.geojson | [61 / 1449] (4.21%)
+2025-08-26 01:57:02,081 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x12_y11.geojson [62/1449]
+2025-08-26 02:04:39,286 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x12_y11.geojson | [62 / 1449] (4.28%)
+2025-08-26 02:04:39,286 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202003_x12_y12.geojson [63/1449]
+2025-08-26 02:15:48,035 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202003_x12_y12.geojson | [63 / 1449] (4.35%)
+2025-08-26 02:15:48,035 - INFO - run_composites.py:83 - Triggering OWS update at file #63: ../geojsons/compgen\compgen_202003_x12_y12.geojson
+2025-08-26 02:15:53,748 - INFO - run_composites.py:103 - OWS update completed successfully.
+2025-08-26 02:15:53,748 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x06_y10.geojson [64/1449]
+2025-08-26 02:19:34,907 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x06_y10.geojson | [64 / 1449] (4.42%)
+2025-08-26 02:19:34,907 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x08_y10.geojson [65/1449]
+2025-08-26 02:23:20,346 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x08_y10.geojson | [65 / 1449] (4.49%)
+2025-08-26 02:23:20,346 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x08_y11.geojson [66/1449]
+2025-08-26 02:26:50,213 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x08_y11.geojson | [66 / 1449] (4.55%)
+2025-08-26 02:26:50,213 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x08_y12.geojson [67/1449]
+2025-08-26 02:31:25,627 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x08_y12.geojson | [67 / 1449] (4.62%)
+2025-08-26 02:31:25,627 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x09_y07.geojson [68/1449]
+2025-08-26 02:39:24,554 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x09_y07.geojson | [68 / 1449] (4.69%)
+2025-08-26 02:39:24,555 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x09_y08.geojson [69/1449]
+2025-08-26 02:48:16,886 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x09_y08.geojson | [69 / 1449] (4.76%)
+2025-08-26 02:48:16,886 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x09_y09.geojson [70/1449]
+2025-08-26 02:55:52,710 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x09_y09.geojson | [70 / 1449] (4.83%)
+2025-08-26 02:55:52,710 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x09_y10.geojson [71/1449]
+2025-08-26 03:03:36,017 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x09_y10.geojson | [71 / 1449] (4.9%)
+2025-08-26 03:03:36,017 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x09_y11.geojson [72/1449]
+2025-08-26 03:08:57,208 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x09_y11.geojson | [72 / 1449] (4.97%)
+2025-08-26 03:08:57,209 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x09_y12.geojson [73/1449]
+2025-08-26 03:15:46,816 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x09_y12.geojson | [73 / 1449] (5.04%)
+2025-08-26 03:15:46,816 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x10_y07.geojson [74/1449]
+2025-08-26 03:24:01,654 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x10_y07.geojson | [74 / 1449] (5.11%)
+2025-08-26 03:24:01,654 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x10_y08.geojson [75/1449]
+2025-08-26 03:32:49,253 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x10_y08.geojson | [75 / 1449] (5.18%)
+2025-08-26 03:32:49,253 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x10_y09.geojson [76/1449]
+2025-08-26 03:38:59,089 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x10_y09.geojson | [76 / 1449] (5.24%)
+2025-08-26 03:38:59,089 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x10_y10.geojson [77/1449]
+2025-08-26 03:48:07,794 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x10_y10.geojson | [77 / 1449] (5.31%)
+2025-08-26 03:48:07,794 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x10_y11.geojson [78/1449]
+2025-08-26 03:52:11,811 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x10_y11.geojson | [78 / 1449] (5.38%)
+2025-08-26 03:52:11,811 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x11_y08.geojson [79/1449]
+2025-08-26 04:01:01,629 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x11_y08.geojson | [79 / 1449] (5.45%)
+2025-08-26 04:01:01,629 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x11_y10.geojson [80/1449]
+2025-08-26 04:10:04,681 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x11_y10.geojson | [80 / 1449] (5.52%)
+2025-08-26 04:10:04,682 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x11_y11.geojson [81/1449]
+2025-08-26 04:17:45,425 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x11_y11.geojson | [81 / 1449] (5.59%)
+2025-08-26 04:17:45,425 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x11_y12.geojson [82/1449]
+2025-08-26 04:27:04,049 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x11_y12.geojson | [82 / 1449] (5.66%)
+2025-08-26 04:27:04,049 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x12_y11.geojson [83/1449]
+2025-08-26 04:34:19,834 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x12_y11.geojson | [83 / 1449] (5.73%)
+2025-08-26 04:34:19,834 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202004_x12_y12.geojson [84/1449]
+2025-08-26 04:44:16,803 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202004_x12_y12.geojson | [84 / 1449] (5.8%)
+2025-08-26 04:44:16,804 - INFO - run_composites.py:83 - Triggering OWS update at file #84: ../geojsons/compgen\compgen_202004_x12_y12.geojson
+2025-08-26 04:44:22,724 - INFO - run_composites.py:103 - OWS update completed successfully.
+2025-08-26 04:44:22,724 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x06_y10.geojson [85/1449]
+2025-08-26 04:49:35,674 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x06_y10.geojson | [85 / 1449] (5.87%)
+2025-08-26 04:49:35,674 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x08_y10.geojson [86/1449]
+2025-08-26 04:54:31,306 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x08_y10.geojson | [86 / 1449] (5.94%)
+2025-08-26 04:54:31,306 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x08_y11.geojson [87/1449]
+2025-08-26 04:59:08,518 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x08_y11.geojson | [87 / 1449] (6.0%)
+2025-08-26 04:59:08,518 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x08_y12.geojson [88/1449]
+2025-08-26 05:05:46,778 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x08_y12.geojson | [88 / 1449] (6.07%)
+2025-08-26 05:05:46,778 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x09_y07.geojson [89/1449]
+2025-08-26 05:15:23,261 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x09_y07.geojson | [89 / 1449] (6.14%)
+2025-08-26 05:15:23,261 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x09_y08.geojson [90/1449]
+2025-08-26 05:25:53,384 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x09_y08.geojson | [90 / 1449] (6.21%)
+2025-08-26 05:25:53,384 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x09_y09.geojson [91/1449]
+2025-08-26 05:35:15,456 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x09_y09.geojson | [91 / 1449] (6.28%)
+2025-08-26 05:35:15,456 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x09_y10.geojson [92/1449]
+2025-08-26 05:44:28,895 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x09_y10.geojson | [92 / 1449] (6.35%)
+2025-08-26 05:44:28,895 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x09_y11.geojson [93/1449]
+2025-08-26 05:52:06,983 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x09_y11.geojson | [93 / 1449] (6.42%)
+2025-08-26 05:52:06,983 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x09_y12.geojson [94/1449]
+2025-08-26 06:01:24,021 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x09_y12.geojson | [94 / 1449] (6.49%)
+2025-08-26 06:01:24,021 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x10_y07.geojson [95/1449]
+2025-08-26 06:10:24,110 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x10_y07.geojson | [95 / 1449] (6.56%)
+2025-08-26 06:10:24,110 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x10_y08.geojson [96/1449]
+2025-08-26 06:20:34,235 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x10_y08.geojson | [96 / 1449] (6.63%)
+2025-08-26 06:20:34,235 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x10_y09.geojson [97/1449]
+2025-08-26 06:28:13,169 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x10_y09.geojson | [97 / 1449] (6.69%)
+2025-08-26 06:28:13,169 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x10_y10.geojson [98/1449]
+2025-08-26 06:39:30,278 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x10_y10.geojson | [98 / 1449] (6.76%)
+2025-08-26 06:39:30,278 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x10_y11.geojson [99/1449]
+2025-08-26 06:44:27,770 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x10_y11.geojson | [99 / 1449] (6.83%)
+2025-08-26 06:44:27,770 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x11_y08.geojson [100/1449]
+2025-08-26 06:55:07,706 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x11_y08.geojson | [100 / 1449] (6.9%)
+2025-08-26 06:55:07,706 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x11_y10.geojson [101/1449]
+2025-08-26 07:06:14,361 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x11_y10.geojson | [101 / 1449] (6.97%)
+2025-08-26 07:06:14,361 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x11_y11.geojson [102/1449]
+2025-08-26 07:15:04,025 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x11_y11.geojson | [102 / 1449] (7.04%)
+2025-08-26 07:15:04,025 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x11_y12.geojson [103/1449]
+2025-08-26 07:26:24,736 - INFO - run_composites.py:74 - ✔ Processed ../geojsons/compgen\compgen_202005_x11_y12.geojson | [103 / 1449] (7.11%)
+2025-08-26 07:26:24,736 - INFO - run_composites.py:64 - [>] Launching single-shot: ../geojsons/compgen\compgen_202005_x12_y11.geojson [104/1449]
