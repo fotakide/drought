@@ -18,7 +18,7 @@ The study area is divided into 21 tiles, each measuring 48 × 48 km. [Tile namin
 ![Grid](wiki_img/Grid.jpg)
 
 ## Composite generation
-The composite pipeline automates the creation of monthly median mosaics of Sentinel-2 L2A data using the [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a) via the [STAC catalog](https://planetarycomputer.microsoft.com/api/stac/v1).
+The composite pipeline automates the creation of 20-m monthly median mosaics of Sentinel-2 L2A data using the [Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a) via the [STAC catalog](https://planetarycomputer.microsoft.com/api/stac/v1).
 
 ### Key points
 - **Input**: GeoJSON configuration files define the year–month and tile code to process.
