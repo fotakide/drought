@@ -137,3 +137,35 @@
 2025-08-26 08:48:01,928 - INFO - composites.py:307 - Reproject from UTM Zone to Tile geometry -> CRS(EPSG:32634), Resampling.bilinear
 2025-08-26 08:48:10,359 - INFO - composites.py:310 -     New shape of datasets: Shape2d(x=2400, y=2400)
 2025-08-26 08:48:11,021 - INFO - composites.py:342 - Creating preview plot of input scenes
+2025-08-26 08:48:49,355 - INFO - timeseries_processing.py:349 - Saved preview for 'B04' to //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_InDataPreview.jpeg
+2025-08-26 08:48:49,365 - INFO - composites.py:348 - Clip value range
+2025-08-26 08:48:51,732 - INFO - composites.py:353 -                           
+2025-08-26 08:48:51,732 - INFO - composites.py:354 - Computing spectral indices:
+2025-08-26 08:48:51,732 - INFO - composites.py:357 -     EVI...
+2025-08-26 08:48:53,153 - INFO - composites.py:359 -     NDVI...
+2025-08-26 08:48:53,658 - INFO - composites.py:361 -     PSRI2...
+2025-08-26 08:48:54,033 - INFO - composites.py:364 - Clip to typical value range
+2025-08-26 08:48:54,478 - INFO - composites.py:371 - Reducing to median value temporal composite
+2025-08-26 08:49:23,531 - INFO - composites.py:390 - Scale and Define data types & nodata per band
+2025-08-26 08:49:23,696 - INFO - composites.py:411 - Assign time range and tile ID in metadata
+2025-08-26 08:49:23,696 - INFO - composites.py:419 - Write bands to raster COG files
+2025-08-26 08:49:27,760 - INFO - composites.py:432 - Write B02 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_B02.tif
+2025-08-26 08:49:31,676 - INFO - composites.py:432 - Write B03 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_B03.tif
+2025-08-26 08:49:35,696 - INFO - composites.py:432 - Write B04 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_B04.tif
+2025-08-26 08:49:40,031 - INFO - composites.py:432 - Write B05 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_B05.tif
+2025-08-26 08:49:44,466 - INFO - composites.py:432 - Write B07 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_B07.tif
+2025-08-26 08:49:48,517 - INFO - composites.py:432 - Write B8A -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_B8A.tif
+2025-08-26 08:49:52,302 - INFO - composites.py:432 - Write EVI -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_EVI.tif
+2025-08-26 08:49:56,257 - INFO - composites.py:432 - Write NDVI -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_NDVI.tif
+2025-08-26 08:50:00,312 - INFO - composites.py:432 - Write PSRI2 -> //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y10/2020/06/01/S2L2A_medcomp_x09y10_202006_PSRI2.tif
+2025-08-26 08:50:00,322 - INFO - composites.py:436 - Prepare metadata YAML document
+2025-08-26 08:50:00,830 - INFO - composites.py:458 - Write metadata YAML document to disk
+2025-08-26 08:50:00,853 - INFO - composites.py:463 - Create datacube.model.Dataset from eo3 metadata
+2025-08-26 08:50:00,862 - INFO - composites.py:474 - Index to datacube
+2025-08-26 08:50:00,862 - INFO - _datasets.py:191 - Indexing cfcc216c-4694-4246-ada9-87659318f9d4
+2025-08-26 08:50:00,873 - INFO - composites.py:477 - 
+2025-08-26 08:50:00,873 - INFO - composites.py:478 -              ✔✔✔ COMPLETED: Tile x09_y10 | Time: 2020-06 | In 9.75 minutes
+2025-08-26 08:50:00,873 - INFO - composites.py:479 - 
+2025-08-26 08:50:00,873 - INFO - composites.py:487 - Closing Dask client
+2025-08-26 08:50:00,874 - INFO - composites.py:491 - Closing Dask cluster
+2025-08-26 08:50:00,875 - INFO - composites.py:492 - #######################################################################

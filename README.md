@@ -40,7 +40,7 @@ The composite pipeline automates the creation of monthly median mosaics of Senti
 
 To serve data indeced in the EODC as visualizations, datacube-ows provides the WMS web service endpoint to (in our case) a TerriaJS web map client, by [configuring](https://datacube-ows.readthedocs.io/en/latest/cfg_wms.html) the OWS
 - Styles: Styles and Layers are configured in the [`ows` configuration module](https://github.com/fotakide/drought/blob/main/ows/drought_config/ows_cfg_drought.py)
-- Update: Periodically withing the EO pipelines, or at the end of each one, the OWS database [is triggered](https://github.com/fotakide/drought/blob/main/src/run_composites.py#L81) [to be updated](https://datacube-ows.readthedocs.io/en/latest/database.html) automatically.
+- Update: Periodically withing the EO pipelines, or at the end of each one, the OWS database [is triggered](https://github.com/fotakide/drought/blob/main/src/run_composites.py#L81) automatically [to be updated](https://datacube-ows.readthedocs.io/en/latest/database.html).
 - Reading: The images are loaded from NAS by [patching the URL](https://datacube-ows.readthedocs.io/en/latest/cfg_layers.html#url-patching-patch-url-function) to the mounted volume inside the Docker container.
 - Vizualization: The [WMS](http://localhost:9000/?service=WMS&request=GetCapabilities) of the data indexed is provided to a [TerriaJS](https://terria.io/) client, and are available via a NGROK app (https://emt-datacube-viewer.ngrok.app/).
 
