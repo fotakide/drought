@@ -111,3 +111,4 @@
 ../geojsons/compgen\compgen_202006_x09_y08.geojson
 ../geojsons/compgen\compgen_202006_x09_y09.geojson
 ../geojsons/compgen\compgen_202006_x09_y10.geojson
+../geojsons/compgen\compgen_202006_x09_y11.geojson
