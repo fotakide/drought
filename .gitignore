@@ -9,9 +9,10 @@
 /geojsons
 /jsons
 
-/notebooks/S2B*
-/notebooks/debug*
-/notebooks/test_binning
+/debug_notebooks/S2B*
+/debug_notebooks/debug*
+/debug_notebooks/test_binning
+
 
 *.tif
 
