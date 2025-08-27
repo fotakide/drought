@@ -1,0 +1,37 @@
+2025-08-26 17:34:49,766 - INFO - composites.py:102 - #######################################################################
+2025-08-26 17:34:49,766 - INFO - composites.py:104 - Processing started
+2025-08-26 17:34:49,766 - INFO - composites.py:105 -         Tile: x08_y11
+2025-08-26 17:34:49,766 - INFO - composites.py:106 -         Time: 2020-10
+2025-08-26 17:34:49,766 - INFO - composites.py:109 -                           
+2025-08-26 17:34:49,767 - INFO - composites.py:110 - Establishing connection to datacube
+2025-08-26 17:34:50,297 - INFO - composites.py:113 -                           
+2025-08-26 17:34:50,297 - INFO - composites.py:114 - Sanity test: Check if dataset already exists in the datacube
+2025-08-26 17:34:50,314 - INFO - composites.py:133 - The composite requested was not found and it will be computed
+2025-08-26 17:34:50,314 - INFO - composites.py:136 -                                  
+2025-08-26 17:34:50,314 - INFO - composites.py:137 - Initializing Dask cluster for parallelization
+2025-08-26 17:34:55,284 - INFO - composites.py:161 - Dask dashboard is available at: http://127.0.0.1:8787/status
+2025-08-26 17:34:55,284 - INFO - composites.py:164 - Create directories and naming conversions
+2025-08-26 17:34:55,295 - INFO - composites.py:177 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x08/y11/2020/10/01
+2025-08-26 17:34:55,295 - INFO - composites.py:180 -                           
+2025-08-26 17:34:55,295 - INFO - composites.py:181 - Retrieve tile geometry
+2025-08-26 17:34:55,325 - INFO - composites.py:192 - Create the Bounding Box (φ,λ)
+2025-08-26 17:34:55,325 - INFO - composites.py:198 - Create the Bounding Box (x,y)
+2025-08-26 17:34:55,325 - INFO - composites.py:211 -                           
+2025-08-26 17:34:55,325 - INFO - composites.py:212 - Connect to Planetary Computer STAC Catalog
+2025-08-26 17:34:55,549 - INFO - composites.py:220 - Search the STAC Catalog
+2025-08-26 17:34:55,622 - INFO - composites.py:232 -         Query parameters:
+2025-08-26 17:34:55,622 - INFO - composites.py:233 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-26 17:34:55,622 - INFO - composites.py:234 -             client:       microsoft-pc
+2025-08-26 17:34:55,622 - INFO - composites.py:235 -             collection:   sentinel-2-l2a
+2025-08-26 17:34:55,622 - INFO - composites.py:236 -             bbox:         (21.470456200843422, 38.29135632905737, 22.139354689000736, 38.83788179019963)
+2025-08-26 17:34:55,622 - INFO - composites.py:237 -             time range:   2020-10-01T00:00:00Z/2020-10-31T23:59:59Z
+2025-08-26 17:34:55,622 - INFO - composites.py:238 -             cloud cover:  0% - 70%
+2025-08-26 17:34:55,622 - INFO - composites.py:239 -             nodata cover: 0% - 33%
+2025-08-26 17:34:55,622 - INFO - composites.py:241 -                           
+2025-08-26 17:34:55,622 - INFO - composites.py:242 - Searching...
+2025-08-26 17:35:25,691 - ERROR - composites.py:482 -              ✖✖✖ FAILED loading for : Tile x08_y11 | Time: 2020-10 | with Exception: The request exceeded the maximum allowed time, please try again. If the issue persists, please contact planetarycomputer@microsoft.com.
+
+
+2025-08-26 17:35:25,691 - INFO - composites.py:487 - Closing Dask client
+2025-08-26 17:35:25,705 - INFO - composites.py:491 - Closing Dask cluster
+2025-08-26 17:35:25,705 - INFO - composites.py:492 - #######################################################################
