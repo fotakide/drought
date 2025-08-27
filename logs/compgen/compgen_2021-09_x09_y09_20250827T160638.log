@@ -1,0 +1,108 @@
+2025-08-27 16:06:38,235 - INFO - composites.py:102 - #######################################################################
+2025-08-27 16:06:38,235 - INFO - composites.py:104 - Processing started
+2025-08-27 16:06:38,235 - INFO - composites.py:105 -         Tile: x09_y09
+2025-08-27 16:06:38,235 - INFO - composites.py:106 -         Time: 2021-09
+2025-08-27 16:06:38,236 - INFO - composites.py:109 -                           
+2025-08-27 16:06:38,236 - INFO - composites.py:110 - Establishing connection to datacube
+2025-08-27 16:06:38,766 - INFO - composites.py:113 -                           
+2025-08-27 16:06:38,767 - INFO - composites.py:114 - Sanity test: Check if dataset already exists in the datacube
+2025-08-27 16:06:38,785 - INFO - composites.py:133 - The composite requested was not found and it will be computed
+2025-08-27 16:06:38,785 - INFO - composites.py:136 -                                  
+2025-08-27 16:06:38,785 - INFO - composites.py:137 - Initializing Dask cluster for parallelization
+2025-08-27 16:06:43,847 - INFO - composites.py:161 - Dask dashboard is available at: http://127.0.0.1:8787/status
+2025-08-27 16:06:43,847 - INFO - composites.py:164 - Create directories and naming conversions
+2025-08-27 16:06:43,860 - INFO - composites.py:177 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x09/y09/2021/09/01
+2025-08-27 16:06:43,860 - INFO - composites.py:180 -                           
+2025-08-27 16:06:43,860 - INFO - composites.py:181 - Retrieve tile geometry
+2025-08-27 16:06:43,888 - INFO - composites.py:192 - Create the Bounding Box (φ,λ)
+2025-08-27 16:06:43,888 - INFO - composites.py:198 - Create the Bounding Box (x,y)
+2025-08-27 16:06:43,889 - INFO - composites.py:211 -                           
+2025-08-27 16:06:43,889 - INFO - composites.py:212 - Connect to Planetary Computer STAC Catalog
+2025-08-27 16:06:44,118 - INFO - composites.py:220 - Search the STAC Catalog
+2025-08-27 16:06:44,191 - INFO - composites.py:232 -         Query parameters:
+2025-08-27 16:06:44,191 - INFO - composites.py:233 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-27 16:06:44,191 - INFO - composites.py:234 -             client:       microsoft-pc
+2025-08-27 16:06:44,191 - INFO - composites.py:235 -             collection:   sentinel-2-l2a
+2025-08-27 16:06:44,191 - INFO - composites.py:236 -             bbox:         (21.85970105220835, 37.36314648137922, 22.52163347994685, 37.9118519319046)
+2025-08-27 16:06:44,191 - INFO - composites.py:237 -             time range:   2021-09-01T00:00:00Z/2021-09-30T23:59:59Z
+2025-08-27 16:06:44,191 - INFO - composites.py:238 -             cloud cover:  0% - 70%
+2025-08-27 16:06:44,191 - INFO - composites.py:239 -             nodata cover: 0% - 33%
+2025-08-27 16:06:44,191 - INFO - composites.py:241 -                           
+2025-08-27 16:06:44,191 - INFO - composites.py:242 - Searching...
+2025-08-27 16:07:16,210 - ERROR - composites.py:482 -              ✖✖✖ FAILED loading for : Tile x09_y09 | Time: 2021-09 | with Exception: <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+
+<head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <style type='text/css'>
+        body {
+            font-family: Arial;
+            margin-left: 40px;
+        }
+
+        img {
+            border: 0 none;
+        }
+
+        #content {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        #message h1 {
+            font-size: 24px;
+            font-weight: normal;
+            color: #000000;
+            margin: 34px 0px 0px 0px
+        }
+
+        #message h2 {
+            font-size: 20px;
+            font-weight: normal;
+            color: #000000;
+            margin: 34px 0px 0px 0px
+        }
+
+        #message p {
+            font-size: 16px;
+            color: #000000;
+            margin: 8px 0px 0px 0px
+        }
+
+        #message hr {
+            margin: 15px 0px
+        }
+
+        #errorref {
+            font-size: 11px;
+            color: #737373;
+            margin-top: 41px
+        }
+    </style>
+    <title>Service unavailable</title>
+</head>
+
+<body>
+    <div id='content'>
+        <div id='message'>
+            <h1>504</h1>
+<h2><span>The service behind this page isn't responding to Azure Front Door.</span>
+</h2>
+<hr />
+<p>Gateway Timeout</p>
+<p>Azure Front Door cannot connect to the origin server at this time. <br> The origin might be overloaded, misconfigured or under maintenance now. Please contact the site owner for assistance.</p>
+<br />
+<a href="https://learn.microsoft.com/en-us/azure/frontdoor/troubleshoot-issues#503-or-504-response-from-azure-front-door-after-a-few-seconds" target="blank">Azure Documentation</a>
+<br />
+        </div>
+        <div id='errorref'>
+            <span>Error Info:</span><span>OriginTimeout</span><br />
+<span>x-azure-ref ID:</span><span>20250827T130644Z-r1cfdccfb96fn958hC1ATHp5ag0000000840000000000wer            </span>
+        </div>
+    </div>
+</body>
+</html>
+
+2025-08-27 16:07:16,210 - INFO - composites.py:487 - Closing Dask client
+2025-08-27 16:07:16,212 - INFO - composites.py:491 - Closing Dask cluster
+2025-08-27 16:07:16,212 - INFO - composites.py:492 - #######################################################################

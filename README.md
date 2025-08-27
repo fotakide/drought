@@ -56,11 +56,6 @@ Implementation note:
   4. `datacube-ows-update --views`
   5. `datacube-ows-update`
 
-*If below error, then metadata are not in relative paths:*
-```
-Ignoring Exception: /nas-domain/2020/06/x06_y10/\\nas-domain\2020\06\x06_y10\S2L2A_medcomp_x06_y10_202006_B02.tif: No such file or directory
-```
-
 ## References
 
 Hislop, S., Stone, C., Gibson, R.K., Roff, A., Choat, B., Nolan, R.H., Nguyen, T.H. and Carnegie, A.J., 2023. [Using dense Sentinel-2 time series to explore combined fire and drought impacts in eucalypt forests](https://www.frontiersin.org/journals/forests-and-global-change/articles/10.3389/ffgc.2023.1018936). *Frontiers in Forests and Global Change*, 6, p.1018936.
