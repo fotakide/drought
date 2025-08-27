@@ -3,7 +3,7 @@
 ## Description
 This research project analyzes drought impacts on Greek mountain ecosystems, focusing on fir forest (Abies cephalonica) die-off in regions such as Chelmos, Mainalo, Taygetos, Parnonas, and Epirus. The work includes environmental monitoring, GIS mapping, climate data analysis, and the development of strategies for resilience and restoration. [source: [dasarxeio.com](https://dasarxeio.com/2025/08/01/145507/?fbclid=IwQ0xDSwL56MVleHRuA2FlbQIxMQABHkbJokQhCMbPWyp9B5BhfTiQjc_i3rtFTZOzDlfeDrLWeoQALBKSSqs7HktX_aem_boICuxbIGToYjKLmx3ZoFQ)]
 
-It is based on the methodology and lessons learned from our work in Copernicus Emergency Management Service (EMS), in [EMSN217 - Fire risk assessment in East Sardinia, Italy](https://riskandrecovery.emergency.copernicus.eu/EMSN217/).
+The methodology is based on lessons learned from our work with [Copernicus Emergency Management Service (EMS)](https://emergency.copernicus.eu/), in activation [EMSN217 - Fire risk assessment in East Sardinia, Italy](https://riskandrecovery.emergency.copernicus.eu/EMSN217/).
 
 ## EODC Development
 Based on [Open Data Cube](https://www.opendatacube.org/). For the EODC, the following steps have been completed:

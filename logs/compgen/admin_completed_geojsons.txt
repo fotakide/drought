@@ -337,3 +337,4 @@
 ../geojsons/compgen\compgen_202105_x06_y10.geojson
 ../geojsons/compgen\compgen_202105_x08_y10.geojson
 ../geojsons/compgen\compgen_202105_x08_y11.geojson
+../geojsons/compgen\compgen_202105_x08_y12.geojson
