@@ -442,3 +442,6 @@
 ../geojsons/compgen\compgen_202008_x10_y09.geojson
 ../geojsons/compgen\compgen_202008_x10_y10.geojson
 ../geojsons/compgen\compgen_202008_x10_y11.geojson
+../geojsons/compgen\compgen_202008_x11_y08.geojson
+../geojsons/compgen\compgen_202008_x11_y10.geojson
+../geojsons/compgen\compgen_202008_x11_y11.geojson
