@@ -77,7 +77,7 @@ if __name__ == "__main__":
             # optional small backoff to avoid rapid-fire restarts on a flaky machine
             time.sleep(2)
         
-        if (i % 50 == 0) or (i == len(geojson_files)):
+        if (i % 200 == 0) or (i == len(geojson_files)):
             # ---------------- OWS UPDATE ----------------
             try:
                 log.info(f"Triggering OWS update at file #{i}: {gf}")

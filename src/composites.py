@@ -468,8 +468,10 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
         dataset_tobe_indexed, err  = resolver(doc_in=serialise.to_doc(eo3_doc), uri=uri)
         
         if err:
-            logging.error(f'✗ {err}')
+            msg=f'             ✖✖✖ FAILED loading for : Tile {tile_id} | Time: {year_month} | with Exception: {err}' # ✗
+            logging.error(msg)
             logging.info('#######################################################################')
+            raise RuntimeError(msg)
             
         logging.info('Index to datacube')
         dc.index.datasets.add(dataset=dataset_tobe_indexed, with_lineage=False)
@@ -480,7 +482,7 @@ def generate_composite(year_month: str, tile_id: str, tile_geom: dict):
     except Exception as exc:
         msg=f'             ✖✖✖ FAILED loading for : Tile {tile_id} | Time: {year_month} | with Exception: {exc}' # ✗
         logging.error(msg)
-        return
+        raise
     finally:
         try:
             if client is not None:
