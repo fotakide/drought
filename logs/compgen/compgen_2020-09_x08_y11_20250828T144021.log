@@ -1,0 +1,67 @@
+2025-08-28 14:40:21,561 - INFO - composites.py:102 - #######################################################################
+2025-08-28 14:40:21,561 - INFO - composites.py:104 - Processing started
+2025-08-28 14:40:21,561 - INFO - composites.py:105 -         Tile: x08_y11
+2025-08-28 14:40:21,561 - INFO - composites.py:106 -         Time: 2020-09
+2025-08-28 14:40:21,561 - INFO - composites.py:109 -                           
+2025-08-28 14:40:21,561 - INFO - composites.py:110 - Establishing connection to datacube
+2025-08-28 14:40:22,154 - INFO - composites.py:113 -                           
+2025-08-28 14:40:22,155 - INFO - composites.py:114 - Sanity test: Check if dataset already exists in the datacube
+2025-08-28 14:40:22,173 - INFO - composites.py:133 - The composite requested was not found and it will be computed
+2025-08-28 14:40:22,173 - INFO - composites.py:136 -                                  
+2025-08-28 14:40:22,173 - INFO - composites.py:137 - Initializing Dask cluster for parallelization
+2025-08-28 14:40:27,652 - INFO - composites.py:161 - Dask dashboard is available at: http://127.0.0.1:8787/status
+2025-08-28 14:40:27,652 - INFO - composites.py:164 - Create directories and naming conversions
+2025-08-28 14:40:27,660 - INFO - composites.py:177 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x08/y11/2020/09/01
+2025-08-28 14:40:27,661 - INFO - composites.py:180 -                           
+2025-08-28 14:40:27,661 - INFO - composites.py:181 - Retrieve tile geometry
+2025-08-28 14:40:27,692 - INFO - composites.py:192 - Create the Bounding Box (φ,λ)
+2025-08-28 14:40:27,692 - INFO - composites.py:198 - Create the Bounding Box (x,y)
+2025-08-28 14:40:27,692 - INFO - composites.py:211 -                           
+2025-08-28 14:40:27,692 - INFO - composites.py:212 - Connect to Planetary Computer STAC Catalog
+2025-08-28 14:40:27,904 - INFO - composites.py:220 - Search the STAC Catalog
+2025-08-28 14:40:27,974 - INFO - composites.py:232 -         Query parameters:
+2025-08-28 14:40:27,974 - INFO - composites.py:233 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-28 14:40:27,974 - INFO - composites.py:234 -             client:       microsoft-pc
+2025-08-28 14:40:27,974 - INFO - composites.py:235 -             collection:   sentinel-2-l2a
+2025-08-28 14:40:27,974 - INFO - composites.py:236 -             bbox:         (21.470456200843422, 38.29135632905737, 22.139354689000736, 38.83788179019963)
+2025-08-28 14:40:27,974 - INFO - composites.py:237 -             time range:   2020-09-01T00:00:00Z/2020-09-30T23:59:59Z
+2025-08-28 14:40:27,974 - INFO - composites.py:238 -             cloud cover:  0% - 70%
+2025-08-28 14:40:27,974 - INFO - composites.py:239 -             nodata cover: 0% - 33%
+2025-08-28 14:40:27,974 - INFO - composites.py:241 -                           
+2025-08-28 14:40:27,974 - INFO - composites.py:242 - Searching...
+2025-08-28 14:40:58,039 - ERROR - composites.py:484 -              ✖✖✖ FAILED loading for : Tile x08_y11 | Time: 2020-09 | with Exception: The request exceeded the maximum allowed time, please try again. If the issue persists, please contact planetarycomputer@microsoft.com.
+
+
+2025-08-28 14:40:58,039 - INFO - composites.py:489 - Closing Dask client
+2025-08-28 14:40:58,040 - INFO - composites.py:493 - Closing Dask cluster
+2025-08-28 14:40:58,041 - INFO - composites.py:494 - #######################################################################
+2025-08-28 14:40:58,929 - ERROR - composites.py:523 - Fatal error in composites.py
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\AUTH_PROJECTS\drought\src\composites.py", line 519, in <module>
+    generate_composite(year_month=year_month, tile_id=tile_id, tile_geom=tile_geom)
+  File "C:\Users\fotakidis\AUTH_PROJECTS\drought\src\composites.py", line 243, in generate_composite
+    items = search.item_collection()
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\pystac_client\item_search.py", line 811, in item_collection
+    feature_collection = self.item_collection_as_dict.__wrapped__(self)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\pystac_client\item_search.py", line 832, in item_collection_as_dict
+    for page in self.pages_as_dicts():
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\pystac_client\item_search.py", line 782, in pages_as_dicts
+    for page in self._stac_io.get_pages(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\pystac_client\stac_api_io.py", line 304, in get_pages
+    page = self.read_json(url, method=method, parameters=parameters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\pystac\stac_io.py", line 206, in read_json
+    txt = self.read_text(source, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\pystac_client\stac_api_io.py", line 167, in read_text
+    return self.request(href, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\pystac_client\stac_api_io.py", line 219, in request
+    raise APIError.from_response(resp)
+pystac_client.exceptions.APIError: The request exceeded the maximum allowed time, please try again. If the issue persists, please contact planetarycomputer@microsoft.com.
+
+
