@@ -77,31 +77,30 @@ if __name__ == "__main__":
             # optional small backoff to avoid rapid-fire restarts on a flaky machine
             time.sleep(2)
         
-        if (i % 200 == 0) or (i == len(geojson_files)):
-            # ---------------- OWS UPDATE ----------------
-            try:
-                log.info(f"Triggering OWS update at file #{i}: {gf}")
+    # ---------------- OWS UPDATE ----------------
+    try:
+        log.info("Triggering OWS update")
 
-                # 1) run datacube-ows-update --views
-                rc_views = subprocess.run(
-                    ["docker", "exec", "drought-drought_ows-1", "bash", "-lc", "datacube-ows-update --views"],
-                    check=False
-                ).returncode
+        # 1) run datacube-ows-update --views
+        rc_views = subprocess.run(
+            ["docker", "exec", "drought-drought_ows-1", "bash", "-lc", "datacube-ows-update --views"],
+            check=False
+        ).returncode
 
-                if rc_views != 0:
-                    log.error(f"datacube-ows-update --views failed (rc={rc_views})")
+        if rc_views != 0:
+            log.error(f"datacube-ows-update --views failed (rc={rc_views})")
 
-                # 2) run datacube-ows-update
-                rc_main = subprocess.run(
-                    ["docker", "exec", "drought-drought_ows-1", "bash", "-lc", "datacube-ows-update"],
-                    check=False
-                ).returncode
+        # 2) run datacube-ows-update
+        rc_main = subprocess.run(
+            ["docker", "exec", "drought-drought_ows-1", "bash", "-lc", "datacube-ows-update"],
+            check=False
+        ).returncode
 
-                if rc_main != 0:
-                    log.error(f"datacube-ows-update failed (rc={rc_main})")
-                else:
-                    log.info("OWS update completed successfully.")
+        if rc_main != 0:
+            log.error(f"datacube-ows-update failed (rc={rc_main})")
+        else:
+            log.info("OWS update completed successfully.")
 
-            except Exception as e:
-                log.exception(f"Error while updating OWS: {e}")
-            # ------------------------------------------------
+    except Exception as e:
+        log.exception(f"Error while updating OWS: {e}")
+    # ------------------------------------------------
