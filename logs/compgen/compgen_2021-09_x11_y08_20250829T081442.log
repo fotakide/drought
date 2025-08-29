@@ -1,0 +1,119 @@
+2025-08-29 08:14:42,884 - INFO - composites.py:102 - #######################################################################
+2025-08-29 08:14:42,884 - INFO - composites.py:104 - Processing started
+2025-08-29 08:14:42,885 - INFO - composites.py:105 -         Tile: x11_y08
+2025-08-29 08:14:42,885 - INFO - composites.py:106 -         Time: 2021-09
+2025-08-29 08:14:42,885 - INFO - composites.py:109 -                           
+2025-08-29 08:14:42,885 - INFO - composites.py:110 - Establishing connection to datacube
+2025-08-29 08:14:43,397 - INFO - composites.py:113 -                           
+2025-08-29 08:14:43,397 - INFO - composites.py:114 - Sanity test: Check if dataset already exists in the datacube
+2025-08-29 08:14:43,418 - INFO - composites.py:133 - The composite requested was not found and it will be computed
+2025-08-29 08:14:43,418 - INFO - composites.py:136 -                                  
+2025-08-29 08:14:43,418 - INFO - composites.py:137 - Initializing Dask cluster for parallelization
+2025-08-29 08:14:48,503 - INFO - composites.py:161 - Dask dashboard is available at: http://127.0.0.1:8787/status
+2025-08-29 08:14:48,503 - INFO - composites.py:164 - Create directories and naming conversions
+2025-08-29 08:14:48,513 - INFO - composites.py:177 - Dataset location: //nas-rs.topo.auth.gr/Latomeia/DROUGHT/composites/x11/y08/2021/09/01
+2025-08-29 08:14:48,513 - INFO - composites.py:180 -                           
+2025-08-29 08:14:48,513 - INFO - composites.py:181 - Retrieve tile geometry
+2025-08-29 08:14:48,548 - INFO - composites.py:192 - Create the Bounding Box (φ,λ)
+2025-08-29 08:14:48,548 - INFO - composites.py:198 - Create the Bounding Box (x,y)
+2025-08-29 08:14:48,548 - INFO - composites.py:211 -                           
+2025-08-29 08:14:48,548 - INFO - composites.py:212 - Connect to Planetary Computer STAC Catalog
+2025-08-29 08:14:48,758 - INFO - composites.py:220 - Search the STAC Catalog
+2025-08-29 08:14:48,826 - INFO - composites.py:232 -         Query parameters:
+2025-08-29 08:14:48,826 - INFO - composites.py:233 -             url:          https://planetarycomputer.microsoft.com/api/stac/v1/search
+2025-08-29 08:14:48,826 - INFO - composites.py:234 -             client:       microsoft-pc
+2025-08-29 08:14:48,826 - INFO - composites.py:235 -             collection:   sentinel-2-l2a
+2025-08-29 08:14:48,826 - INFO - composites.py:236 -             bbox:         (22.845662885042927, 36.78779644280391, 23.507450073915326, 37.34127558081356)
+2025-08-29 08:14:48,826 - INFO - composites.py:237 -             time range:   2021-09-01T00:00:00Z/2021-09-30T23:59:59Z
+2025-08-29 08:14:48,827 - INFO - composites.py:238 -             cloud cover:  0% - 70%
+2025-08-29 08:14:48,827 - INFO - composites.py:239 -             nodata cover: 0% - 33%
+2025-08-29 08:14:48,827 - INFO - composites.py:241 -                           
+2025-08-29 08:14:48,827 - INFO - composites.py:242 - Searching...
+2025-08-29 08:14:49,532 - INFO - composites.py:245 - Query found 34 items
+2025-08-29 08:14:49,534 - INFO - composites.py:247 - Searching for GRI REFINED scenes:
+2025-08-29 08:14:55,377 - INFO - sentinel2.py:78 - 1/34 - S2B_MSIL2A_20210930T092029_R093_T34SFG_20211001T213712 -> REFINED
+2025-08-29 08:15:02,398 - INFO - sentinel2.py:78 - 2/34 - S2B_MSIL2A_20210930T092029_R093_T34SFF_20211001T222303 -> REFINED
+2025-08-29 08:15:08,087 - INFO - sentinel2.py:78 - 3/34 - S2B_MSIL2A_20210927T090659_R050_T34SGG_20210929T045802 -> REFINED
+2025-08-29 08:15:14,052 - INFO - sentinel2.py:78 - 4/34 - S2B_MSIL2A_20210927T090659_R050_T34SGF_20210929T035448 -> REFINED
+2025-08-29 08:15:19,088 - INFO - sentinel2.py:78 - 5/34 - S2B_MSIL2A_20210927T090659_R050_T34SFG_20210929T040927 -> REFINED
+2025-08-29 08:15:25,209 - INFO - sentinel2.py:78 - 6/34 - S2B_MSIL2A_20210927T090659_R050_T34SFF_20210929T044700 -> REFINED
+2025-08-29 08:15:31,274 - INFO - sentinel2.py:78 - 7/34 - S2A_MSIL2A_20210925T092031_R093_T34SFG_20210926T115536 -> REFINED
+2025-08-29 08:15:36,938 - INFO - sentinel2.py:78 - 8/34 - S2A_MSIL2A_20210925T092031_R093_T34SFF_20210926T104215 -> REFINED
+2025-08-29 08:15:42,500 - INFO - sentinel2.py:78 - 9/34 - S2A_MSIL2A_20210922T090701_R050_T34SGG_20210922T232055 -> REFINED
+2025-08-29 08:15:48,698 - INFO - sentinel2.py:78 - 10/34 - S2A_MSIL2A_20210922T090701_R050_T34SGF_20210922T234236 -> REFINED
+2025-08-29 08:15:54,963 - INFO - sentinel2.py:78 - 11/34 - S2A_MSIL2A_20210922T090701_R050_T34SFG_20210923T003718 -> REFINED
+2025-08-29 08:16:00,085 - INFO - sentinel2.py:78 - 12/34 - S2A_MSIL2A_20210922T090701_R050_T34SFF_20210922T231257 -> REFINED
+2025-08-29 08:16:21,125 - ERROR - composites.py:484 -              ✖✖✖ FAILED loading for : Tile x11_y08 | Time: 2021-09 | with Exception: HTTPSConnectionPool(host='sentinel2l2a01.blob.core.windows.net', port=443): Max retries exceeded with url: /sentinel2-l2/34/S/FG/2021/09/30/S2B_MSIL2A_20210930T092029_N0300_R093_T34SFG_20211001T213712.SAFE/DATASTRIP/DS_ESRI_20211001T213713_S20210930T092128/MTD_DS.xml?st=2025-08-28T05%3A14%3A49Z&se=2025-08-29T05%3A59%3A49Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-08-27T17%3A38%3A33Z&ske=2025-09-03T17%3A38%3A33Z&sks=b&skv=2025-07-05&sig=vaQBHxZXbSe2WPTpRzromNH/SFnJZFym042Kw/9VbLw%3D (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000256BDAF2300>, 'Connection to sentinel2l2a01.blob.core.windows.net timed out. (connect timeout=None)'))
+2025-08-29 08:16:21,125 - INFO - composites.py:489 - Closing Dask client
+2025-08-29 08:16:21,126 - INFO - composites.py:493 - Closing Dask cluster
+2025-08-29 08:16:21,126 - INFO - composites.py:494 - #######################################################################
+2025-08-29 08:16:21,806 - ERROR - composites.py:523 - Fatal error in composites.py
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\util\connection.py", line 85, in create_connection
+    raise err
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\util\connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPSConnection object at 0x00000256BDAF2300>, 'Connection to sentinel2l2a01.blob.core.windows.net timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='sentinel2l2a01.blob.core.windows.net', port=443): Max retries exceeded with url: /sentinel2-l2/34/S/FG/2021/09/30/S2B_MSIL2A_20210930T092029_N0300_R093_T34SFG_20211001T213712.SAFE/DATASTRIP/DS_ESRI_20211001T213713_S20210930T092128/MTD_DS.xml?st=2025-08-28T05%3A14%3A49Z&se=2025-08-29T05%3A59%3A49Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-08-27T17%3A38%3A33Z&ske=2025-09-03T17%3A38%3A33Z&sks=b&skv=2025-07-05&sig=vaQBHxZXbSe2WPTpRzromNH/SFnJZFym042Kw/9VbLw%3D (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000256BDAF2300>, 'Connection to sentinel2l2a01.blob.core.windows.net timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\fotakidis\AUTH_PROJECTS\drought\src\composites.py", line 519, in <module>
+    generate_composite(year_month=year_month, tile_id=tile_id, tile_geom=tile_geom)
+  File "C:\Users\fotakidis\AUTH_PROJECTS\drought\src\composites.py", line 248, in generate_composite
+    refined_items, df_refinement_status = check_gri_refinement(items)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\AUTH_PROJECTS\drought\src\utils\sentinel2.py", line 70, in check_gri_refinement
+    xml_response = requests.get(datastrip_metadata_url)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\requests\api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fotakidis\anaconda3\envs\drought\Lib\site-packages\requests\adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='sentinel2l2a01.blob.core.windows.net', port=443): Max retries exceeded with url: /sentinel2-l2/34/S/FG/2021/09/30/S2B_MSIL2A_20210930T092029_N0300_R093_T34SFG_20211001T213712.SAFE/DATASTRIP/DS_ESRI_20211001T213713_S20210930T092128/MTD_DS.xml?st=2025-08-28T05%3A14%3A49Z&se=2025-08-29T05%3A59%3A49Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-08-27T17%3A38%3A33Z&ske=2025-09-03T17%3A38%3A33Z&sks=b&skv=2025-07-05&sig=vaQBHxZXbSe2WPTpRzromNH/SFnJZFym042Kw/9VbLw%3D (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000256BDAF2300>, 'Connection to sentinel2l2a01.blob.core.windows.net timed out. (connect timeout=None)'))
