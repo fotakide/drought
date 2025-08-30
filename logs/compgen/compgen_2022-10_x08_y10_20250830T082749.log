@@ -1,0 +1,11 @@
+2025-08-30 08:27:49,200 - INFO - composites.py:102 - #######################################################################
+2025-08-30 08:27:49,200 - INFO - composites.py:104 - Processing started
+2025-08-30 08:27:49,200 - INFO - composites.py:105 -         Tile: x08_y10
+2025-08-30 08:27:49,200 - INFO - composites.py:106 -         Time: 2022-10
+2025-08-30 08:27:49,200 - INFO - composites.py:109 -                           
+2025-08-30 08:27:49,200 - INFO - composites.py:110 - Establishing connection to datacube
+2025-08-30 08:27:49,866 - INFO - composites.py:113 -                           
+2025-08-30 08:27:49,866 - INFO - composites.py:114 - Sanity test: Check if dataset already exists in the datacube
+2025-08-30 08:27:49,885 - INFO - composites.py:133 - The composite requested was not found and it will be computed
+2025-08-30 08:27:49,885 - INFO - composites.py:136 -                                  
+2025-08-30 08:27:49,885 - INFO - composites.py:137 - Initializing Dask cluster for parallelization
